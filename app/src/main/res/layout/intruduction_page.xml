@@ -73,8 +73,8 @@
                 android:editable="false"
                 android:ems="10"
                 android:inputType="textPostalAddress"
-                android:text="adress"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                android:text="address"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
             <ImageView
                 android:id="@+id/imageView"
