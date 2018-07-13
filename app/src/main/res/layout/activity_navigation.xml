@@ -21,7 +21,7 @@
         android:background="@drawable/button_style"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="I want to sell"
+        android:text="to sell"
         android:textColor="@android:color/white"
         android:textSize="25sp"/>
 
