@@ -194,7 +194,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                     if(password1.equals(password))
                                     {
                                         checkfor=true;
-                                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                                        Intent intent = new Intent(LoginActivity.this,LoginActivity.class);
                                         startActivity(intent);
                                     }else{test.setText("wrong password");}
                                 }else{test.setText("You need register first");}
