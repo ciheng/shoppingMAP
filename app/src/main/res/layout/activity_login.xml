@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
-                    android:id="@+id/user_name"
+                    android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_email"
@@ -44,7 +44,7 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="@android:color/white"
-                    android:textColorHint="@android:color/white"/>
+                    android:textColorHint="@android:color/white" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -65,8 +65,8 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="16dp"
                         android:layout_weight="1"
-                        android:text="sign in"
-                        />
+                        android:onClick="sign_in"
+                        android:text="sign in" />
 
                     <Button
                         android:id="@+id/register"
@@ -75,7 +75,8 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="16dp"
                         android:layout_weight="1"
-                        android:text="register"/>
+                        android:onClick="register"
+                        android:text="register" />
                 </LinearLayout>
 
                 <EditText
@@ -90,7 +91,7 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="@android:color/white"
-                    android:textColorHint="@android:color/white"/>
+                    android:textColorHint="@android:color/white" />
 
             </android.support.design.widget.TextInputLayout>
 
