@@ -31,6 +31,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ciheng.shoppingmap.R;
 
@@ -65,7 +66,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private Button loginButton;
     boolean checkfor=false;
-    private TextView test;
     private String email1;
     private String password1;
     private String username;
@@ -78,7 +78,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
-        test = (TextView) findViewById(R.id.test);
     }
     public void register(View view)
     {
@@ -137,8 +136,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                         checkfor=true;
                                         Intent intent = new Intent(LoginActivity.this,navigation.class);
                                         startActivity(intent);
-                                    }else{test.setText("wrong password");}
-                                }else{test.setText("You need register first");}
+                                    }else{
+                                        Toast.makeText(LoginActivity.this, "login successful", Toast.LENGTH_SHORT).show();}
+                                }else{Toast.makeText(LoginActivity.this, "you need to register first", Toast.LENGTH_SHORT).show();}
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

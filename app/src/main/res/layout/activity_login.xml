@@ -93,13 +93,6 @@
                     android:textColor="@android:color/white"
                     android:textColorHint="@android:color/white" />
 
-                <TextView
-                    android:id="@+id/test"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="TextView" />
-
             </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
