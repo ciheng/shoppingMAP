@@ -95,4 +95,15 @@
         android:src="@android:drawable/sym_action_email"
         app:layout_anchor="@+id/nestedScrollView"
         app:layout_anchorGravity="right|top" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="49dp"
+        android:layout_height="52dp"
+        android:clickable="true"
+        app:layout_anchor="@+id/nestedScrollView"
+        app:layout_anchorGravity="right|bottom"
+        app:srcCompat="@android:drawable/btn_star"
+        tools:layout_editor_absoluteX="335dp"
+        tools:layout_editor_absoluteY="459dp" />
 </android.support.design.widget.CoordinatorLayout>

@@ -49,6 +49,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -80,78 +82,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
     public void register(View view)
     {
-        email1=mEmailView.getText().toString();
-        password1=mPasswordView.getText().toString();
-        getuser();
-        if(flag==false) {
-            adduser();
-
-        }
+        Intent intent = new Intent(LoginActivity.this,register.class);
+        startActivity(intent);
 
     }
 
-    private void adduser()
-    {
-        RequestQueue data1 = Volley.newRequestQueue(this);
-        String a= email1;
-        String b= password1;
-        String url="http://api.a17-sd606.studev.groept.be/signin/"+a+"/"+b;
-        JsonArrayRequest request=new JsonArrayRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
 
-                        test.setText("successfully registed");
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
-        data1.add(request);
-    }
 
-    private void getuser()
-    {
-
-        RequestQueue data = Volley.newRequestQueue(this);
-
-        String url="http://api.a17-sd606.studev.groept.be/selectuser";
-        JsonArrayRequest request=new JsonArrayRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try {
-
-                            for (int i=0;i< response.length();i++)
-                            {
-                                JSONObject Event =response.getJSONObject(i);
-                                String UN=Event.getString("username");
-                                String PS=Event.getString("password");
-                                username=UN;
-                                password=PS;
-                                if(email1.equals(username))
-                                {
-                                    flag=true;
-                                }
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
-        data.add(request);
-    }
 
     public void sign_in(View view) {
         email1 = mEmailView.getText().toString();
-        password1 = mPasswordView.getText().toString();
+        password1 =md5(mPasswordView.getText().toString());   //md5 type of password
         check();
     }
 
@@ -194,7 +135,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                     if(password1.equals(password))
                                     {
                                         checkfor=true;
-                                        Intent intent = new Intent(LoginActivity.this,LoginActivity.class);
+                                        Intent intent = new Intent(LoginActivity.this,navigation.class);
                                         startActivity(intent);
                                     }else{test.setText("wrong password");}
                                 }else{test.setText("You need register first");}
@@ -211,5 +152,28 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
         data.add(request);
     }
+
+    public static String md5(String text) {                   //security type md5
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("md5");
+            byte[] result = digest.digest(text.getBytes());
+            StringBuffer sb = new StringBuffer();
+            for (byte b : result){
+                int number = b & 0xff;
+                String hex = Integer.toHexString(number);
+                if (hex.length() == 1){
+                    sb.append("0"+hex);
+                }else {
+                    sb.append(hex);
+                }
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
 }
 
