@@ -136,8 +136,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                         checkfor=true;
                                         Intent intent = new Intent(LoginActivity.this,navigation.class);
                                         startActivity(intent);
+
                                     }else{
-                                        Toast.makeText(LoginActivity.this, "login successful", Toast.LENGTH_SHORT).show();}
+                                        Toast.makeText(LoginActivity.this, "wrong password", Toast.LENGTH_SHORT).show();}
                                 }else{Toast.makeText(LoginActivity.this, "you need to register first", Toast.LENGTH_SHORT).show();}
                             }
                         } catch (JSONException e) {
