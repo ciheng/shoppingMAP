@@ -25,7 +25,18 @@ public class navigation extends AppCompatActivity {
         mButtonBuyer=(Button) findViewById(R.id.buyerButton);
         mButtonMessage=(Button) findViewById(R.id.seller_messageButton);
 
+        mButtonSeller.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
+    private void startSellerActivity() {
+        Intent intent = new Intent(this, SellerActivity.class);
+        //ntent.putExtra(ACTIVITY_SELLER,带上xxx);
+        startActivity(intent);
+    }
 
 }
