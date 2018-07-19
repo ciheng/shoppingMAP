@@ -15,4 +15,7 @@
         completions."
     </string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_thing_on_sale">thing_on_sale</string>
+    <string name="title_activity_selling_list">sellingList</string>
+    <string name="title_activity_sellan_item">SellanItem</string>
 </resources>

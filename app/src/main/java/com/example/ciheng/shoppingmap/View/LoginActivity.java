@@ -33,6 +33,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ciheng.shoppingmap.MyApplication;
 import com.example.ciheng.shoppingmap.R;
 
 import java.util.ArrayList;
@@ -71,6 +72,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private String username;
     private String password;
     private boolean flag;
+
+    MyApplication user= (MyApplication)getApplication();
 
     @SuppressLint("WrongViewCast")
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,10 +137,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                     if(password1.equals(password))
                                     {
                                         checkfor=true;
+                                        user.setName(username);
                                         Intent intent = new Intent(LoginActivity.this,navigation.class);
                                         startActivity(intent);
+
                                     }else{
-                                        Toast.makeText(LoginActivity.this, "login successful", Toast.LENGTH_SHORT).show();}
+                                        Toast.makeText(LoginActivity.this, "wrong password", Toast.LENGTH_SHORT).show();}
                                 }else{Toast.makeText(LoginActivity.this, "you need to register first", Toast.LENGTH_SHORT).show();}
                             }
                         } catch (JSONException e) {

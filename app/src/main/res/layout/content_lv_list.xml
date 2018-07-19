@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <!--方形头像-->
+    <ImageView
+        android:id="@+id/item_photo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignLeft="@+id/item_intro"
+        android:layout_alignStart="@+id/item_intro"
+        android:layout_alignTop="@+id/item_photo"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/item_intro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="26dp"
+        android:layout_marginStart="26dp"
+        android:layout_toEndOf="@+id/item_photo"
+        android:layout_toRightOf="@+id/item_photo"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="list view item"
+
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/item_name"
+        android:layout_marginEnd="57dp"
+        android:layout_marginRight="57dp"
+        android:text="TextView" />
+
+</RelativeLayout>
