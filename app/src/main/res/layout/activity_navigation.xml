@@ -9,46 +9,33 @@
     tools:context=".View.navigation">
 
     <Button
-        android:id="@+id/buttonSell"
+        android:id="@+id/sellerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/buttonMap"
+        android:layout_above="@+id/buyerButton"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="27dp"
         android:background="@drawable/button_style"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="to sell"
+        android:text="I am a seller"
         android:textColor="@android:color/white"
-        android:textSize="25sp" />
+        android:textSize="25sp"/>
 
     <Button
-        android:id="@+id/buttonMap"
+        android:id="@+id/buyerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:background="@drawable/button_style"
-        android:onClick="discover"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="Discover"
+        android:text="I am a buyer"
         android:textColor="@android:color/white"
-        android:textSize="25sp" />
-
-    <Button
-        android:id="@+id/buttonHistory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_below="@+id/buttonMap"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="29dp"
-        android:background="@drawable/button_style"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:text="HISTORY"
-        android:textColor="@android:color/white"
-        android:textSize="25sp" />
+        android:textSize="25sp"
+        android:layout_alignLeft="@+id/sellerButton"
+        android:layout_alignRight="@+id/sellerButton"
+        />
 
 </RelativeLayout>

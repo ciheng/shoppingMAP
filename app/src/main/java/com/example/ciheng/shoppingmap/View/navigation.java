@@ -18,7 +18,7 @@ public class navigation extends AppCompatActivity {
         //remove title bar
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_navigation);
-        mButtonMap=(Button) findViewById(R.id.buttonMap);
+        mButtonMap=(Button) findViewById(R.id.buyerButton);
 
         mButtonMap.setOnClickListener(new View.OnClickListener() {
             @Override
