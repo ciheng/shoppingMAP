@@ -1,10 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".View.BuyerActivity">
+<RelativeLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@drawable/bg_gradient"
+tools:context=".View.BuyerActivity">
 
-</android.support.constraint.ConstraintLayout>
+<Button
+    android:id="@+id/discoverButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_above="@+id/buyerButton"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:layout_marginBottom="27dp"
+    android:background="@drawable/button_style"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:text="discover on map"
+    android:textColor="@android:color/white"
+    android:textSize="25sp"
+    />
+
+<Button
+    android:id="@+id/wish_listButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginBottom="155dp"
+    android:background="@drawable/button_style"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:text="my wish list"
+    android:textColor="@android:color/white"
+    android:textSize="25sp"
+    android:layout_alignLeft="@+id/discoverButton"
+    android:layout_alignRight="@+id/discoverButton"/>
+
+<Button
+    android:id="@+id/seller_messageButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginBottom="78dp"
+    android:background="@drawable/button_style"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:text="my messages"
+    android:textColor="@android:color/white"
+    android:textSize="25sp"
+    android:layout_alignLeft="@+id/discoverButton"
+    android:layout_alignRight="@+id/discoverButton"
+    />
+
+</RelativeLayout>

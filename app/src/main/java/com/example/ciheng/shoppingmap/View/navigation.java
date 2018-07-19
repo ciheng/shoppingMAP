@@ -9,27 +9,23 @@ import android.widget.Button;
 import com.example.ciheng.shoppingmap.R;
 
 public class navigation extends AppCompatActivity {
-    public static final String ACTIVITY_MAP = "ACTIVITY_MAPS";
-    private Button mButtonMap;
 
+    public static final String ACTIVITY_SELLER = "ACTIVITY_SELLER";
+    public static final String ACTIVITY_BUYER = "ACTIVITY_BUYER";
+    private Button mButtonSeller;
+    private Button mButtonBuyer;
+    private Button mButtonMessage;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //remove title bar
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_navigation);
-        mButtonMap=(Button) findViewById(R.id.buyerButton);
+        mButtonSeller=(Button) findViewById(R.id.sellerButton);
+        mButtonBuyer=(Button) findViewById(R.id.buyerButton);
+        mButtonMessage=(Button) findViewById(R.id.seller_messageButton);
 
-        mButtonMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startMapsActivity();
-            }
-        });
     }
 
-    private void startMapsActivity() {
-        Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent);
-    }
+
 }
