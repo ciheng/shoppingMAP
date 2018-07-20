@@ -5,14 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -30,11 +26,8 @@ import org.json.JSONArray;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-public class SellanItem extends AppCompatActivity {
+public class addProductActivity extends AppCompatActivity {
 
     MyApplication user= (MyApplication)getApplication();
     private ImageView imageView;
@@ -114,8 +107,8 @@ public class SellanItem extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Toast.makeText(SellanItem.this, "successfully posted an item", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(SellanItem.this, navigation.class);
+                        Toast.makeText(addProductActivity.this, "successfully posted an item", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(addProductActivity.this, navigation.class);
                         startActivity(intent);
                     }
                 }, new Response.ErrorListener() {

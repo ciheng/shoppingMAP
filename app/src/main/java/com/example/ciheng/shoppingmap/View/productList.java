@@ -4,19 +4,14 @@ import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.android.volley.Request;
@@ -33,13 +28,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import static android.app.PendingIntent.getActivity;
 
 
-public class sellingList extends AppCompatActivity {
+public class productList extends AppCompatActivity {
 
     MyApplication user= (MyApplication)getApplication();
 
@@ -63,7 +56,7 @@ public class sellingList extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(sellingList.this, SellanItem.class);
+                Intent intent = new Intent(productList.this, addProductActivity.class);
                 startActivity(intent);
             }
         });
@@ -71,7 +64,7 @@ public class sellingList extends AppCompatActivity {
 
     RequestQueue data = Volley.newRequestQueue(this);
 
-    String url="http://api.a17-sd606.studev.groept.be/selling_item";
+    String url="http://api.a17-sd207.studev.groept.be/selling_item";
     JsonArrayRequest request=new JsonArrayRequest(Request.Method.GET, url, null,
             new Response.Listener<JSONArray>() {
                 @Override
@@ -156,7 +149,7 @@ public class sellingList extends AppCompatActivity {
 
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            View view=View.inflate(sellingList.this,R.layout.content_lv_list,null);
+            View view=View.inflate(productList.this,R.layout.content_lv_list,null);
 
             TextView mTextView1=(TextView) view.findViewById(R.id.item_list);
             ImageView imageView=(ImageView)view.findViewById(R.id.item_photo);
