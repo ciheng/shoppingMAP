@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@drawable/bg_gradient"
+    android:visibility="visible"
     tools:context="com.example.ciheng.shoppingmap.View.LoginActivity">
 
     <!-- Login progress -->
@@ -60,7 +60,6 @@
 
                     <Button
                         android:id="@+id/sign_in"
-                        style="@style/button_style"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="16dp"
@@ -70,7 +69,6 @@
 
                     <Button
                         android:id="@+id/register"
-                        style="@style/button_style"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="16dp"
