@@ -5,7 +5,6 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_gradient"
         tools:context=".View.SellerActivity">
 
         <Button
@@ -16,11 +15,9 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_marginBottom="27dp"
-            android:background="@drawable/button_style"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="add product"
-            android:textColor="@android:color/white"
             android:textSize="25sp"
             android:layout_alignLeft="@+id/selling_listButton"
             android:layout_alignRight="@+id/selling_listButton"/>
@@ -32,11 +29,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="155dp"
-        android:background="@drawable/button_style"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="my product list"
-        android:textColor="@android:color/white"
         android:textSize="25sp"/>
 
     <Button
@@ -46,11 +41,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="78dp"
-        android:background="@drawable/button_style"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="my messages"
-        android:textColor="@android:color/white"
         android:textSize="25sp"
         android:layout_alignLeft="@+id/selling_listButton"
         android:layout_alignRight="@+id/selling_listButton"

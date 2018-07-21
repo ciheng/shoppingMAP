@@ -41,15 +41,6 @@
             tools:layout_editor_absoluteY="45dp">
 
             <EditText
-                android:id="@+id/item_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="item name"
-                android:inputType="textPersonName"
-                 />
-
-            <EditText
                 android:id="@+id/price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,6 +55,14 @@
                 android:hint="introduction to this item"
                 android:ems="10"
                 android:inputType="textMultiLine" />
+
+            <EditText
+                android:id="@+id/item_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="item name"
+                android:inputType="textPersonName" />
 
             <ImageView
                 android:id="@+id/picture"

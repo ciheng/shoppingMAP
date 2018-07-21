@@ -25,4 +25,11 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="myTheme" parent="AppTheme" >
+        <item name="android:colorForeground">@color/foreground_material_light</item>
+        <item name="android:textColorPrimary">@color/colorTitle</item>
+        <item name="android:colorBackground">@color/background_material_light</item>
+        <item name="android:windowBackground">?attr/colorBackgroundFloating</item>
+    </style>
+
 </resources>

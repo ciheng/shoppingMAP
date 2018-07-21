@@ -13,7 +13,7 @@ public class MyApplication extends Application {
     public void onCreate() {
 
         super.onCreate();
-        setName(NAME); //初始化全局变量
+        setName(NAME);
 
     }
 

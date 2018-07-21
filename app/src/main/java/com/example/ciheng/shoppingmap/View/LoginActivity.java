@@ -68,8 +68,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
 
-
-
     public void sign_in(View view) {
         email1 = mEmailView.getText().toString();
         password1 =md5(mPasswordView.getText().toString());   //md5 type of password
