@@ -40,8 +40,6 @@ import java.security.NoSuchAlgorithmException;
 @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
-    private static final String DEBUG_USER_NAME = "BOSS";
-    private static final String DEBUG_PASSWORD = "BOSS";
     private static final String TAG = "LoginActivity";
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
@@ -117,7 +115,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             if (response.length()==0) {
 
                                 Log.v(TAG,"user doesn't exist");
-                                Toast.makeText(LoginActivity.this, "You need to register first", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "User doesn't exist! jumping to register page...", Toast.LENGTH_SHORT).show();
+                                startRegisterActivity();
                             } else {
 
                                 JSONObject Event = response.getJSONObject(0);
@@ -140,7 +139,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                         startActivity(intent);
 
                                     } else {
-                                        Toast.makeText(LoginActivity.this, "wrong password", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LoginActivity.this, "Wrong password", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             }
