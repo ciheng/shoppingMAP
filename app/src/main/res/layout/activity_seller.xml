@@ -35,7 +35,7 @@
         android:background="@drawable/button_style"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="my selling list"
+        android:text="my product list"
         android:textColor="@android:color/white"
         android:textSize="25sp"/>
 

@@ -23,20 +23,29 @@ public class navigation extends AppCompatActivity {
         setContentView(R.layout.activity_navigation);
         mButtonSeller=(Button) findViewById(R.id.sellerButton);
         mButtonBuyer=(Button) findViewById(R.id.buyerButton);
-        mButtonMessage=(Button) findViewById(R.id.seller_messageButton);
 
         mButtonSeller.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+            startSellerActivity();
+            }
+        });
+        mButtonBuyer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startBuyerActivity();
             }
         });
     }
 
     private void startSellerActivity() {
         Intent intent = new Intent(this, SellerActivity.class);
-        //ntent.putExtra(ACTIVITY_SELLER,带上xxx);
+        //intent.putExtra(ACTIVITY_SELLER,带上xxx);
         startActivity(intent);
     }
-
+    private void startBuyerActivity() {
+        Intent intent = new Intent(this, BuyerActivity.class);
+        //intent.putExtra(ACTIVITY_SELLER,带上xxx);
+        startActivity(intent);
+    }
 }
