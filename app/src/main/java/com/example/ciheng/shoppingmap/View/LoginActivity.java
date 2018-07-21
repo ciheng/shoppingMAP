@@ -105,15 +105,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         RequestQueue data = Volley.newRequestQueue(this);
 
-        String url = serverURL + "/userLogin";
+        //String url = serverURL + "/userLogin";
+        String url = serverURL + "/findUser/"+email_tbc;
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
 
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject Event = response.getJSONObject(i);
+                            //for (int i = 0; i < response.length(); i++) {
+                            if (response.length()==0) {
+
+                                Log.v(TAG,"user doesn't exist");
+                                Toast.makeText(LoginActivity.this, "You need to register first", Toast.LENGTH_SHORT).show();
+                            } else {
+
+                                JSONObject Event = response.getJSONObject(0);
                                 String UN = Event.getString("username");
                                 String PS = Event.getString("password");
                                 int id_user = Event.getInt("id_user");
@@ -135,10 +142,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                     } else {
                                         Toast.makeText(LoginActivity.this, "wrong password", Toast.LENGTH_SHORT).show();
                                     }
-                                } else {
-                                    Toast.makeText(LoginActivity.this, "you need to registerActivity first", Toast.LENGTH_SHORT).show();
                                 }
                             }
+                            // }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
