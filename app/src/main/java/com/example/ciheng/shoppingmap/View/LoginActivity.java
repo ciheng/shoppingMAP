@@ -52,8 +52,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private String password;
     private boolean flag;
     private final String serverURL="http://api.a17-sd207.studev.groept.be";
-
-    private userData mUserData = (userData)getApplication();
+    private userData mUserData;
 
     @SuppressLint("WrongViewCast")
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,14 +116,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 JSONObject Event =response.getJSONObject(i);
                                 String UN=Event.getString("username");
                                 String PS=Event.getString("password");
+                                int id_user=Event.getInt("id_user");
                                 username=UN;
                                 password=PS;
+
                                 if(email_tbc.equals(username))
                                 {
                                     if(password_tbc.equals(password))
                                     {
                                         checkfor=true;
+                                        mUserData=new userData();
                                         mUserData.setUserName(username);
+                                        mUserData.setUserId(id_user);
                                         Intent intent = new Intent(LoginActivity.this,navigationActivity.class);
                                         startActivity(intent);
 
