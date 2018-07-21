@@ -9,6 +9,7 @@ import android.widget.Button;
 import com.example.ciheng.shoppingmap.R;
 
 public class BuyerActivity extends AppCompatActivity {
+    private static final String TAG = "BuyerActivity";
     public static final String ACTIVITY_MAP = "ACTIVITY_MAPS";
     private Button mButtonMap;
 

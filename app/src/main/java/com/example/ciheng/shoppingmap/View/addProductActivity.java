@@ -27,7 +27,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class addProductActivity extends AppCompatActivity {
-
+    private static final String TAG = "addProductActivity";
     userData user= (userData)getApplication();
     private ImageView imageView;
     private Uri uri;

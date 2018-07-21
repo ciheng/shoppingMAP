@@ -13,7 +13,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -29,11 +28,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static android.app.PendingIntent.getActivity;
-
 
 public class productList extends AppCompatActivity {
-
+    private static final String TAG = "productList";
     userData user= (userData)getApplication();
 
     private ListView mListView;

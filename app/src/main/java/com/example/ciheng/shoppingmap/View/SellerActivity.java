@@ -9,6 +9,7 @@ import android.widget.Button;
 import com.example.ciheng.shoppingmap.R;
 public class SellerActivity extends AppCompatActivity {
     public static final String ACTIVYTY_ADD_PRODUCT = "ADD_PRODUCT_ACTIVITY";
+    private static final String TAG = "SellerActivity";
     private Button mButtonAdd;
     private Button mButtonProductList;
     private Button mButtonMessage;

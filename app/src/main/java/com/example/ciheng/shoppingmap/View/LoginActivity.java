@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private static final String DEBUG_USER_NAME="BOSS";
     private static final String DEBUG_PASSWORD="BOSS";
+    private static final String TAG = "LoginActivity";
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private Button mButtonLogin;

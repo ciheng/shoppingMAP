@@ -25,7 +25,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class registerActivity extends AppCompatActivity {
-
+    private static final String TAG = "registerActivity";
     private EditText email;
     private EditText password;
     private EditText username;

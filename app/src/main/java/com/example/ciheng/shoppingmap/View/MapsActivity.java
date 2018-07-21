@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-
+    private static final String TAG = "MapsActivity";
     private GoogleMap mMap;
     LocationManager mLocationManager;
 
