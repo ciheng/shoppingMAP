@@ -35,7 +35,7 @@ public class register extends AppCompatActivity {
     private String getPassword;
     private String getUsername;
     private String getAddress;
-    final String serverURL="http://api.a17-sd207.studev.groept.be";
+    private final String serverURL="http://api.a17-sd207.studev.groept.be";
     boolean flag=false;
 
     @Override

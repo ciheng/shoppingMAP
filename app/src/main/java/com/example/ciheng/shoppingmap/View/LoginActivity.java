@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private String username;
     private String password;
     private boolean flag;
+    private final String serverURL="http://api.a17-sd207.studev.groept.be";
 
     MyApplication user= (MyApplication)getApplication();
 
@@ -94,7 +95,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         RequestQueue data = Volley.newRequestQueue(this);
 
-        String url="http://api.a17-sd207.studev.groept.be/userlogin";
+        String url=serverURL+"/userlogin";
         JsonArrayRequest request=new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
