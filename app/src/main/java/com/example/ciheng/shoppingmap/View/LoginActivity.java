@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private Button mButtonLogin;
     private Button mButtonRegister;
     private boolean checkfor = false;
-    private String email_tbc;
+    private String username_tbc;
     private String password_tbc;
     private String username;
     private String password;
@@ -62,7 +62,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mPasswordView = (EditText) findViewById(R.id.password);
         mButtonLogin = (Button) findViewById(R.id.sign_in);
         mButtonRegister = (Button) findViewById(R.id.register);
-
         mButtonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,7 +78,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
     public void sign_in(View view) {
-        email_tbc = mEmailView.getText().toString();
+        username_tbc = mEmailView.getText().toString();
         password_tbc = md5(mPasswordView.getText().toString());   //md5 type of password
         check();
     }
@@ -104,7 +103,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         RequestQueue data = Volley.newRequestQueue(this);
 
         //String url = serverURL + "/userLogin";
-        String url = serverURL + "/findUser/"+email_tbc;
+        String url = serverURL + "/findUser/"+ username_tbc;
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -126,7 +125,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 username = UN;
                                 password = PS;
 
-                                if (email_tbc.equals(username)) {
+                                if (username_tbc.equals(username)) {
                                     if (password_tbc.equals(password)) {
                                         checkfor = true;
                                         mUserData = new userData();
