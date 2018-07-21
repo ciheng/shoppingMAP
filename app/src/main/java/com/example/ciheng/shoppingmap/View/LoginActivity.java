@@ -45,8 +45,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private Button mButtonLogin;
     boolean checkfor=false;
-    private String email1;
-    private String password1;
+    private String email_tbc;
+    private String password_tbc;
     private String username;
     private String password;
     private boolean flag;
@@ -69,8 +69,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
     public void sign_in(View view) {
-        email1 = mEmailView.getText().toString();
-        password1 =md5(mPasswordView.getText().toString());   //md5 type of password
+        email_tbc = mEmailView.getText().toString();
+        password_tbc =md5(mPasswordView.getText().toString());   //md5 type of password
         check();
     }
 
@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         RequestQueue data = Volley.newRequestQueue(this);
 
-        String url="http://api.a17-sd606.studev.groept.be/selectuser";
+        String url="http://api.a17-sd207.studev.groept.be/userlogin";
         JsonArrayRequest request=new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -108,9 +108,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 String PS=Event.getString("password");
                                 username=UN;
                                 password=PS;
-                                if(email1.equals(username)||email1.equals(DEBUG_USER_NAME))
+                                if(email_tbc.equals(username))
                                 {
-                                    if(password1.equals(password)||password1.equals(DEBUG_PASSWORD))
+                                    if(password_tbc.equals(password))
                                     {
                                         checkfor=true;
                                         user.setName(username);

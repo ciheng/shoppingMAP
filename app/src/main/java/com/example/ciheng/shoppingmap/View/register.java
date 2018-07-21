@@ -2,10 +2,12 @@ package com.example.ciheng.shoppingmap.View;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,11 +24,6 @@ import org.json.JSONObject;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import android.widget.Toast;
-import android.text.TextUtils;
-
-import android.view.View;
-
 public class register extends AppCompatActivity {
 
     private EditText email;
@@ -38,7 +35,7 @@ public class register extends AppCompatActivity {
     private String getPassword;
     private String getUsername;
     private String getAddress;
-
+    final String serverURL="http://api.a17-sd207.studev.groept.be";
     boolean flag=false;
 
     @Override
@@ -90,11 +87,11 @@ public class register extends AppCompatActivity {
     private void adduser()
     {
         RequestQueue data1 = Volley.newRequestQueue(this);
-        String a= getEmail;
-        String b= md5(getPassword);    //use md5 to secure password
-        String c=getUsername;
-        String d=getAddress;
-        String url="http://api.a17-sd606.studev.groept.be/signin/"+a+"/"+b+"/"+c+"/"+d;
+        String email_tba= getEmail;
+        String pwd_tba= md5(getPassword);    //use md5 to secure password
+        String username_tba=getUsername;
+        String addr_tba=getAddress;
+        String url=serverURL+"/signIn/"+email_tba+"/"+pwd_tba+"/"+username_tba+"/"+addr_tba;
         JsonArrayRequest request=new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -117,7 +114,7 @@ public class register extends AppCompatActivity {
 
         RequestQueue data = Volley.newRequestQueue(this);
 
-        String url="http://api.a17-sd606.studev.groept.be/selectuser";
+        String url=serverURL+"/userlogin";
         JsonArrayRequest request=new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
