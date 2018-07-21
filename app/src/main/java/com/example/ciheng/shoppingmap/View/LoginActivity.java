@@ -22,7 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.ciheng.shoppingmap.Adapter.userAdapter;
+import com.example.ciheng.shoppingmap.Data.userData;
 import com.example.ciheng.shoppingmap.R;
 
 import org.json.JSONArray;
@@ -53,8 +53,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private String password;
     private boolean flag;
     private final String serverURL="http://api.a17-sd207.studev.groept.be";
-
-    userAdapter user= (userAdapter)getApplication();
+    private userData mUserData;
 
     @SuppressLint("WrongViewCast")
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,16 +115,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             for (int i=0;i< response.length();i++)
                             {
                                 JSONObject Event =response.getJSONObject(i);
-                                String UN=Event.getString("mUserName");
+                                String UN=Event.getString("username");
                                 String PS=Event.getString("password");
+                                int id_user=Event.getInt("id_user");
                                 username=UN;
                                 password=PS;
+
                                 if(email_tbc.equals(username))
                                 {
                                     if(password_tbc.equals(password))
                                     {
                                         checkfor=true;
-                                        user.setUserName(username);
+                                        mUserData=new userData();
+                                        mUserData.setUserName(username);
+                                        mUserData.setUserId(id_user);
                                         Intent intent = new Intent(LoginActivity.this,navigationActivity.class);
                                         startActivity(intent);
 
