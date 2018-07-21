@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import com.example.ciheng.shoppingmap.R;
 
-public class navigation extends AppCompatActivity {
+public class navigationActivity extends AppCompatActivity {
 
     public static final String ACTIVITY_SELLER = "ACTIVITY_SELLER";
     public static final String ACTIVITY_BUYER = "ACTIVITY_BUYER";

@@ -24,7 +24,7 @@ import org.json.JSONObject;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class register extends AppCompatActivity {
+public class registerActivity extends AppCompatActivity {
 
     private EditText email;
     private EditText password;
@@ -58,27 +58,27 @@ public class register extends AppCompatActivity {
         getAddress = address.getText().toString().trim();
 
         if (TextUtils.isEmpty(getEmail)) {
-            Toast.makeText(register.this, "please input email", Toast.LENGTH_SHORT).show();
+            Toast.makeText(registerActivity.this, "please input email", Toast.LENGTH_SHORT).show();
             return;
         } else if (TextUtils.isEmpty(getPassword)) {
-            Toast.makeText(register.this, "please input password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(registerActivity.this, "please input password", Toast.LENGTH_SHORT).show();
             return;
         } else if (TextUtils.isEmpty(getUsername)) {
-            Toast.makeText(register.this, "please input username", Toast.LENGTH_SHORT).show();
+            Toast.makeText(registerActivity.this, "please input username", Toast.LENGTH_SHORT).show();
             return;
         } else if (TextUtils.isEmpty(getAddress)) {
-            Toast.makeText(register.this, "please input address", Toast.LENGTH_SHORT).show();
+            Toast.makeText(registerActivity.this, "please input address", Toast.LENGTH_SHORT).show();
             return;
         } else {
 
             getuser();
             if (flag == false) {
                 adduser();
-                Toast.makeText(register.this, "successfully registered", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(register.this,LoginActivity.class);
+                Toast.makeText(registerActivity.this, "successfully registered", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(registerActivity.this,LoginActivity.class);
                 startActivity(intent);
             } else {
-                Toast.makeText(register.this, "this account had already registered", Toast.LENGTH_SHORT).show();
+                Toast.makeText(registerActivity.this, "this account had already registered", Toast.LENGTH_SHORT).show();
                 return;
             }
         }

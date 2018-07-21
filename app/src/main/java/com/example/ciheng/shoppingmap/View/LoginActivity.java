@@ -44,6 +44,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private Button mButtonLogin;
+    private Button mButtonRegister;
     boolean checkfor=false;
     private String email_tbc;
     private String password_tbc;
@@ -60,10 +61,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
+        mButtonLogin = (Button) findViewById(R.id.sign_in);
+        mButtonRegister = (Button) findViewById(R.id.register);
+
+        mButtonRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startRegisterActivity();
+            }
+        });
     }
-    public void register(View view)
+    public void startRegisterActivity()
     {
-        Intent intent = new Intent(LoginActivity.this,register.class);
+        Intent intent = new Intent(this,registerActivity.class);
         startActivity(intent);
 
     }
@@ -115,12 +125,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                     {
                                         checkfor=true;
                                         user.setName(username);
-                                        Intent intent = new Intent(LoginActivity.this,navigation.class);
+                                        Intent intent = new Intent(LoginActivity.this,navigationActivity.class);
                                         startActivity(intent);
 
                                     }else{
                                         Toast.makeText(LoginActivity.this, "wrong password", Toast.LENGTH_SHORT).show();}
-                                }else{Toast.makeText(LoginActivity.this, "you need to register first", Toast.LENGTH_SHORT).show();}
+                                }else{Toast.makeText(LoginActivity.this, "you need to registerActivity first", Toast.LENGTH_SHORT).show();}
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

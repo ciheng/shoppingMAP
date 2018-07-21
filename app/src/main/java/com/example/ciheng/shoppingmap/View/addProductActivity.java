@@ -107,7 +107,7 @@ public class addProductActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         Toast.makeText(addProductActivity.this, "successfully posted an item", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(addProductActivity.this, navigation.class);
+                        Intent intent = new Intent(addProductActivity.this, navigationActivity.class);
                         startActivity(intent);
                     }
                 }, new Response.ErrorListener() {

@@ -27,6 +27,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".View.registerActivity"
+            android:label="registerAcitivyt"
+            android:theme="@style/AppTheme.NoActionBar"
+        />
+        <activity
             android:name=".View.productList"
             android:label="@string/title_activity_selling_list"
             android:theme="@style/AppTheme.NoActionBar"/>
