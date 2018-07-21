@@ -1,11 +1,11 @@
-package com.example.ciheng.shoppingmap.Adapter;
+package com.example.ciheng.shoppingmap.Data;
 
 import android.app.Application;
 /**
  * Created by 39112 on 2018/7/15.
  */
 
-public class userAdapter extends Application {
+public class userData extends Application {
     private String mUserName;
     private int mUserId;
 
@@ -28,7 +28,6 @@ public class userAdapter extends Application {
 
     }
 
-
     public int getUserId() {
         return mUserId;
     }
@@ -36,5 +35,5 @@ public class userAdapter extends Application {
     public void setUserId(int userId) {
         this.mUserId = userId;
     }
-    //private static final String NAME = "userAdapter";
+    //private static final String NAME = "userData";
 }
