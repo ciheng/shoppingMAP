@@ -18,7 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.ciheng.shoppingmap.MyApplication;
+import com.example.ciheng.shoppingmap.Adapter.userAdapter;
 import com.example.ciheng.shoppingmap.R;
 
 import org.json.JSONArray;
@@ -28,7 +28,7 @@ import java.io.FileNotFoundException;
 
 public class addProductActivity extends AppCompatActivity {
 
-    MyApplication user= (MyApplication)getApplication();
+    userAdapter user= (userAdapter)getApplication();
     private ImageView imageView;
     private Uri uri;
 

@@ -1,11 +1,11 @@
-package com.example.ciheng.shoppingmap;
+package com.example.ciheng.shoppingmap.Adapter;
 
 import android.app.Application;
 /**
  * Created by 39112 on 2018/7/15.
  */
 
-public class MyApplication extends Application {
+public class userAdapter extends Application {
     public static String username;
 
     @Override
@@ -27,5 +27,5 @@ public class MyApplication extends Application {
 
     }
 
-    private static final String NAME = "MyApplication";
+    private static final String NAME = "userAdapter";
 }

@@ -20,7 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.ciheng.shoppingmap.MyApplication;
+import com.example.ciheng.shoppingmap.Adapter.userAdapter;
 import com.example.ciheng.shoppingmap.R;
 
 import org.json.JSONArray;
@@ -34,7 +34,7 @@ import static android.app.PendingIntent.getActivity;
 
 public class productList extends AppCompatActivity {
 
-    MyApplication user= (MyApplication)getApplication();
+    userAdapter user= (userAdapter)getApplication();
 
     private ListView mListView;
      ArrayList item_name= new ArrayList();

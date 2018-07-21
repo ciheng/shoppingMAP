@@ -22,7 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.ciheng.shoppingmap.MyApplication;
+import com.example.ciheng.shoppingmap.Adapter.userAdapter;
 import com.example.ciheng.shoppingmap.R;
 
 import org.json.JSONArray;
@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private boolean flag;
     private final String serverURL="http://api.a17-sd207.studev.groept.be";
 
-    MyApplication user= (MyApplication)getApplication();
+    userAdapter user= (userAdapter)getApplication();
 
     @SuppressLint("WrongViewCast")
     protected void onCreate(Bundle savedInstanceState) {
