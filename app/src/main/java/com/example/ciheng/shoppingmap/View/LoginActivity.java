@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private Button mButtonLogin;
     private Button mButtonRegister;
-    boolean checkfor=false;
+    private boolean checkfor=false;
     private String email_tbc;
     private String password_tbc;
     private String username;
