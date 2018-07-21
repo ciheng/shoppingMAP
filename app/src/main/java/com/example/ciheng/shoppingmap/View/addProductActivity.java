@@ -101,7 +101,7 @@ public class addProductActivity extends AppCompatActivity {
     {
         RequestQueue data1 = Volley.newRequestQueue(this);
 
-        String url="http://api.a17-sd606.studev.groept.be/item_introduction/"+itemName+"/"+prc+"/"+intro+"/"+imageView+"/"+user.getName();
+        String url="http://api.a17-sd606.studev.groept.be/item_introduction/"+itemName+"/"+prc+"/"+intro+"/"+imageView+"/"+user.getUserName();
         JsonArrayRequest request=new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override

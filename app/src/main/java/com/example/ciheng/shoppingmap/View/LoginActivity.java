@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             for (int i=0;i< response.length();i++)
                             {
                                 JSONObject Event =response.getJSONObject(i);
-                                String UN=Event.getString("username");
+                                String UN=Event.getString("mUserName");
                                 String PS=Event.getString("password");
                                 username=UN;
                                 password=PS;
@@ -124,7 +124,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                     if(password_tbc.equals(password))
                                     {
                                         checkfor=true;
-                                        user.setName(username);
+                                        user.setUserName(username);
                                         Intent intent = new Intent(LoginActivity.this,navigationActivity.class);
                                         startActivity(intent);
 

@@ -74,8 +74,8 @@ public class productList extends AppCompatActivity {
                         for (int i=0;i< response.length();i++)
                         {
                             JSONObject Event =response.getJSONObject(i);
-                            String UN=Event.getString("username");
-                            if(UN.equals(user.getName()))
+                            String UN=Event.getString("mUserName");
+                            if(UN.equals(user.getUserName()))
                             {
                                 int PT=Event.getInt("item_photo");
                                 String IN=Event.getString("item_name");

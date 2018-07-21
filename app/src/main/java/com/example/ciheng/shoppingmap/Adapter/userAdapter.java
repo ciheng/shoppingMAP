@@ -6,26 +6,35 @@ import android.app.Application;
  */
 
 public class userAdapter extends Application {
-    public static String username;
+    private String mUserName;
+    private int mUserId;
 
     @Override
 
     public void onCreate() {
 
         super.onCreate();
-        setName(NAME);
+       // setUserName(NAME);
 
     }
 
-    public String getName() {
-        return username;
+    public String getUserName() {
+        return mUserName;
 
     }
 
-    public void setName(String name) {
-        this.username = name;
+    public void setUserName(String name) {
+        this.mUserName = name;
 
     }
 
-    private static final String NAME = "userAdapter";
+
+    public int getUserId() {
+        return mUserId;
+    }
+
+    public void setUserId(int userId) {
+        this.mUserId = userId;
+    }
+    //private static final String NAME = "userAdapter";
 }

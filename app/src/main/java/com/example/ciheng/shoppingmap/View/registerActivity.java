@@ -64,7 +64,7 @@ public class registerActivity extends AppCompatActivity {
             Toast.makeText(registerActivity.this, "please input password", Toast.LENGTH_SHORT).show();
             return;
         } else if (TextUtils.isEmpty(getUsername)) {
-            Toast.makeText(registerActivity.this, "please input username", Toast.LENGTH_SHORT).show();
+            Toast.makeText(registerActivity.this, "please input mUserName", Toast.LENGTH_SHORT).show();
             return;
         } else if (TextUtils.isEmpty(getAddress)) {
             Toast.makeText(registerActivity.this, "please input address", Toast.LENGTH_SHORT).show();
