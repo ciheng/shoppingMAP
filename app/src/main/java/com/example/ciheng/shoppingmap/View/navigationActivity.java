@@ -1,8 +1,8 @@
 package com.example.ciheng.shoppingmap.View;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
@@ -15,12 +15,15 @@ public class navigationActivity extends AppCompatActivity {
     private Button mButtonSeller;
     private Button mButtonBuyer;
     private Button mButtonMessage;
+    private int mUserId;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //remove title bar
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_navigation);
+        Intent intent = getIntent();
+        mUserId=intent.getIntExtra("user_id",-1);
         mButtonSeller=(Button) findViewById(R.id.sellerButton);
         mButtonBuyer=(Button) findViewById(R.id.buyerButton);
 
@@ -40,12 +43,12 @@ public class navigationActivity extends AppCompatActivity {
 
     private void startSellerActivity() {
         Intent intent = new Intent(this, SellerActivity.class);
-        //intent.putExtra(ACTIVITY_SELLER,带上xxx);
+        intent.putExtra("user_id",mUserId);
         startActivity(intent);
     }
     private void startBuyerActivity() {
         Intent intent = new Intent(this, BuyerActivity.class);
-        //intent.putExtra(ACTIVITY_SELLER,带上xxx);
+        intent.putExtra("user_id",mUserId);
         startActivity(intent);
     }
 }

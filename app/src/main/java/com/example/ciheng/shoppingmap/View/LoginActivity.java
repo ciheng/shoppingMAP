@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         RequestQueue data = Volley.newRequestQueue(this);
 
-        String url = serverURL + "/userlogin";
+        String url = serverURL + "/userLogin";
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -129,6 +129,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                         String message = "username:" + username + ",userId:" + id_user;
                                         Log.v(TAG, message);
                                         Intent intent = new Intent(LoginActivity.this, navigationActivity.class);
+                                        intent.putExtra("user_id", mUserData.getUserId());
                                         startActivity(intent);
 
                                     } else {
