@@ -1,5 +1,4 @@
 package com.example.ciheng.shoppingmap.View;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
