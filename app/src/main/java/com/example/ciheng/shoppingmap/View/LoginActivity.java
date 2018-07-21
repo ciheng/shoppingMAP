@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -39,20 +40,20 @@ import java.security.NoSuchAlgorithmException;
 @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
-    private static final String DEBUG_USER_NAME="BOSS";
-    private static final String DEBUG_PASSWORD="BOSS";
+    private static final String DEBUG_USER_NAME = "BOSS";
+    private static final String DEBUG_PASSWORD = "BOSS";
     private static final String TAG = "LoginActivity";
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private Button mButtonLogin;
     private Button mButtonRegister;
-    private boolean checkfor=false;
+    private boolean checkfor = false;
     private String email_tbc;
     private String password_tbc;
     private String username;
     private String password;
     private boolean flag;
-    private final String serverURL="http://api.a17-sd207.studev.groept.be";
+    private final String serverURL = "http://api.a17-sd207.studev.groept.be";
     private userData mUserData;
 
     @SuppressLint("WrongViewCast")
@@ -71,9 +72,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
     }
-    public void startRegisterActivity()
-    {
-        Intent intent = new Intent(this,registerActivity.class);
+
+    public void startRegisterActivity() {
+        Intent intent = new Intent(this, registerActivity.class);
         startActivity(intent);
 
     }
@@ -81,7 +82,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     public void sign_in(View view) {
         email_tbc = mEmailView.getText().toString();
-        password_tbc =md5(mPasswordView.getText().toString());   //md5 type of password
+        password_tbc = md5(mPasswordView.getText().toString());   //md5 type of password
         check();
     }
 
@@ -100,41 +101,42 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     }
 
-    private void check()
-    {
+    private void check() {
 
         RequestQueue data = Volley.newRequestQueue(this);
 
-        String url=serverURL+"/userlogin";
-        JsonArrayRequest request=new JsonArrayRequest(Request.Method.GET, url, null,
+        String url = serverURL + "/userlogin";
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
 
-                            for (int i=0;i< response.length();i++)
-                            {
-                                JSONObject Event =response.getJSONObject(i);
-                                String UN=Event.getString("username");
-                                String PS=Event.getString("password");
-                                int id_user=Event.getInt("id_user");
-                                username=UN;
-                                password=PS;
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject Event = response.getJSONObject(i);
+                                String UN = Event.getString("username");
+                                String PS = Event.getString("password");
+                                int id_user = Event.getInt("id_user");
+                                username = UN;
+                                password = PS;
 
-                                if(email_tbc.equals(username))
-                                {
-                                    if(password_tbc.equals(password))
-                                    {
-                                        checkfor=true;
-                                        mUserData=new userData();
+                                if (email_tbc.equals(username)) {
+                                    if (password_tbc.equals(password)) {
+                                        checkfor = true;
+                                        mUserData = new userData();
                                         mUserData.setUserName(username);
                                         mUserData.setUserId(id_user);
-                                        Intent intent = new Intent(LoginActivity.this,navigationActivity.class);
+                                        String message = "username:" + username + ",userId:" + id_user;
+                                        Log.v(TAG, message);
+                                        Intent intent = new Intent(LoginActivity.this, navigationActivity.class);
                                         startActivity(intent);
 
-                                    }else{
-                                        Toast.makeText(LoginActivity.this, "wrong password", Toast.LENGTH_SHORT).show();}
-                                }else{Toast.makeText(LoginActivity.this, "you need to registerActivity first", Toast.LENGTH_SHORT).show();}
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, "wrong password", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "you need to registerActivity first", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -155,12 +157,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             digest = MessageDigest.getInstance("md5");
             byte[] result = digest.digest(text.getBytes());
             StringBuffer sb = new StringBuffer();
-            for (byte b : result){
+            for (byte b : result) {
                 int number = b & 0xff;
                 String hex = Integer.toHexString(number);
-                if (hex.length() == 1){
-                    sb.append("0"+hex);
-                }else {
+                if (hex.length() == 1) {
+                    sb.append("0" + hex);
+                } else {
                     sb.append(hex);
                 }
             }
