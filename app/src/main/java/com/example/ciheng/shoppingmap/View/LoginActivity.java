@@ -23,15 +23,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.ciheng.shoppingmap.Adapter.pwdAdapter;
 import com.example.ciheng.shoppingmap.Data.userData;
 import com.example.ciheng.shoppingmap.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * A login screen that offers login via email/password.
@@ -53,6 +51,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private boolean flag;
     private final String serverURL = "http://api.a17-sd207.studev.groept.be";
     private userData mUserData;
+    private pwdAdapter mPwdAdapter=new pwdAdapter();
 
     @SuppressLint("WrongViewCast")
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +78,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     public void sign_in(View view) {
         username_tbc = mEmailView.getText().toString();
-        password_tbc = md5(mPasswordView.getText().toString());   //md5 type of password
+        password_tbc = mPwdAdapter.md5(mPasswordView.getText().toString());   //md5 type of password
         check();
     }
 
@@ -156,7 +155,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         data.add(request);
     }
 
-    public static String md5(String text) {                   //security type md5
+    /*public static String md5(String text) {                   //security type md5
         MessageDigest digest = null;
         try {
             digest = MessageDigest.getInstance("md5");
@@ -176,7 +175,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             e.printStackTrace();
             return "";
         }
-    }
+    }*/
 
 }
 

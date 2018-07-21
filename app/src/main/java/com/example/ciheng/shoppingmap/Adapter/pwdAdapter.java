@@ -4,7 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class pwdAdapter {
-    public static String md5(String text) {                   //security type md5
+    public String md5(String text) {                   //security type md5
         MessageDigest digest = null;
         try {
             digest = MessageDigest.getInstance("md5");

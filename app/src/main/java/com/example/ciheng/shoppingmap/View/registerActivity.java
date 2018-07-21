@@ -15,14 +15,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.ciheng.shoppingmap.Adapter.pwdAdapter;
 import com.example.ciheng.shoppingmap.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 public class registerActivity extends AppCompatActivity {
     private static final String TAG = "registerActivity";
@@ -37,6 +35,7 @@ public class registerActivity extends AppCompatActivity {
     private String getAddress;
     private final String serverURL="http://api.a17-sd207.studev.groept.be";
     boolean flag=false;
+    private pwdAdapter mPwdAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +87,7 @@ public class registerActivity extends AppCompatActivity {
     {
         RequestQueue data1 = Volley.newRequestQueue(this);
         String email_tba= getEmail;
-        String pwd_tba= md5(getPassword);    //use md5 to secure password
+        String pwd_tba= mPwdAdapter.md5(getPassword);    //use md5 to secure password
         String username_tba=getUsername;
         String addr_tba=getAddress;
         String url=serverURL+"/signIn/"+email_tba+"/"+pwd_tba+"/"+username_tba+"/"+addr_tba;
@@ -144,7 +143,7 @@ public class registerActivity extends AppCompatActivity {
         });
         data.add(request);
     }
-
+/*
     public static String md5(String text) {                   //security type md5
         MessageDigest digest = null;
         try {
@@ -165,5 +164,5 @@ public class registerActivity extends AppCompatActivity {
             e.printStackTrace();
             return "";
         }
-    }
+    }*/
 }
