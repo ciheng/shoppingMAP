@@ -133,7 +133,6 @@ public class addProductActivity extends AppCompatActivity {
     }
 
 
-
     public void sell(View view)
     {
         RequestQueue data1 = Volley.newRequestQueue(this);
