@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -21,13 +23,12 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ciheng.shoppingmap.Data.userData;
 import com.example.ciheng.shoppingmap.R;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONArray;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class addProductActivity extends AppCompatActivity {
     private static final String TAG = "addProductActivity";
@@ -36,15 +37,15 @@ public class addProductActivity extends AppCompatActivity {
     private Uri uri;
 
     private String mFilePath;
-    private File mFile;
-    public final static int CAMERA_RESULT = 1;
+    private String mFile;
+    public static final int CAMERA_RESULT = 1;
     public static final int SELECT_PIC = 2;
     private final String serverURL = "http://api.a17-sd207.studev.groept.be";
     private String itemName;
     private String price;
     private String description;
     private int mUserId;
-    private StorageReference mStorage;
+    //private StorageReference mStorage;
     @Override
 
 
@@ -62,15 +63,34 @@ public class addProductActivity extends AppCompatActivity {
         itemName=item_name.getText().toString();
         this.price =price.getText().toString();
         description =introduction.getText().toString();
-        mStorage= FirebaseStorage.getInstance().getReference();
+        //mStorage= FirebaseStorage.getInstance().getReference();
     }
 
 
     public void takePhoto(View view)
     {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.parse("file://" + mFilePath));
+
+        File outputImage=new File(getExternalCacheDir(), "output_image.jpg");
+        try{
+            if(outputImage.exists())
+            {
+                outputImage.delete();
+            }
+            outputImage.createNewFile();
+        }catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+        if (Build.VERSION.SDK_INT >= 24) {
+
+            uri = FileProvider.getUriForFile(addProductActivity.this, "com.example.ciheng.shoppingmap.fileprovider", outputImage);
+        }else {
+            uri = Uri.fromFile(outputImage); //7.0以下
+        }
+        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         startActivityForResult(intent, CAMERA_RESULT);
+
     }
 
 
@@ -90,8 +110,12 @@ public class addProductActivity extends AppCompatActivity {
 
         switch(requestCode) {
             case CAMERA_RESULT:
-            Bitmap bitmap = BitmapFactory.decodeFile( mFilePath, null);
-            imageView.setImageBitmap(bitmap);
+                try {
+                    Bitmap photo=BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+                    imageView.setImageBitmap(photo);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
             case SELECT_PIC:
                 Bitmap mBitmap = null;
                 try {
