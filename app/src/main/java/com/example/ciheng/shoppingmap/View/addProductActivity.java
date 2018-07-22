@@ -118,6 +118,7 @@ public class addProductActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 Log.v(TAG,"CAMERA_RESULT执行完毕!");
+                break;
             case SELECT_PIC:
                 Log.v(TAG,"select picture开始跑了!!");
                 Bitmap mBitmap = null;
@@ -127,6 +128,7 @@ public class addProductActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 imageView.setImageBitmap(mBitmap);
+                break;
         }
     }
 
