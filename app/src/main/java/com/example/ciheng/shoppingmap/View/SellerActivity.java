@@ -13,14 +13,16 @@ public class SellerActivity extends AppCompatActivity {
     private Button mButtonAdd;
     private Button mButtonProductList;
     private Button mButtonMessage;
+    private int mUserId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller);
+        Intent intent = getIntent();
+        mUserId=intent.getIntExtra("user_id",-1);
         mButtonAdd=(Button) findViewById(R.id.sellButton);
         mButtonProductList=(Button) findViewById(R.id.selling_listButton);
         mButtonMessage=(Button) findViewById(R.id.seller_messageButton);
-
         mButtonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,12 +44,12 @@ public class SellerActivity extends AppCompatActivity {
     }
     private void startAddProductActivity(){
         Intent intent = new Intent(this, addProductActivity.class);
-        //intent.putExtra(ACTIVITY_SELLER,带上xxx);
+        intent.putExtra("user_id",mUserId);
         startActivity(intent);
     }
     private void startProductList(){
         Intent intent = new Intent(this, productList.class);
-        //intent.putExtra(ACTIVITY_SELLER,带上xxx);
+        intent.putExtra("user_id",mUserId);
         startActivity(intent);
     }
 

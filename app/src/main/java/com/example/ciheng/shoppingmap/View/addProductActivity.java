@@ -22,11 +22,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.ciheng.shoppingmap.Data.userData;
 import com.example.ciheng.shoppingmap.R;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,18 +32,17 @@ import java.io.IOException;
 
 public class addProductActivity extends AppCompatActivity {
     private static final String TAG = "addProductActivity";
-    userData mUserData = (userData)getApplication();
+    //userData mUserData = (userData)getApplication();
+    private EditText item_name;
+    private EditText price;
+    private EditText introduction;
     private ImageView imageView;
     private Uri uri;
-
     private String mFilePath;
     private String mFile;
     public static final int CAMERA_RESULT = 1;
     public static final int SELECT_PIC = 2;
     private final String serverURL = "http://api.a17-sd207.studev.groept.be";
-    private String itemName;
-    private String price;
-    private String description;
     private int mUserId;
     //private StorageReference mStorage;
     @Override
@@ -59,12 +56,9 @@ public class addProductActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         imageView=(ImageView)findViewById(R.id.picture);
-        EditText item_name=findViewById(R.id.item_name);
-        EditText price=findViewById(R.id.price);
-        EditText introduction=findViewById(R.id.introduction);
-        itemName=item_name.getText().toString();
-        this.price =price.getText().toString();
-        description =introduction.getText().toString();
+        item_name=findViewById(R.id.item_name);
+        price =findViewById(R.id.price);
+        introduction=findViewById(R.id.introduction);
         //mStorage= FirebaseStorage.getInstance().getReference();
     }
 
@@ -138,13 +132,18 @@ public class addProductActivity extends AppCompatActivity {
     {
         RequestQueue data1 = Volley.newRequestQueue(this);
 
-        String url=serverURL+"/add_product/"+itemName+"/"+ price +"/"+ description +"/"+ mUserData.getUserId();
+        String productName = item_name.getText().toString();
+        String productPrice = price.getText().toString();
+        String description = introduction.getText().toString();
+        String url=serverURL+"/add_product/"+ productName +"/"+ productPrice +"/"+ description +"/"+ mUserId;
+        String message="product upload url: "+url;
+        Log.v(TAG,message);
         JsonArrayRequest request=new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
 
                     @Override
                     public void onResponse(JSONArray response) {
-
+                    Log.v(TAG,"product successfully uploaded");
                     }
                 }, new Response.ErrorListener() {
             @Override
