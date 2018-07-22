@@ -26,6 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.ciheng.shoppingmap.Adapter.pwdAdapter;
 import com.example.ciheng.shoppingmap.Data.userData;
 import com.example.ciheng.shoppingmap.R;
+import com.google.firebase.FirebaseApp;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,6 +58,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        FirebaseApp.initializeApp(this);
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
         mButtonLogin = (Button) findViewById(R.id.sign_in);

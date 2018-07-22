@@ -1,4 +1,5 @@
 package com.example.ciheng.shoppingmap.View;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,6 +21,8 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ciheng.shoppingmap.Data.userData;
 import com.example.ciheng.shoppingmap.R;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONArray;
 
@@ -59,6 +62,7 @@ public class addProductActivity extends AppCompatActivity {
         itemName=item_name.getText().toString();
         this.price =price.getText().toString();
         description =introduction.getText().toString();
+        mStorage= FirebaseStorage.getInstance().getReference();
     }
 
 
