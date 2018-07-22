@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
         FirebaseApp.initializeApp(this);
        // mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-       // mUsernameView = (AutoCompleteTextView) findViewById(R.id.username);
+        mUsernameView = (AutoCompleteTextView) findViewById(R.id.username);
         mPasswordView = (EditText) findViewById(R.id.password);
         mButtonLogin = (Button) findViewById(R.id.sign_in);
         mButtonRegister = (Button) findViewById(R.id.register);

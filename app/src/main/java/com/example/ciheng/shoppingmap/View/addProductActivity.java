@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -116,7 +117,9 @@ public class addProductActivity extends AppCompatActivity {
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
+                Log.v(TAG,"CAMERA_RESULT执行完毕!");
             case SELECT_PIC:
+                Log.v(TAG,"select picture开始跑了!!");
                 Bitmap mBitmap = null;
                 try {
                     mBitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData()));
