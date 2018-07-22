@@ -28,7 +28,7 @@ import java.io.FileNotFoundException;
 
 public class addProductActivity extends AppCompatActivity {
     private static final String TAG = "addProductActivity";
-    userData user= (userData)getApplication();
+    userData mUserData = (userData)getApplication();
     private ImageView imageView;
     private Uri uri;
 
@@ -36,16 +36,20 @@ public class addProductActivity extends AppCompatActivity {
     private File mFile;
     public final static int CAMERA_RESULT = 1;
     public static final int SELECT_PIC = 2;
-
+    private final String serverURL = "http://api.a17-sd207.studev.groept.be";
     private String itemName;
-    private String prc;
-    private String intro;
+    private String price;
+    private String description;
+    private int mUserId;
+    private StorageReference mStorage;
     @Override
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sellan_item);
+        setContentView(R.layout.activity_add_product);
+        Intent intent = getIntent();
+        mUserId=intent.getIntExtra("user_id",-1);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         imageView=(ImageView)findViewById(R.id.picture);
@@ -53,8 +57,8 @@ public class addProductActivity extends AppCompatActivity {
         EditText price=findViewById(R.id.price);
         EditText introduction=findViewById(R.id.introduction);
         itemName=item_name.getText().toString();
-        prc=price.getText().toString();
-        intro=introduction.getText().toString();
+        this.price =price.getText().toString();
+        description =introduction.getText().toString();
     }
 
 
@@ -101,7 +105,7 @@ public class addProductActivity extends AppCompatActivity {
     {
         RequestQueue data1 = Volley.newRequestQueue(this);
 
-        String url="http://api.a17-sd606.studev.groept.be/item_introduction/"+itemName+"/"+prc+"/"+intro+"/"+imageView+"/"+user.getUserName();
+        String url=serverURL+"/add_product/"+itemName+"/"+ price +"/"+ description +"/"+ mUserData.getUserId();
         JsonArrayRequest request=new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override

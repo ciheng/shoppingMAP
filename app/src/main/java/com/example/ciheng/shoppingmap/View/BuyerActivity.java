@@ -12,13 +12,14 @@ public class BuyerActivity extends AppCompatActivity {
     private static final String TAG = "BuyerActivity";
     public static final String ACTIVITY_MAP = "ACTIVITY_MAPS";
     private Button mButtonMap;
-
+    private int mUserId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buyer);
+        Intent intent = getIntent();
+        mUserId=intent.getIntExtra("user_id",-1);
         mButtonMap=(Button) findViewById(R.id.discoverButton);
-
         mButtonMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -30,5 +31,6 @@ public class BuyerActivity extends AppCompatActivity {
 
     private void startMapsActivity() {
         Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra("user_id",mUserId);
         startActivity(intent);
     }}

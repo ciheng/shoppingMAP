@@ -1,11 +1,15 @@
 package com.example.ciheng.shoppingmap.Adapter;
 
+import android.util.Log;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class pwdAdapter {
-    public static String md5(String text) {                   //security type md5
+    private static final String TAG = "pwdAdapter";
+    public String md5(String text) {                   //security type md5
         MessageDigest digest = null;
+        Log.v(TAG,text);
         try {
             digest = MessageDigest.getInstance("md5");
             byte[] result = digest.digest(text.getBytes());
@@ -19,6 +23,7 @@ public class pwdAdapter {
                     sb.append(hex);
                 }
             }
+            Log.v(TAG,sb.toString());
             return sb.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();

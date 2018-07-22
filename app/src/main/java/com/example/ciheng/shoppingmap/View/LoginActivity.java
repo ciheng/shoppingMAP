@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -22,15 +23,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.ciheng.shoppingmap.Adapter.pwdAdapter;
 import com.example.ciheng.shoppingmap.Data.userData;
 import com.example.ciheng.shoppingmap.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * A login screen that offers login via email/password.
@@ -39,21 +38,20 @@ import java.security.NoSuchAlgorithmException;
 @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
-    private static final String DEBUG_USER_NAME="BOSS";
-    private static final String DEBUG_PASSWORD="BOSS";
     private static final String TAG = "LoginActivity";
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private Button mButtonLogin;
     private Button mButtonRegister;
-    private boolean checkfor=false;
-    private String email_tbc;
+    private boolean checkfor = false;
+    private String username_tbc;
     private String password_tbc;
     private String username;
     private String password;
     private boolean flag;
-    private final String serverURL="http://api.a17-sd207.studev.groept.be";
+    private final String serverURL = "http://api.a17-sd207.studev.groept.be";
     private userData mUserData;
+    private pwdAdapter mPwdAdapter=new pwdAdapter();
 
     @SuppressLint("WrongViewCast")
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +61,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mPasswordView = (EditText) findViewById(R.id.password);
         mButtonLogin = (Button) findViewById(R.id.sign_in);
         mButtonRegister = (Button) findViewById(R.id.register);
-
         mButtonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,17 +68,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
     }
-    public void startRegisterActivity()
-    {
-        Intent intent = new Intent(this,registerActivity.class);
+
+    public void startRegisterActivity() {
+        Intent intent = new Intent(this, registerActivity.class);
         startActivity(intent);
 
     }
 
 
     public void sign_in(View view) {
-        email_tbc = mEmailView.getText().toString();
-        password_tbc =md5(mPasswordView.getText().toString());   //md5 type of password
+        username_tbc = mEmailView.getText().toString();
+        password_tbc = mPwdAdapter.md5(mPasswordView.getText().toString());   //md5 type of password
         check();
     }
 
@@ -100,42 +97,51 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     }
 
-    private void check()
-    {
+    private void check() {
 
         RequestQueue data = Volley.newRequestQueue(this);
 
-        String url=serverURL+"/userlogin";
-        JsonArrayRequest request=new JsonArrayRequest(Request.Method.GET, url, null,
+        //String url = serverURL + "/userLogin";
+        String url = serverURL + "/findUser/"+ username_tbc;
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
 
-                            for (int i=0;i< response.length();i++)
-                            {
-                                JSONObject Event =response.getJSONObject(i);
-                                String UN=Event.getString("username");
-                                String PS=Event.getString("password");
-                                int id_user=Event.getInt("id_user");
-                                username=UN;
-                                password=PS;
+                            //for (int i = 0; i < response.length(); i++) {
+                            if (response.length()==0) {
 
-                                if(email_tbc.equals(username))
-                                {
-                                    if(password_tbc.equals(password))
-                                    {
-                                        checkfor=true;
-                                        mUserData=new userData();
+                                Log.v(TAG,"user doesn't exist");
+                                Toast.makeText(LoginActivity.this, "User doesn't exist! jumping to register page...", Toast.LENGTH_SHORT).show();
+                                startRegisterActivity();
+                            } else {
+
+                                JSONObject Event = response.getJSONObject(0);
+                                String UN = Event.getString("username");
+                                String PS = Event.getString("password");
+                                int id_user = Event.getInt("id_user");
+                                username = UN;
+                                password = PS;
+
+                                if (username_tbc.equals(username)) {
+                                    if (password_tbc.equals(password)) {
+                                        checkfor = true;
+                                        mUserData = new userData();
                                         mUserData.setUserName(username);
                                         mUserData.setUserId(id_user);
-                                        Intent intent = new Intent(LoginActivity.this,navigationActivity.class);
+                                        String message = "username:" + username + ",userId:" + id_user;
+                                        Log.v(TAG, message);
+                                        Intent intent = new Intent(LoginActivity.this, navigationActivity.class);
+                                        intent.putExtra("user_id", mUserData.getUserId());
                                         startActivity(intent);
 
-                                    }else{
-                                        Toast.makeText(LoginActivity.this, "wrong password", Toast.LENGTH_SHORT).show();}
-                                }else{Toast.makeText(LoginActivity.this, "you need to registerActivity first", Toast.LENGTH_SHORT).show();}
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, "Wrong password", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
                             }
+                            // }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -149,18 +155,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         data.add(request);
     }
 
-    public static String md5(String text) {                   //security type md5
+    /*public static String md5(String text) {                   //security type md5
         MessageDigest digest = null;
         try {
             digest = MessageDigest.getInstance("md5");
             byte[] result = digest.digest(text.getBytes());
             StringBuffer sb = new StringBuffer();
-            for (byte b : result){
+            for (byte b : result) {
                 int number = b & 0xff;
                 String hex = Integer.toHexString(number);
-                if (hex.length() == 1){
-                    sb.append("0"+hex);
-                }else {
+                if (hex.length() == 1) {
+                    sb.append("0" + hex);
+                } else {
                     sb.append(hex);
                 }
             }
@@ -169,7 +175,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             e.printStackTrace();
             return "";
         }
-    }
+    }*/
 
 }
 
