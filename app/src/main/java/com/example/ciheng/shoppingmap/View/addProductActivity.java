@@ -26,6 +26,7 @@ import com.example.ciheng.shoppingmap.Data.userData;
 import com.example.ciheng.shoppingmap.R;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -140,11 +141,10 @@ public class addProductActivity extends AppCompatActivity {
         String url=serverURL+"/add_product/"+itemName+"/"+ price +"/"+ description +"/"+ mUserData.getUserId();
         JsonArrayRequest request=new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
+
                     @Override
                     public void onResponse(JSONArray response) {
-                        Toast.makeText(addProductActivity.this, "successfully posted an item", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(addProductActivity.this, navigationActivity.class);
-                        startActivity(intent);
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -153,6 +153,8 @@ public class addProductActivity extends AppCompatActivity {
             }
         });
         data1.add(request);
-
+        Toast.makeText(addProductActivity.this, "successfully posted an item", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(addProductActivity.this, navigationActivity.class);
+        startActivity(intent);
     }
 }
