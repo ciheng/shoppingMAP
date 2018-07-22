@@ -32,14 +32,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * A login screen that offers login via email/password.
+ * A login screen that offers login via Username/password.
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
     private static final String TAG = "LoginActivity";
-    private AutoCompleteTextView mEmailView;
+    private AutoCompleteTextView mUsernameView;
     private EditText mPasswordView;
     private Button mButtonLogin;
     private Button mButtonRegister;
@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mUsernameView = (AutoCompleteTextView) findViewById(R.id.username);
         mPasswordView = (EditText) findViewById(R.id.password);
         mButtonLogin = (Button) findViewById(R.id.sign_in);
         mButtonRegister = (Button) findViewById(R.id.register);
@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
     public void sign_in(View view) {
-        username_tbc = mEmailView.getText().toString();
+        username_tbc = mUsernameView.getText().toString();
         password_tbc = mPwdAdapter.md5(mPasswordView.getText().toString());   //md5 type of password
         check();
     }

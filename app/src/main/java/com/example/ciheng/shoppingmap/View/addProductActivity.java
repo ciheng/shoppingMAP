@@ -4,9 +4,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,6 +28,8 @@ import org.json.JSONArray;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class addProductActivity extends AppCompatActivity {
     private static final String TAG = "addProductActivity";
@@ -33,7 +38,7 @@ public class addProductActivity extends AppCompatActivity {
     private Uri uri;
 
     private String mFilePath;
-    private File mFile;
+    private String mFile;
     public final static int CAMERA_RESULT = 1;
     public static final int SELECT_PIC = 2;
     private final String serverURL = "http://api.a17-sd207.studev.groept.be";
@@ -41,7 +46,7 @@ public class addProductActivity extends AppCompatActivity {
     private String price;
     private String description;
     private int mUserId;
-    private StorageReference mStorage;
+    //private StorageReference mStorage;
     @Override
 
 
@@ -64,11 +69,16 @@ public class addProductActivity extends AppCompatActivity {
 
     public void takePhoto(View view)
     {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.parse("file://" + mFilePath));
-        startActivityForResult(intent, CAMERA_RESULT);
+        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(cameraIntent, CAMERA_RESULT);
+
     }
 
+    private String getPhotoPath() {
+
+        return Environment.getExternalStorageDirectory() + "/DCIM/";
+
+    }
 
     public void fromGallery(View view)
     {
@@ -86,8 +96,9 @@ public class addProductActivity extends AppCompatActivity {
 
         switch(requestCode) {
             case CAMERA_RESULT:
-            Bitmap bitmap = BitmapFactory.decodeFile( mFilePath, null);
-            imageView.setImageBitmap(bitmap);
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                imageView.setImageBitmap(photo);
+
             case SELECT_PIC:
                 Bitmap mBitmap = null;
                 try {
