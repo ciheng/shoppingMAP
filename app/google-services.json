@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "937998626783",
+    "firebase_url": "https://shoppingmap-b173f.firebaseio.com",
+    "project_id": "shoppingmap-b173f",
+    "storage_bucket": "shoppingmap-b173f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:937998626783:android:3480dc50a714cf6c",
+        "android_client_info": {
+          "package_name": "com.example.ciheng.shoppingmap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "937998626783-civ5ghd65cqhtv6ur5isrvehkd596iu7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ciheng.shoppingmap",
+            "certificate_hash": "62d2cf445f9c7eeab7cfd7a77b973c0a227d17c2"
+          }
+        },
+        {
+          "client_id": "937998626783-ft15enj1bbg6dpnujvcrp78ajc0g4kgs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrxxjzP2ALEYBH-Bhm2prdH2Fq5Q4bxqY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "937998626783-ft15enj1bbg6dpnujvcrp78ajc0g4kgs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

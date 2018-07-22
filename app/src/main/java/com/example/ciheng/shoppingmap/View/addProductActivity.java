@@ -41,12 +41,13 @@ public class addProductActivity extends AppCompatActivity {
     private String price;
     private String description;
     private int mUserId;
+    private StorageReference mStorage;
     @Override
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sellan_item);
+        setContentView(R.layout.activity_add_product);
         Intent intent = getIntent();
         mUserId=intent.getIntExtra("user_id",-1);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
