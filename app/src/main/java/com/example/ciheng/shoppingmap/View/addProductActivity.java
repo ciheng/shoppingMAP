@@ -3,9 +3,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
@@ -28,6 +31,7 @@ import org.json.JSONArray;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -39,7 +43,7 @@ public class addProductActivity extends AppCompatActivity {
 
     private String mFilePath;
     private String mFile;
-    public final static int CAMERA_RESULT = 1;
+    public static final int CAMERA_RESULT = 1;
     public static final int SELECT_PIC = 2;
     private final String serverURL = "http://api.a17-sd207.studev.groept.be";
     private String itemName;
@@ -64,21 +68,38 @@ public class addProductActivity extends AppCompatActivity {
         itemName=item_name.getText().toString();
         this.price =price.getText().toString();
         description =introduction.getText().toString();
+
+
+
     }
 
 
     public void takePhoto(View view)
     {
-        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(cameraIntent, CAMERA_RESULT);
+
+        File outputImage=new File(getExternalCacheDir(), "output_image.jpg");
+        try{
+            if(outputImage.exists())
+            {
+                outputImage.delete();
+            }
+            outputImage.createNewFile();
+        }catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+        if (Build.VERSION.SDK_INT >= 24) {
+
+            uri = FileProvider.getUriForFile(addProductActivity.this, "com.example.ciheng.shoppingmap.fileprovider", outputImage);
+        }else {
+            uri = Uri.fromFile(outputImage); //7.0以下
+        }
+        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        startActivityForResult(intent, CAMERA_RESULT);
 
     }
 
-    private String getPhotoPath() {
-
-        return Environment.getExternalStorageDirectory() + "/DCIM/";
-
-    }
 
     public void fromGallery(View view)
     {
@@ -96,9 +117,12 @@ public class addProductActivity extends AppCompatActivity {
 
         switch(requestCode) {
             case CAMERA_RESULT:
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
-                imageView.setImageBitmap(photo);
-
+                try {
+                    Bitmap photo=BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+                    imageView.setImageBitmap(photo);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
             case SELECT_PIC:
                 Bitmap mBitmap = null;
                 try {
