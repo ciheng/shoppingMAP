@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ciheng.shoppingmap.Adapter.pwdAdapter;
+import com.example.ciheng.shoppingmap.Adapter.urlAdapter;
 import com.example.ciheng.shoppingmap.R;
 
 import org.json.JSONArray;
@@ -35,7 +36,7 @@ public class registerActivity extends AppCompatActivity {
     private final String serverURL = "http://api.a17-sd207.studev.groept.be";
     boolean flag = false;
     private pwdAdapter mPwdAdapter=new pwdAdapter();
-
+    private urlAdapter mUrlAdapter=new urlAdapter();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +91,8 @@ public class registerActivity extends AppCompatActivity {
         String pwd_tba = mPwdAdapter.md5(getPassword);    //use md5 to secure password
         String username_tba = getUsername;
         String addr_tba = getAddress;
-        String url = serverURL + "/signIn/" + email_tba + "/" + pwd_tba + "/" + username_tba + "/" + addr_tba;
+        String url = mUrlAdapter.genRegister(email_tba,pwd_tba,username_tba,addr_tba);
+                //serverURL + "/signIn/" + email_tba + "/" + pwd_tba + "/" + username_tba + "/" + addr_tba;
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -111,7 +113,8 @@ public class registerActivity extends AppCompatActivity {
     private void getuser() {
         RequestQueue data = Volley.newRequestQueue(this);
 
-        String url = serverURL + "/findUser/" + getEmail;
+        String url = mUrlAdapter.genFindUser(getEmail);
+                //serverURL + "/findUser/" + getEmail;
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override

@@ -80,7 +80,7 @@ public class addProductActivity extends AppCompatActivity {
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         price = findViewById(R.id.price);
         introduction = findViewById(R.id.introduction);
-        mStorageRef = FirebaseStorage.getInstance("gs://shoppingmap-209612").getReference("uploads");//zip it into a folder called uploads
+        mStorageRef = FirebaseStorage.getInstance(mUrlAdapter.getFirebaseURL()).getReference("uploads");//zip it into a folder called uploads
         //mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
     }
 

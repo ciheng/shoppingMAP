@@ -24,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ciheng.shoppingmap.Adapter.pwdAdapter;
+import com.example.ciheng.shoppingmap.Adapter.urlAdapter;
 import com.example.ciheng.shoppingmap.Data.userData;
 import com.example.ciheng.shoppingmap.R;
 import com.google.firebase.FirebaseApp;
@@ -50,9 +51,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private String username;
     private String password;
     private boolean flag;
-    private final String serverURL = "http://api.a17-sd207.studev.groept.be";
     private userData mUserData;
     private pwdAdapter mPwdAdapter=new pwdAdapter();
+    private urlAdapter mUrlAdapter=new urlAdapter();
 
     @SuppressLint("WrongViewCast")
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +106,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         RequestQueue data = Volley.newRequestQueue(this);
 
         //String url = serverURL + "/userLogin";
-        String url = serverURL + "/findUser/"+ username_tbc;
+        String url =mUrlAdapter.genFindUser(username_tbc);
+                //serverURL + "/findUser/"+ username_tbc;
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
