@@ -31,8 +31,7 @@
         <activity
             android:name=".View.registerActivity"
             android:label="registerAcitivyt"
-            android:theme="@style/AppTheme.NoActionBar"
-        />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".View.productList"
             android:label="@string/title_activity_selling_list"
@@ -43,15 +42,17 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".View.SellerActivity">
         </activity>
-        <activity android:name=".View.navigationActivity"></activity>
-        <activity android:name=".View.BuyerActivity"
+        <activity android:name=".View.navigationActivity"/>
+        <activity
+            android:name=".View.BuyerActivity"
             android:theme="@style/myTheme">
         </activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key"/>
 
-        <activity android:name=".View.MapsActivity"></activity>
+        <activity android:name=".View.MapsActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -63,6 +64,8 @@
                 android:resource="@xml/file_paths"/>
         </provider>
 
+        <activity android:name=".View.imagesActivity">
+        </activity>
     </application>
 
 </manifest>

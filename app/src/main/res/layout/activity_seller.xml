@@ -8,10 +8,11 @@
         tools:context=".View.SellerActivity">
 
         <Button
-            android:id="@+id/sellButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/buyerButton"
+            android:layout_alignLeft="@+id/selling_listButton"
+            android:layout_alignRight="@+id/selling_listButton"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_marginBottom="27dp"
@@ -19,8 +20,7 @@
             android:paddingRight="10dp"
             android:text="add product"
             android:textSize="25sp"
-            android:layout_alignLeft="@+id/selling_listButton"
-            android:layout_alignRight="@+id/selling_listButton"/>
+            android:id="@+id/sellButton"/>
 
     <Button
         android:id="@+id/selling_listButton"

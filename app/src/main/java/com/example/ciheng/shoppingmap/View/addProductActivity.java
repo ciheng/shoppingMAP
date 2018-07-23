@@ -32,6 +32,8 @@ import com.example.ciheng.shoppingmap.Data.uploadPic;
 import com.example.ciheng.shoppingmap.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -59,11 +61,11 @@ public class addProductActivity extends AppCompatActivity {
     public static final int SELECT_PIC = 2;
     private int mUserId;
     private StorageReference mStorageRef;
-    //private DatabaseReference mDatabaseRef;
+    private DatabaseReference mDatabaseRef;
     private Bitmap mBitmap;
     private StorageTask mUploadTask;
     private uploadPic upload;
-    private urlAdapter mUrlAdapter=new urlAdapter();
+    private urlAdapter mUrlAdapter = new urlAdapter();
 
     @Override
 
@@ -81,7 +83,7 @@ public class addProductActivity extends AppCompatActivity {
         price = findViewById(R.id.price);
         introduction = findViewById(R.id.introduction);
         mStorageRef = FirebaseStorage.getInstance(mUrlAdapter.getFirebaseURL()).getReference("uploads");//zip it into a folder called uploads
-        //mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
     }
 
 
@@ -157,9 +159,10 @@ public class addProductActivity extends AppCompatActivity {
         if (mUploadTask != null && mUploadTask.isInProgress()) {//to prevent multiple clicks
             Toast.makeText(addProductActivity.this, "Upload in progress...", Toast.LENGTH_SHORT);
         } else {
+
             uploadPicture();
 
-            String url = mUrlAdapter.genAddProductUrl(productName,productPrice,description,mUserId);
+            String url = mUrlAdapter.genAddProductUrl(productName, productPrice, description, mUserId);
             String message = "upload url to database: " + url;
             Log.v(TAG, message);
             JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -189,42 +192,49 @@ public class addProductActivity extends AppCompatActivity {
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
-    private void uploadPicture() {if (mImageUri != null) {
-        final String pictureName ="u"+mUserId+"_"+System.currentTimeMillis();
-        final StorageReference fileReference = mStorageRef.child(pictureName + "." + getFileExtension(mImageUri));
-        //Log.v(TAG,"url test1: "+ getPicRefUrl(fileReference));
-        mUploadTask = fileReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mProgressBar.setProgress(0);
-                    }
-                }, 500);
-                Toast.makeText(addProductActivity.this, "upload succesfull", Toast.LENGTH_LONG).show();
+    private void uploadPicture() {
+        if (mImageUri != null) {
+            final String pictureName = "u" + mUserId + "_" + System.currentTimeMillis();
+            final StorageReference fileReference = mStorageRef.child(pictureName + "." + getFileExtension(mImageUri));
+            //Log.v(TAG,"url test1: "+ getPicRefUrl(fileReference));
+            mUploadTask = fileReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mProgressBar.setProgress(0);
+                        }
+                    }, 500);
+                    Toast.makeText(addProductActivity.this, "upload succesfull", Toast.LENGTH_LONG).show();
+                    fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            upload = new uploadPic(pictureName, uri.toString());
+                            Log.v(TAG, "upload pic reference url:" + upload.getImageUrl());
+                        }
+                    });
+                    //upload = new uploadPic(pictureName, fileReference.toString());
 
-                upload = new uploadPic(pictureName, fileReference.toString());
-                Log.v(TAG,"upload pic reference url:"+upload.getImageRefUrl());
-                //String uploadId = mDatabaseRef.push().getKey();
-                //mDatabaseRef.child(uploadId).setValue(upload);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(addProductActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                mProgressBar.setProgress((int) progress);
-            }
-        });
-    } else {
-        Toast.makeText(this, "no picture uploaded!", Toast.LENGTH_SHORT).show();
-    }
+                    String uploadId = mDatabaseRef.push().getKey();
+                    mDatabaseRef.child(uploadId).setValue(upload);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(addProductActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                    mProgressBar.setProgress((int) progress);
+                }
+            });
+        } else {
+            Toast.makeText(this, "no picture uploaded!", Toast.LENGTH_SHORT).show();
+        }
 
     }
 }

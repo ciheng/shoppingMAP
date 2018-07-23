@@ -2,15 +2,13 @@ package com.example.ciheng.shoppingmap.Data;
 
 public class uploadPic {
     private String mName;
-    private String mImageRefUrl;
-
-    public uploadPic(){}
-    public uploadPic(String name, String imageRefUrl){
+    private String mImageUrl;
+    public uploadPic(String name, String imageUrl){
         if(name.trim().equals("")){
             name="No name";
         }
         mName=name;
-        mImageRefUrl = imageRefUrl;
+        mImageUrl = imageUrl;
     }
 
     public String getName() {
@@ -21,11 +19,12 @@ public class uploadPic {
         mName = name;
     }
 
-    public String getImageRefUrl() {
-        return mImageRefUrl;
+    public String getImageUrl() {
+        return mImageUrl;
     }
 
-    public void setImageRefUrl(String imageRefUrl) {
-        mImageRefUrl = imageRefUrl;
+    public void setImageUrl(String imageUrl) {
+        mImageUrl = imageUrl;
     }
+
 }

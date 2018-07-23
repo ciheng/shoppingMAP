@@ -24,7 +24,7 @@ public class navigationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_navigation);
         Intent intent = getIntent();
         mUserId=intent.getIntExtra("user_id",-1);
-        mButtonSeller=(Button) findViewById(R.id.sellerButton);
+        mButtonSeller=(Button) findViewById(R.id.sellButton);
         mButtonBuyer=(Button) findViewById(R.id.buyerButton);
 
         mButtonSeller.setOnClickListener(new View.OnClickListener() {

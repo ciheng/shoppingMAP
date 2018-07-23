@@ -12,6 +12,7 @@ public class BuyerActivity extends AppCompatActivity {
     private static final String TAG = "BuyerActivity";
     public static final String ACTIVITY_MAP = "ACTIVITY_MAPS";
     private Button mButtonMap;
+    private Button mButtonList;
     private int mUserId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,10 +21,17 @@ public class BuyerActivity extends AppCompatActivity {
         Intent intent = getIntent();
         mUserId=intent.getIntExtra("user_id",-1);
         mButtonMap=(Button) findViewById(R.id.discoverButton);
+        mButtonList=(Button) findViewById(R.id.wish_listButton);
         mButtonMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startMapsActivity();
+            }
+        });
+        mButtonList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startListActivity();
             }
         });
     }
@@ -33,4 +41,12 @@ public class BuyerActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MapsActivity.class);
         intent.putExtra("user_id",mUserId);
         startActivity(intent);
-    }}
+    }
+    private void startListActivity(){
+
+        Intent intent = new Intent(this, imagesActivity.class);
+        intent.putExtra("user_id",mUserId);
+        startActivity(intent);
+    }
+
+}
