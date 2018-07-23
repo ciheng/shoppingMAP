@@ -27,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.ciheng.shoppingmap.Adapter.urlAdapter;
 import com.example.ciheng.shoppingmap.Data.uploadPic;
 import com.example.ciheng.shoppingmap.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -56,13 +57,13 @@ public class addProductActivity extends AppCompatActivity {
     //private String mFile;
     public static final int CAMERA_RESULT = 1;
     public static final int SELECT_PIC = 2;
-    private final String serverURL = "http://api.a17-sd207.studev.groept.be";
     private int mUserId;
     private StorageReference mStorageRef;
     //private DatabaseReference mDatabaseRef;
     private Bitmap mBitmap;
     private StorageTask mUploadTask;
     private uploadPic upload;
+    private urlAdapter mUrlAdapter=new urlAdapter();
 
     @Override
 
@@ -158,7 +159,7 @@ public class addProductActivity extends AppCompatActivity {
         } else {
             uploadPicture();
 
-            String url = serverURL + "/add_product/" + productName + "/" + productPrice + "/" + description + "/" + mUserId;
+            String url = mUrlAdapter.genAddProductUrl(productName,productPrice,description,mUserId);
             String message = "upload url to database: " + url;
             Log.v(TAG, message);
             JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -189,7 +190,7 @@ public class addProductActivity extends AppCompatActivity {
     }
 
     private void uploadPicture() {if (mImageUri != null) {
-        final String pictureName ="u"+mUserId+System.currentTimeMillis();
+        final String pictureName ="u"+mUserId+"_"+System.currentTimeMillis();
         final StorageReference fileReference = mStorageRef.child(pictureName + "." + getFileExtension(mImageUri));
         //Log.v(TAG,"url test1: "+ getPicRefUrl(fileReference));
         mUploadTask = fileReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -224,6 +225,6 @@ public class addProductActivity extends AppCompatActivity {
     } else {
         Toast.makeText(this, "no picture uploaded!", Toast.LENGTH_SHORT).show();
     }
-    }
 
+    }
 }
