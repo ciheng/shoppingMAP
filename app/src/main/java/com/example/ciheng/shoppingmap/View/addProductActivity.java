@@ -18,6 +18,7 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -30,11 +31,10 @@ import com.example.ciheng.shoppingmap.Data.uploadPic;
 import com.example.ciheng.shoppingmap.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
 import org.json.JSONArray;
@@ -51,15 +51,18 @@ public class addProductActivity extends AppCompatActivity {
     private EditText introduction;
     private ImageView mImageView;
     private Uri mImageUri;
-    private String mFilePath;
-    private String mFile;
+    private ProgressBar mProgressBar;
+    //private String mFilePath;
+    //private String mFile;
     public static final int CAMERA_RESULT = 1;
     public static final int SELECT_PIC = 2;
     private final String serverURL = "http://api.a17-sd207.studev.groept.be";
     private int mUserId;
     private StorageReference mStorageRef;
-    private DatabaseReference mDatabaseRef;
+    //private DatabaseReference mDatabaseRef;
     private Bitmap mBitmap;
+    private StorageTask mUploadTask;
+    private uploadPic upload;
 
     @Override
 
@@ -73,10 +76,11 @@ public class addProductActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         mImageView = (ImageView) findViewById(R.id.picture);
         item_name = findViewById(R.id.item_name);
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         price = findViewById(R.id.price);
         introduction = findViewById(R.id.introduction);
         mStorageRef = FirebaseStorage.getInstance("gs://shoppingmap-209612").getReference("uploads");//zip it into a folder called uploads
-        mDatabaseRef = FirebaseDatabase.getInstance("gs://shoppingmap-209612").getReference("uploads");
+        //mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
     }
 
 
@@ -132,7 +136,7 @@ public class addProductActivity extends AppCompatActivity {
                 //Log.v(TAG, "select picture开始跑了!!");
                 //Bitmap mBitmap = null;
                 try {
-                    mImageUri=data.getData();
+                    mImageUri = data.getData();
                     mBitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(mImageUri));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -144,33 +148,38 @@ public class addProductActivity extends AppCompatActivity {
 
 
     public void sell(View view) {
-        RequestQueue data1 = Volley.newRequestQueue(this);
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         String productName = item_name.getText().toString();
         String productPrice = price.getText().toString();
         String description = introduction.getText().toString();
-        uploadPicture();
-        String url = serverURL + "/add_product/" + productName + "/" + productPrice + "/" + description + "/" + mUserId;
-        String message = "product upload url: " + url;
-        Log.v(TAG, message);
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONArray>() {
+        if (mUploadTask != null && mUploadTask.isInProgress()) {//to prevent multiple clicks
+            Toast.makeText(addProductActivity.this, "Upload in progress...", Toast.LENGTH_SHORT);
+        } else {
+            uploadPicture();
 
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        Log.v(TAG, "product successfully uploaded");
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
-        data1.add(request);
-        Toast.makeText(addProductActivity.this, "successfully posted an item", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(addProductActivity.this, navigationActivity.class);
-        intent.putExtra("user_id",mUserId);
-        startActivity(intent);
+            String url = serverURL + "/add_product/" + productName + "/" + productPrice + "/" + description + "/" + mUserId;
+            String message = "upload url to database: " + url;
+            Log.v(TAG, message);
+            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONArray>() {
+
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            Log.v(TAG, "product successfully uploaded");
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                }
+            });
+            requestQueue.add(request);
+            Toast.makeText(addProductActivity.this, "successfully posted an item", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(addProductActivity.this, navigationActivity.class);
+            intent.putExtra("user_id", mUserId);
+            startActivity(intent);
+        }
     }
 
     private String getFileExtension(Uri uri) { //get the file extention from the image
@@ -179,56 +188,42 @@ public class addProductActivity extends AppCompatActivity {
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
-    private void uploadPicture() {
-        if (mImageUri != null) {
-            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(mImageUri));
-            fileReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-
-                        }
-                    }, 5000);
-                    Toast.makeText(addProductActivity.this,"upload succesfull",Toast.LENGTH_LONG).show();
-                    String pictureName = "u"+mUserId+"_"+System.currentTimeMillis();
-                    uploadPic upload=new uploadPic(pictureName,taskSnapshot.getStorage().getDownloadUrl().toString());
-                    String uploadId=mDatabaseRef.push().getKey();
-                    mDatabaseRef.child(uploadId).setValue(upload);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(addProductActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                    //    double progress = (100 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                }
-            });
-        } else {
-            Toast.makeText(this, "no picture uploaded!", Toast.LENGTH_SHORT).show();
-        }
-    }
-        /*ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] data = baos.toByteArray();
-
-        UploadTask uploadTask = mountainsRef.putBytes(data);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+    private void uploadPicture() {if (mImageUri != null) {
+        final String pictureName ="u"+mUserId+System.currentTimeMillis();
+        final StorageReference fileReference = mStorageRef.child(pictureName + "." + getFileExtension(mImageUri));
+        //Log.v(TAG,"url test1: "+ getPicRefUrl(fileReference));
+        mUploadTask = fileReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                // ...
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mProgressBar.setProgress(0);
+                    }
+                }, 500);
+                Toast.makeText(addProductActivity.this, "upload succesfull", Toast.LENGTH_LONG).show();
+
+                upload = new uploadPic(pictureName, fileReference.toString());
+                Log.v(TAG,"upload pic reference url:"+upload.getImageRefUrl());
+                //String uploadId = mDatabaseRef.push().getKey();
+                //mDatabaseRef.child(uploadId).setValue(upload);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(addProductActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                mProgressBar.setProgress((int) progress);
             }
         });
-    }*/
+    } else {
+        Toast.makeText(this, "no picture uploaded!", Toast.LENGTH_SHORT).show();
+    }
+    }
+
 }
