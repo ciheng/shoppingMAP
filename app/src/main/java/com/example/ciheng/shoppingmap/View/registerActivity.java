@@ -33,7 +33,7 @@ public class registerActivity extends AppCompatActivity {
     private String getPassword;
     private String getUsername;
     private String getAddress;
-    private final String serverURL = "http://api.a17-sd207.studev.groept.be";
+    //private final String serverURL = "http://api.a17-sd207.studev.groept.be";
     boolean flag = false;
     private pwdAdapter mPwdAdapter=new pwdAdapter();
     private urlAdapter mUrlAdapter=new urlAdapter();
