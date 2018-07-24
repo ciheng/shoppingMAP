@@ -3,6 +3,7 @@
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="5dp"
@@ -24,8 +25,8 @@
             android:id="@+id/photo"
             android:layout_width="121dp"
             android:layout_height="135dp"
-            android:src="@mipmap/ic_launcher"
-            android:transitionName="书籍" />
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_launcher" />
 
 
         <LinearLayout

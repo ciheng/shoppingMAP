@@ -32,7 +32,7 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
         public ViewHolder(View view) {
             super(view);
             cardview = (CardView) view;
-           Productimage = (ImageView) view.findViewById(R.id.photo);
+            Productimage = (ImageView) view.findViewById(R.id.photo);
             ProductName = (TextView) view.findViewById(R.id.item_name);
             ProductPrice= (TextView) view.findViewById(R.id.price);
             ProdectDescription= (TextView) view.findViewById(R.id.description);
@@ -49,7 +49,7 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
         if (mContext == null) {
             mContext = parent.getContext();
         }
-        View view = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.card_view, parent, false);
         return new ViewHolder(view);
     }
 

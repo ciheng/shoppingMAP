@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -37,20 +39,18 @@ import java.util.List;
 
 
 public class productList extends AppCompatActivity {
-    private DrawerLayout drawerLayout;
 
-    private static final String TAG = "productList";
     userData user = (userData) getApplication();
     private int mUserId;
 
     private productAdapter adapter;
-    private List<product> fruitList=new ArrayList<>();
+    private List<product> List=new ArrayList<>();
 
     private SwipeRefreshLayout swipeRefresh;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.card_view);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Intent intent = getIntent();
@@ -58,14 +58,16 @@ public class productList extends AppCompatActivity {
 
         setContentView(R.layout.activity_product_list);
 
+
+
         getItem();
         RecyclerView recyclerView=(RecyclerView)findViewById(R.id.recycler_view);
         GridLayoutManager layoutManager=new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(layoutManager);
-        adapter=new productAdapter(fruitList);
+        adapter=new productAdapter(List);
         recyclerView.setAdapter(adapter);
 
-        swipeRefresh=(SwipeRefreshLayout)findViewById(R.id.swipe_refresh);
+        swipeRefresh=(SwipeRefreshLayout)findViewById(R.id.swipe_refresh);                  //下拉刷新
         swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -136,7 +138,7 @@ public class productList extends AppCompatActivity {
                                     P.setDescreption(IT);
                                     P.setName(IN);
                                     P.setPrice(PZ);
-                                    fruitList.add(P);
+                                    List.add(P);
                                 }
 
                             }
