@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ import com.google.firebase.storage.UploadTask;
 
 import org.json.JSONArray;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -61,11 +63,14 @@ public class addProductActivity extends AppCompatActivity {
     public static final int SELECT_PIC = 2;
     private int mUserId;
     private StorageReference mStorageRef;
+    private StorageReference mStorageRef_thumbnails;
     private DatabaseReference mDatabaseRef;
     private Bitmap mBitmap;
+    private Bitmap mBitmapThunmbnail;
     private StorageTask mUploadTask;
-    private uploadPic upload;
+    private uploadPic mUploadPic;
     private urlAdapter mUrlAdapter = new urlAdapter();
+    //private ThumbnailUtils mThumbnailUtils = new ThumbnailUtils();
 
     @Override
 
@@ -83,6 +88,7 @@ public class addProductActivity extends AppCompatActivity {
         price = findViewById(R.id.price);
         introduction = findViewById(R.id.introduction);
         mStorageRef = FirebaseStorage.getInstance(mUrlAdapter.getFirebaseURL()).getReference("uploads");//zip it into a folder called uploads
+        mStorageRef_thumbnails = FirebaseStorage.getInstance(mUrlAdapter.getFirebaseURL()).getReference("thumbnails");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
     }
 
@@ -129,7 +135,6 @@ public class addProductActivity extends AppCompatActivity {
                 try {
                     //Bitmap photo
                     mBitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(mImageUri));
-                    mImageView.setImageBitmap(mBitmap);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -144,45 +149,21 @@ public class addProductActivity extends AppCompatActivity {
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-                mImageView.setImageBitmap(mBitmap);
                 break;
         }
+        mImageView.setImageBitmap(mBitmap);
     }
 
 
     public void sell(View view) {
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-        String productName = item_name.getText().toString();
-        String productPrice = price.getText().toString();
-        String description = introduction.getText().toString();
+
+        //String description = introduction.getText().toString();
         if (mUploadTask != null && mUploadTask.isInProgress()) {//to prevent multiple clicks
             Toast.makeText(addProductActivity.this, "Upload in progress...", Toast.LENGTH_SHORT);
         } else {
-
             uploadPicture();
-
-            String url = mUrlAdapter.genAddProductUrl(productName, productPrice, description, mUserId);
-            String message = "upload url to database: " + url;
-            Log.v(TAG, message);
-            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
-                    new Response.Listener<JSONArray>() {
-
-                        @Override
-                        public void onResponse(JSONArray response) {
-                            Log.v(TAG, "product successfully uploaded");
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    error.printStackTrace();
-                }
-            });
-            requestQueue.add(request);
-            Toast.makeText(addProductActivity.this, "successfully posted an item", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(addProductActivity.this, navigationActivity.class);
-            intent.putExtra("user_id", mUserId);
-            startActivity(intent);
+            //String url = mUrlAdapter.genAddProductUrl(productName, productPrice, description, mUserId);
         }
     }
 
@@ -193,8 +174,15 @@ public class addProductActivity extends AppCompatActivity {
     }
 
     private void uploadPicture() {
+
+        final RequestQueue requestQueue = Volley.newRequestQueue(this);
+
         if (mImageUri != null) {
             final String pictureName = "u" + mUserId + "_" + System.currentTimeMillis();
+
+            mUploadPic = new uploadPic(pictureName);
+
+            uploadToDatabase();
             final StorageReference fileReference = mStorageRef.child(pictureName + "." + getFileExtension(mImageUri));
             //Log.v(TAG,"url test1: "+ getPicRefUrl(fileReference));
             mUploadTask = fileReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -207,18 +195,38 @@ public class addProductActivity extends AppCompatActivity {
                             mProgressBar.setProgress(0);
                         }
                     }, 500);
-                    Toast.makeText(addProductActivity.this, "upload succesfull", Toast.LENGTH_LONG).show();
+                    Toast.makeText(addProductActivity.this, "mUploadPic succesfull", Toast.LENGTH_LONG).show();
                     fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            upload = new uploadPic(pictureName, uri.toString());
-                            Log.v(TAG, "upload pic reference url:" + upload.getImageUrl());
+                           // mUploadPic = new uploadPic(pictureName, uri.toString());
+                            mUploadPic.setImageUrl(uri.toString());
+                            Log.v(TAG, "mUploadPic pic reference url:" + mUploadPic.getImageUrl());
+                            String url = mUrlAdapter.genAddPicture(mUploadPic.getImageUrl(), mUploadPic.getName());
+                            String message = "upload picture url to database: " + url;
+                            Log.v(TAG, message);
+                            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                                    new Response.Listener<JSONArray>() {
+
+                                        @Override
+                                        public void onResponse(JSONArray response) {
+                                            Log.v(TAG, "product picture successfully uploaded to database");
+                                        }
+                                    }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    error.printStackTrace();
+                                }
+                            });
+
+                            requestQueue.add(request);
+                            uploadThumbnail(pictureName);
                         }
                     });
-                    //upload = new uploadPic(pictureName, fileReference.toString());
+                    //mUploadPic = new uploadPic(pictureName, fileReference.toString());
 
-                    String uploadId = mDatabaseRef.push().getKey();
-                    mDatabaseRef.child(uploadId).setValue(upload);
+                    //String uploadId = mDatabaseRef.push().getKey();
+                    //mDatabaseRef.child(uploadId).setValue(mUploadPic);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -235,6 +243,81 @@ public class addProductActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "no picture uploaded!", Toast.LENGTH_SHORT).show();
         }
+    }
 
+    private void uploadThumbnail(String pictureName) {
+        final RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        mBitmapThunmbnail = ThumbnailUtils.extractThumbnail(mBitmap, 100, 100);
+        Uri thumbnail = getCompressedImageUri(mBitmapThunmbnail);
+        final StorageReference thumbnailReference = mStorageRef_thumbnails.child(pictureName + "." + getFileExtension(thumbnail));
+        StorageTask task = thumbnailReference.putFile(thumbnail).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                thumbnailReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        mUploadPic.setThumbnailUrl(uri.toString());
+                        String url = mUrlAdapter.genAddThumbnail(mUploadPic.getThumbnailUrl(), mUploadPic.getName());
+                        String message = "upload picture thumbnail url to database: " + url;
+                        Log.v(TAG, message);
+                        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                                new Response.Listener<JSONArray>() {
+
+                                    @Override
+                                    public void onResponse(JSONArray response) {
+                                        Log.v(TAG, "product picture successfully uploaded to database");
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                error.printStackTrace();
+                            }
+                        });
+
+                        requestQueue.add(request);
+                    }
+                });
+            }
+        });
+        //mBitmapThunmbnail= ThumbnailUtils.extractThumbnail(mBitmap,64,64);
+        //mBitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(mImageUri));
+    }
+
+    public Uri getCompressedImageUri(Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String title="thumbnail_"+mUploadPic.getName();
+        String path = MediaStore.Images.Media.insertImage(this.getContentResolver(), inImage, title, null);
+        return Uri.parse(path);
+    }
+    private void uploadToDatabase(){
+        String productName = item_name.getText().toString();
+        String productPrice = price.getText().toString();
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        String url = mUrlAdapter.genAddProductUrl(productName, productPrice, mUploadPic.getName(), mUserId);
+        String message = "mUploadPic url to database: " + url;
+        Log.v(TAG, message);
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.v(TAG, "product successfully uploaded");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        requestQueue.add(request);
+        Toast.makeText(addProductActivity.this, "successfully posted an item", Toast.LENGTH_SHORT).show();
+
+    }
+    private void goBack(){
+        Intent intent = new Intent(addProductActivity.this, navigationActivity.class);
+        intent.putExtra("user_id", mUserId);
+        startActivity(intent);
     }
 }

@@ -47,6 +47,7 @@
         android:textSize="25sp"
         android:layout_alignLeft="@+id/selling_listButton"
         android:layout_alignRight="@+id/selling_listButton"
-        />
+        android:layout_alignStart="@+id/selling_listButton"
+        android:layout_alignEnd="@+id/selling_listButton"/>
 
     </RelativeLayout>
