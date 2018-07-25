@@ -4,7 +4,12 @@ import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,6 +25,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.ciheng.shoppingmap.Adapter.productAdapter;
+import com.example.ciheng.shoppingmap.Data.product;
 import com.example.ciheng.shoppingmap.Data.userData;
 import com.example.ciheng.shoppingmap.R;
 
@@ -27,27 +35,50 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class productList extends AppCompatActivity {
-    private static final String TAG = "productList";
-    userData user= (userData)getApplication();
 
-    private ListView mListView;
-     ArrayList item_name= new ArrayList();
-     ArrayList photo=new ArrayList();
-     ArrayList item_intro=new ArrayList();
-     ArrayList item_price=new ArrayList();
+    userData user = (userData) getApplication();
+    private int mUserId;
+
+    private productAdapter adapter;
+    private List<product> List=new ArrayList<>();
+
+    private SwipeRefreshLayout swipeRefresh;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_selling_list);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Intent intent = getIntent();
+        mUserId = intent.getIntExtra("user_id", -1);
 
-        mListView = (ListView) findViewById(R.id.item_list);
+        setContentView(R.layout.activity_product_list);
 
-        mListView.setAdapter(new MyBaseAdapter());
+
+
+        getItem();
+        RecyclerView recyclerView=(RecyclerView)findViewById(R.id.recycler_view);
+        GridLayoutManager layoutManager=new GridLayoutManager(this,2);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter=new productAdapter(List);
+        recyclerView.setAdapter(adapter);
+
+        swipeRefresh=(SwipeRefreshLayout)findViewById(R.id.swipe_refresh);                  //下拉刷新
+        swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshProducts();
+            }
+        });
+
+
+
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -59,133 +90,72 @@ public class productList extends AppCompatActivity {
         });
     }
 
-    RequestQueue data = Volley.newRequestQueue(this);
-
-    String url="http://api.a17-sd207.studev.groept.be/selling_item";
-    JsonArrayRequest request=new JsonArrayRequest(Request.Method.GET, url, null,
-            new Response.Listener<JSONArray>() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    try {
-
-                        for (int i=0;i< response.length();i++)
-                        {
-                            JSONObject Event =response.getJSONObject(i);
-                            String UN=Event.getString("mUserName");
-                            if(UN.equals(user.getUserName()))
-                            {
-                                int PT=Event.getInt("item_photo");
-                                String IN=Event.getString("item_name");
-                                String IT=Event.getString("introduction");
-                                String PZ=Event.getString("price");
-                                item_name.add(IN);
-                                item_intro.add(IT);
-                                item_price.add(PZ);
-                                photo.add(PT);
-                            }
-
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+    private void refreshProducts() {                         //下拉刷新
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    Thread.sleep(2000);
+                }catch (InterruptedException e){
+                    e.printStackTrace();
                 }
-            }, new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError error) {
-            error.printStackTrace();
-        }
-    });
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        getItem();
+                        adapter.notifyDataSetChanged();
+                        swipeRefresh.setRefreshing(false);
+                    }
+                });
 
-
-
-
-
-    private class MyBaseAdapter implements ListAdapter {
-        @Override
-        public void registerDataSetObserver(DataSetObserver dataSetObserver) {
-
-        }
-
-        @Override
-        public void unregisterDataSetObserver(DataSetObserver dataSetObserver) {
-
-        }
-
-        @Override
-
-        public int getCount() {
-            return item_name.size();
-
-        }
-
-
-
-        @Override
-
-        public Object getItem(int position) {
-            return item_name.get(position);
-
-        }
-
-
-
-        @Override
-
-        public long getItemId(int position) {
-            return position;
-
-        }
-
-        @Override
-        public boolean hasStableIds() {
-            return false;
-        }
-
-
-        @Override
-
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            View view=View.inflate(productList.this,R.layout.content_lv_list,null);
-
-            TextView mTextView1=(TextView) view.findViewById(R.id.item_list);
-            ImageView imageView=(ImageView)view.findViewById(R.id.item_photo);
-            TextView mTextView2=(TextView) view.findViewById(R.id.item_intro);
-            TextView mTextView3=(TextView) view.findViewById(R.id.item_price);
-
-
-            mTextView1.setText((CharSequence) item_name.get(position));
-            imageView.setBackgroundResource((Integer) photo.get(position));
-            mTextView2.setText((CharSequence) item_intro.get(position));
-            mTextView3.setText((CharSequence) item_price.get(position));
-
-            return view;
-
-        }
-
-        @Override
-        public int getItemViewType(int i) {
-            return 0;
-        }
-
-        @Override
-        public int getViewTypeCount() {
-            return 0;
-        }
-
-        @Override
-        public boolean isEmpty() {
-            return false;
-        }
-
-        @Override
-        public boolean areAllItemsEnabled() {
-            return false;
-        }
-
-        @Override
-        public boolean isEnabled(int i) {
-            return false;
-        }
+            }
+        }).start();
     }
+
+
+
+    private void getItem()
+
+    {
+        RequestQueue data = Volley.newRequestQueue(this);
+
+        String url = "http://api.a17-sd207.studev.groept.be/selling_list" + mUserId;
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject Event = response.getJSONObject(i);
+                                String UN = Event.getString("mUserName");
+                                if (UN.equals(user.getUserName())) {
+                                    int PT = Event.getInt("item_photo");
+                                    String IN = Event.getString("item_name");
+                                    String IT = Event.getString("introduction");
+                                    String PZ = Event.getString("price");
+                                    product P=null;
+                                    P.setDescreption(IT);
+                                    P.setName(IN);
+                                    P.setPrice(PZ);
+                                    List.add(P);
+                                }
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+
+        });
+        data.add(request);
+
+    }
+
+
 }
