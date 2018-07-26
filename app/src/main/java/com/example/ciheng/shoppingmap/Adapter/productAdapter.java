@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.ciheng.shoppingmap.Data.product;
 import com.example.ciheng.shoppingmap.R;
 
@@ -27,7 +28,7 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
         ImageView Productimage;
         TextView ProductName;
         TextView ProductPrice;
-        TextView ProdectDescription;
+        TextView ProductDescription;
 
         public ViewHolder(View view) {
             super(view);
@@ -35,7 +36,7 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
             Productimage = (ImageView) view.findViewById(R.id.photo);
             ProductName = (TextView) view.findViewById(R.id.item_name);
             ProductPrice= (TextView) view.findViewById(R.id.price);
-            ProdectDescription= (TextView) view.findViewById(R.id.description);
+            ProductDescription= (TextView) view.findViewById(R.id.description);
 
         }
     }
@@ -57,7 +58,9 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
     public void onBindViewHolder(productAdapter.ViewHolder holder, int position) {
         product Product = mProductList.get(position);
         holder.ProductName.setText(Product.getName());
-       //Glide.with(mContext).load(Product.getImageId()).into(holder.Productimage);            //Glide是加载图片的方式
+        holder.ProductPrice.setText(Product.getPrice());
+        holder.ProductDescription.setText(Product.getDescreption());
+       Glide.with(mContext).load(Product.getImageId()).into(holder.Productimage);            //Glide是加载图片的方式
     }
 
     @Override
