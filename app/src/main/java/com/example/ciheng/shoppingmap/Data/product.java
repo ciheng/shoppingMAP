@@ -9,12 +9,14 @@ public class product {
     private int owner;
     private String price;
     private String descreption;
+    private int imageId;
 
     public product(String name, int owner,String price,String descreption) {
         this.name = name;
         this.owner = owner;
         this.price=price;
         this.descreption=descreption;
+        this.imageId=imageId;
     }
 
     public String getName() {
@@ -48,4 +50,15 @@ public class product {
     public void setDescreption(String descreption) {
         this.descreption = descreption;
     }
+
+    public void setImageId(int imageId)
+    {
+        this.imageId=imageId;
+    }
+
+    public int getImageId()
+    {
+        return imageId;
+    }
+
 }

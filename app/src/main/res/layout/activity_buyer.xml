@@ -7,20 +7,18 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context=".View.BuyerActivity">
 
-<Button
-    android:id="@+id/discoverButton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_above="@+id/buyerButton"
-    android:layout_centerHorizontal="true"
-    android:layout_centerVertical="true"
-    android:layout_marginBottom="27dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:text="discover on map"
+    <Button
+        android:id="@+id/discoverButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
-    android:textSize="25sp"
-    />
+        android:layout_above="@+id/wish_listButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="discover on map"
+        android:textSize="25sp" />
 
     <Button
         android:id="@+id/wish_listButton"

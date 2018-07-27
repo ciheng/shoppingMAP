@@ -40,6 +40,7 @@ import java.util.List;
 
 public class productList extends AppCompatActivity {
 
+    private DrawerLayout mDrawerlayout;
     userData user = (userData) getApplication();
     private int mUserId;
 
@@ -61,6 +62,7 @@ public class productList extends AppCompatActivity {
 
 
         getItem();
+
         RecyclerView recyclerView=(RecyclerView)findViewById(R.id.recycler_view);
         GridLayoutManager layoutManager=new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(layoutManager);
@@ -128,18 +130,19 @@ public class productList extends AppCompatActivity {
 
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject Event = response.getJSONObject(i);
-                                String UN = Event.getString("mUserName");
-                                if (UN.equals(user.getUserName())) {
-                                    int PT = Event.getInt("item_photo");
-                                    String IN = Event.getString("item_name");
-                                    String IT = Event.getString("introduction");
+
+
+                                    String IN = Event.getString("name");
+                                    String IT = Event.getString("description");
                                     String PZ = Event.getString("price");
+                                    int IM=Event.getInt("downloadUrl");
                                     product P=null;
                                     P.setDescreption(IT);
                                     P.setName(IN);
                                     P.setPrice(PZ);
+                                    P.setImageId(IM);
                                     List.add(P);
-                                }
+
 
                             }
                         } catch (JSONException e) {
