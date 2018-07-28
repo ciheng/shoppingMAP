@@ -18,4 +18,5 @@
     <string name="title_activity_thing_on_sale">thing_on_sale</string>
     <string name="title_activity_selling_list">sellingList</string>
     <string name="title_activity_sellan_item">SellanItem</string>
+    <string name="title_activity_product_detail">ProductDetail</string>
 </resources>

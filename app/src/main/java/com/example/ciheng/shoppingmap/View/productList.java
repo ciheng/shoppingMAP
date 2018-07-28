@@ -45,7 +45,7 @@ public class productList extends AppCompatActivity {
     private int mUserId;
 
     private productAdapter adapter;
-    private List<product> List=new ArrayList<>();
+    private List<product> mProductList=new ArrayList<>();
 
     private SwipeRefreshLayout swipeRefresh;
 
@@ -66,7 +66,7 @@ public class productList extends AppCompatActivity {
         RecyclerView recyclerView=(RecyclerView)findViewById(R.id.recycler_view);
         GridLayoutManager layoutManager=new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(layoutManager);
-        adapter=new productAdapter(List);
+        adapter=new productAdapter(mProductList);
         recyclerView.setAdapter(adapter);
 
         swipeRefresh=(SwipeRefreshLayout)findViewById(R.id.swipe_refresh);                  //下拉刷新
@@ -141,7 +141,7 @@ public class productList extends AppCompatActivity {
                                     P.setName(IN);
                                     P.setPrice(PZ);
                                     P.setImageId(IM);
-                                    List.add(P);
+                                    mProductList.add(P);
 
 
                             }

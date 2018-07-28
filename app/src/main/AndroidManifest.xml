@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.ciheng.shoppingmap">
+    package="com.example.ciheng.shoppingmap">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.READ_PROFILE"/>
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".Data.userData"
@@ -23,36 +23,34 @@
             android:name=".View.LoginActivity"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".View.registerActivity"
             android:label="registerAcitivyt"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".View.productList"
             android:label="@string/title_activity_selling_list"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".View.addProductActivity"
             android:label="@string/title_activity_sellan_item"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".View.SellerActivity">
-        </activity>
-        <activity android:name=".View.navigationActivity"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".View.SellerActivity"></activity>
+        <activity android:name=".View.navigationActivity" />
         <activity
             android:name=".View.BuyerActivity"
-            android:theme="@style/myTheme">
-        </activity>
+            android:theme="@style/myTheme"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key"/>
+            android:value="@string/google_maps_key" />
 
-        <activity android:name=".View.MapsActivity"/>
+        <activity android:name=".View.MapsActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -61,11 +59,14 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
+                android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".View.imagesActivity">
-        </activity>
+        <activity android:name=".View.imagesActivity"></activity>
+        <activity
+            android:name=".View.ProductDetail"
+            android:label="@string/title_activity_product_detail"
+            android:theme="@style/myTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

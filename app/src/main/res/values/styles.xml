@@ -25,11 +25,20 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="myTheme" parent="AppTheme" >
+    <style name="myTheme" parent="AppTheme">
         <item name="android:colorForeground">@color/foreground_material_light</item>
         <item name="android:textColorPrimary">@color/colorTitle</item>
         <item name="android:colorBackground">@color/background_material_light</item>
         <item name="android:windowBackground">?attr/colorBackgroundFloating</item>
     </style>
+
+    <style name="myTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="myTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="myTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

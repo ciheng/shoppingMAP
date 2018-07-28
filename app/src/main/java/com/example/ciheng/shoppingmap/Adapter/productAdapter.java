@@ -68,4 +68,6 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
         return mProductList.size();
     }
 
+
+
 }
