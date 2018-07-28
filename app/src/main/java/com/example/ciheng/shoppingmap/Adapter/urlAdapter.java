@@ -1,8 +1,8 @@
 package com.example.ciheng.shoppingmap.Adapter;
 
 public class urlAdapter {
-    private final String firebaseURL = "gs://shoppingmap-209612";
-    private final String serverURL = "http://api.a17-sd207.studev.groept.be";
+    //private final String firebaseURL = "gs://shoppingmap-209612";
+    private static final String serverURL = "http://api.a17-sd207.studev.groept.be";
     private static final String upload_picture="http://a17-sd207.studev.groept.be/peng/uploadurl.php?&url=";
     private static final String upload_thumbnail="http://a17-sd207.studev.groept.be/peng/thumbnail.php?&url=";
     public urlAdapter() {
@@ -29,10 +29,6 @@ public class urlAdapter {
     public String genAddThumbnail(String url_tba, String name){
         String url=upload_thumbnail+url_tba+"&name="+name;
         return url;
-    }
-
-    public String getFirebaseURL() {
-        return firebaseURL;
     }
 
     public String getServerURL() {
