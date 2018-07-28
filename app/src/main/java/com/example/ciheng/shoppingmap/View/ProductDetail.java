@@ -18,7 +18,7 @@ public class ProductDetail extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.like);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.mail);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
