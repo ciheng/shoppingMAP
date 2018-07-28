@@ -54,7 +54,7 @@
                 android:layout_width="59dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/people_48px_26362_easyicon" />
+                app:srcCompat="@drawable/people" />
 
             <TextView
                 android:id="@+id/sellerName"
@@ -74,7 +74,7 @@
                 android:id="@+id/imageView3"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:srcCompat="@drawable/Location" />
+                app:srcCompat="@drawable/location" />
 
             <EditText
                 android:id="@+id/editText4"
