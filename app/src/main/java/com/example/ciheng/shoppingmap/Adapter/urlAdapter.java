@@ -1,15 +1,15 @@
 package com.example.ciheng.shoppingmap.Adapter;
 
 public class urlAdapter {
-    //private final String firebaseURL = "gs://shoppingmap-209612";
+    private final String firebaseURL = "gs://shoppingmap-209612";
     private static final String serverURL = "http://api.a17-sd207.studev.groept.be";
     private static final String upload_picture="http://a17-sd207.studev.groept.be/peng/uploadurl.php?&url=";
     private static final String upload_thumbnail="http://a17-sd207.studev.groept.be/peng/thumbnail.php?&url=";
     public urlAdapter() {
     }
 
-    public String genAddProductUrl(String productName, String productPrice, String description, int pOwner) {
-        String url = serverURL + "/add_product/" + productName + "/" + productPrice + "/" + description + "/" + pOwner;
+    public String genAddProductUrl(String productName, String productPrice, String description, int pOwner,String pictureName) {
+        String url = serverURL + "/add_product/" + productName + "/" + productPrice + "/" + description + "/" + pOwner+"/"+pictureName;
         return url;
     }
 
@@ -33,5 +33,9 @@ public class urlAdapter {
 
     public String getServerURL() {
         return serverURL;
+    }
+
+    public String getFirebaseURL() {
+        return firebaseURL;
     }
 }

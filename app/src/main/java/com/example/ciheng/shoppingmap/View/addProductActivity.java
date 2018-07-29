@@ -158,7 +158,6 @@ public class addProductActivity extends AppCompatActivity {
     public void sell(View view) {
 
 
-        //String description = introduction.getText().toString();
         if (mUploadTask != null && mUploadTask.isInProgress()) {//to prevent multiple clicks
             Toast.makeText(addProductActivity.this, "Upload in progress...", Toast.LENGTH_SHORT);
         } else {
@@ -294,8 +293,9 @@ public class addProductActivity extends AppCompatActivity {
     private void uploadToDatabase(){
         String productName = item_name.getText().toString();
         String productPrice = price.getText().toString();
+        String description = introduction.getText().toString();
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = mUrlAdapter.genAddProductUrl(productName, productPrice, mUploadPic.getName(), mUserId);
+        String url = mUrlAdapter.genAddProductUrl(productName, productPrice, description, mUserId,mUploadPic.getName());
         String message = "mUploadPic url to database: " + url;
         Log.v(TAG, message);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
