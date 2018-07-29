@@ -11,6 +11,7 @@ public class product {
     private String description;
     private int productId;
     private String downloadUrl;
+    private String thumbnailUrl;
 
     public product(String name, int owner,String price,String description,int productId) {
         this.name = name;
@@ -68,5 +69,12 @@ public class product {
 
     public void setDownloadUrl(String downloadUrl) {
         this.downloadUrl = downloadUrl.replaceAll("\\/","/");
+    }
+    public void setThumbnailUrl(String thumbnailUrl){
+        this.thumbnailUrl=downloadUrl.replaceAll("\\/","/");
+    }
+
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
     }
 }

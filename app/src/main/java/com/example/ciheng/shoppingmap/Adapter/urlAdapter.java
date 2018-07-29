@@ -5,6 +5,7 @@ public class urlAdapter {
     private static final String serverURL = "http://api.a17-sd207.studev.groept.be";
     private static final String upload_picture="http://a17-sd207.studev.groept.be/peng/uploadurl.php?&url=";
     private static final String upload_thumbnail="http://a17-sd207.studev.groept.be/peng/thumbnail.php?&url=";
+    private static final String image_test="http://api.a17-sd207.studev.groept.be/image_test";
     public urlAdapter() {
     }
 
@@ -37,5 +38,9 @@ public class urlAdapter {
 
     public String getFirebaseURL() {
         return firebaseURL;
+    }
+
+    public String getImage_test() {
+        return image_test;
     }
 }

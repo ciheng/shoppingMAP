@@ -60,7 +60,7 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
         holder.ProductName.setText(Product.getName());
         holder.ProductPrice.setText(Product.getPrice());
         holder.ProductDescription.setText(Product.getDescription());
-        Glide.with(mContext).load(Product.getProductId()).into(holder.Productimage);            //Glide是加载图片的方式
+        Glide.with(mContext).load(Product.getThumbnailUrl()).into(holder.Productimage);            //Glide是加载图片的方式
     }
 
     @Override

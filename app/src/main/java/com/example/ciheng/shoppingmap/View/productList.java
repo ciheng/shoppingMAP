@@ -121,9 +121,11 @@ public class productList extends AppCompatActivity {
                                 String description = Event.getString("description");
                                 String price = Event.getString("price");
                                 String download = Event.getString("download");
+                                String thumbnail= Event.getString("thumbnail");
                                 int id_product = Event.getInt("id_product");
                                 product P = new product(name,mUserId,price,description,id_product);
                                 P.setDownloadUrl(download);
+                                P.setThumbnailUrl(thumbnail);
                                 mProductList.add(P);
 
 
