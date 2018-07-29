@@ -1,27 +1,26 @@
 package com.example.ciheng.shoppingmap.Adapter;
 
-import android.widget.BaseAdapter;
-
-import java.util.List;
 import android.app.Activity;
-import android.view.View;
-import android.widget.TextView;
 import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.view.LayoutInflater;
+import android.widget.TextView;
 
 import com.example.ciheng.shoppingmap.Data.message;
 import com.example.ciheng.shoppingmap.R;
+
+import java.util.List;
 
 /**
  * Created by 39112 on 2018/7/28.
  */
 
 public class listAdapter extends BaseAdapter {
-    Context context;
+    private Context context;
 
-    List<message> TempSubjectList;
+    private List<message> TempSubjectList;
 
     public listAdapter(List<message> listValue, Context context)
     {

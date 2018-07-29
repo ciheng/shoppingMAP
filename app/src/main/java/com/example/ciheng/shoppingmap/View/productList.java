@@ -33,11 +33,11 @@ import java.util.List;
 public class productList extends AppCompatActivity {
 
     private DrawerLayout mDrawerlayout;
-    userData user = (userData) getApplication();
+    private userData user = (userData) getApplication();
     private int mUserId;
 
     private productAdapter adapter;
-    private List<product> mProductList=new ArrayList<>();
+    private List<product> mProductList = new ArrayList<>();
 
     private SwipeRefreshLayout swipeRefresh;
 
@@ -50,18 +50,15 @@ public class productList extends AppCompatActivity {
         mUserId = intent.getIntExtra("user_id", -1);
 
         setContentView(R.layout.activity_product_list);
-
-
-
         getItem();
 
-        RecyclerView recyclerView=(RecyclerView)findViewById(R.id.recycler_view);
-        GridLayoutManager layoutManager=new GridLayoutManager(this,2);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(layoutManager);
-        adapter=new productAdapter(mProductList);
+        adapter = new productAdapter(mProductList);
         recyclerView.setAdapter(adapter);
 
-        swipeRefresh=(SwipeRefreshLayout)findViewById(R.id.swipe_refresh);                  //下拉刷新
+        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);                  //下拉刷新
         swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -69,9 +66,6 @@ public class productList extends AppCompatActivity {
                 refreshProducts();
             }
         });
-
-
-
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -88,9 +82,9 @@ public class productList extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try{
+                try {
                     Thread.sleep(2000);
-                }catch (InterruptedException e){
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 runOnUiThread(new Runnable() {
@@ -105,7 +99,6 @@ public class productList extends AppCompatActivity {
             }
         }).start();
     }
-
 
 
     private void getItem()
@@ -124,16 +117,14 @@ public class productList extends AppCompatActivity {
                                 JSONObject Event = response.getJSONObject(i);
 
 
-                                    String IN = Event.getString("name");
-                                    String IT = Event.getString("description");
-                                    String PZ = Event.getString("price");
-                                    int IM=Event.getInt("downloadUrl");
-                                    product P=null;
-                                    P.setDescreption(IT);
-                                    P.setName(IN);
-                                    P.setPrice(PZ);
-                                    P.setImageId(IM);
-                                    mProductList.add(P);
+                                String name = Event.getString("name");
+                                String description = Event.getString("description");
+                                String price = Event.getString("price");
+                                String download = Event.getString("download");
+                                int id_product = Event.getInt("id_product");
+                                product P = new product(name,mUserId,price,description,id_product);
+                                P.setDownloadUrl(download);
+                                mProductList.add(P);
 
 
                             }

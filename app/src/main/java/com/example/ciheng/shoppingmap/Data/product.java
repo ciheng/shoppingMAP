@@ -8,15 +8,16 @@ public class product {
     private String name;
     private int owner;
     private String price;
-    private String descreption;
-    private int imageId;
+    private String description;
+    private int productId;
+    private String downloadUrl;
 
-    public product(String name, int owner,String price,String descreption) {
+    public product(String name, int owner,String price,String description,int productId) {
         this.name = name;
         this.owner = owner;
         this.price=price;
-        this.descreption=descreption;
-        this.imageId=imageId;
+        this.description =description;
+        this.productId = productId;
     }
 
     public String getName() {
@@ -43,22 +44,29 @@ public class product {
         this.price = price;
     }
 
-    public String getDescreption() {
-        return descreption;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescreption(String descreption) {
-        this.descreption = descreption;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setImageId(int imageId)
+    public void setProductId(int productId)
     {
-        this.imageId=imageId;
+        this.productId = productId;
     }
 
-    public int getImageId()
+    public int getProductId()
     {
-        return imageId;
+        return productId;
     }
 
+    public String getDownloadUrl() {
+        return downloadUrl;
+    }
+
+    public void setDownloadUrl(String downloadUrl) {
+        this.downloadUrl = downloadUrl.replaceAll("\\/","/");
+    }
 }
