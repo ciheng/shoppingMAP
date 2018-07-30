@@ -1,5 +1,9 @@
 package com.example.ciheng.shoppingmap.View;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,6 +14,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -34,7 +39,11 @@ public class productList extends AppCompatActivity {
 
     private DrawerLayout mDrawerlayout;
     private userData user = (userData) getApplication();
+    private product Product;
     private int mUserId;
+    private int product_id;
+    private String name;
+    private boolean flag=false;
 
     private productAdapter adapter;
     private List<product> mProductList = new ArrayList<>();
@@ -53,7 +62,7 @@ public class productList extends AppCompatActivity {
         getItem();
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new productAdapter(mProductList);
         recyclerView.setAdapter(adapter);
@@ -68,6 +77,43 @@ public class productList extends AppCompatActivity {
         });
 
 
+        adapter.setOnItemClickLitener(new productAdapter.OnItemClickListerner() {
+            @Override
+            public void onItemClick(View view, int position) {                        //总觉得还是不要跳转到详情页比较好...和地图点击公用物品详情页不大好又不想再做一个...
+                /*
+                Intent intent = new Intent(productList.this, ProductDetail.class);
+                intent.putExtra("prouct_id",mProductList.get(position).getProductId());
+                startActivity(intent);*/
+            }
+
+            @Override
+            public void onItemLongClick(View view, final int position) {//长按删除
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(productList.this);
+                builder.setMessage("Do you want to delete this item？");
+                builder.setTitle("Alert");
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        adapter.removeData(position);
+                        deleteItem();
+                    }
+
+                });
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
+
+
+            }
+        });
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +123,9 @@ public class productList extends AppCompatActivity {
             }
         });
     }
+
+
+
 
     private void refreshProducts() {                         //下拉刷新
         new Thread(new Runnable() {
@@ -101,6 +150,8 @@ public class productList extends AppCompatActivity {
     }
 
 
+
+
     private void getItem()
 
     {
@@ -115,23 +166,52 @@ public class productList extends AppCompatActivity {
 
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject Event = response.getJSONObject(i);
+                                product_id=Event.getInt("id_product");
 
-
-                                String name = Event.getString("name");
+                                name = Event.getString("name");
+                                name=name.replaceAll("%20"," ");
                                 String description = Event.getString("description");
+                                description=description.replaceAll("%20"," ");
                                 String price = Event.getString("price");
                                 String download = Event.getString("download");
                                 String thumbnail= Event.getString("thumbnail");
-                                int id_product = Event.getInt("id_product");
-                                product P = new product(name,mUserId,price,description,id_product);
-                                P.setDownloadUrl(download);
-                                P.setThumbnailUrl(thumbnail);
-                                mProductList.add(P);
+
+                                Product = new product(name,mUserId,price,description,product_id);
+                                Product.setDownloadUrl(download);
+                                Product.setThumbnailUrl(thumbnail);
+                                mProductList.add(Product);
 
 
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+
+        });
+        data.add(request);
+
+    }
+
+    private void deleteItem()
+
+    {
+        RequestQueue data = Volley.newRequestQueue(this);
+
+        String url = "http://api.a17-sd207.studev.groept.be/deleteProduct/" + name;
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        for (int i = 0; i < response.length(); i++) {
+
+
                         }
                     }
                 }, new Response.ErrorListener() {
