@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dp"
-    tools:context="com.example.ciheng.shoppingmap.View.MessageList_byProduct">
+    tools:context="com.example.ciheng.shoppingmap.View.MessageList_Buyer">
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_ly"
         android:layout_width="match_parent"

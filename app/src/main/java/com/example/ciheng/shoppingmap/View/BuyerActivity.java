@@ -22,29 +22,24 @@ public class BuyerActivity extends AppCompatActivity {
         mUserId=intent.getIntExtra("user_id",-1);
         mButtonMap=(Button) findViewById(R.id.discoverButton);
         mButtonList=(Button) findViewById(R.id.wish_listButton);
-        mButtonMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startMapsActivity();
-            }
-        });
-        mButtonList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startListActivity();
-            }
-        });
+
     }
 
 
-    private void startMapsActivity() {
+    public void startMapsActivity(View view) {
         Intent intent = new Intent(this, MapsActivity.class);
         intent.putExtra("user_id",mUserId);
         startActivity(intent);
     }
-    private void startListActivity(){
+    public void startListActivity(View view){
 
         Intent intent = new Intent(this, imagesActivity.class);
+        intent.putExtra("user_id",mUserId);
+        startActivity(intent);
+    }
+
+    public void startMessageActivity(View view){
+        Intent intent = new Intent(this, MessageList_Buyer.class);
         intent.putExtra("user_id",mUserId);
         startActivity(intent);
     }

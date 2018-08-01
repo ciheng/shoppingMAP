@@ -15,6 +15,7 @@ tools:context=".View.BuyerActivity">
         android:layout_above="@+id/wish_listButton"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="60dp"
+        android:onClick="startMapsActivity"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="discover on map"
@@ -24,29 +25,28 @@ tools:context=".View.BuyerActivity">
         android:id="@+id/wish_listButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/seller_messageButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="23dp"
+        android:onClick="startListActivity"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="my wish list"
+        android:textSize="25sp" />
+
+    <Button
+        android:id="@+id/seller_messageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/discoverButton"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/discoverButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="155dp"
+        android:layout_marginBottom="78dp"
+        android:onClick="startMessageActivity"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="my wish list"
-        android:textSize="25sp"/>
-
-<Button
-    android:id="@+id/seller_messageButton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:layout_centerHorizontal="true"
-    android:layout_marginBottom="78dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:text="my messages"
-    android:textSize="25sp"
-    android:layout_alignLeft="@+id/discoverButton"
-    android:layout_alignRight="@+id/discoverButton"
-    />
+        android:text="my messages"
+        android:textSize="25sp" />
 
 </RelativeLayout>
