@@ -25,76 +25,67 @@ import java.util.List;
  * Created by 39112 on 2018/7/28.
  */
 
-public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>{
+public class listAdapter extends BaseAdapter {
     private Context context;
-
     private List<message> msgList;
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        ListView listview;
-        ImageView Productimage;
-        TextView senderName;
-        TextView message;
 
-
-        public ViewHolder(View view) {
-            super(view);
-            listview = (ListView) view;
-            Productimage = (ImageView) view.findViewById(R.id.imageView);
-            senderName = (TextView) view.findViewById(R.id.senderName);
-            message= (TextView) view.findViewById(R.id.message);
-
-
-        }
-
-
-    }
-
-
-
-    public listAdapter(List<message> listValue, Context context)
-    {
+    public listAdapter(List<message> listValue, Context context) {
+        super();
         this.context = context;
         this.msgList = listValue;
     }
 
-
-    public listAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public productAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (context == null) {
             context = parent.getContext();
         }
-        View view = LayoutInflater.from(context).inflate(R.layout.activity_message_list_buyer, parent, false);
-        return new listAdapter.ViewHolder(view);
+        View view = LayoutInflater.from(context).inflate(R.layout.card_view, parent, false);
+        return new productAdapter.ViewHolder(view);
     }
 
 
+    @Override
+    public int getCount() {
+        return msgList.size();
+    }
 
     @Override
-    public long getItemId(int position)
-    {
+    public Object getItem(int i) {
+        return msgList.get(i);
+    }
+
+    @Override
+    public long getItemId(int position) {
         return position;
     }
 
     @Override
-    public int getItemCount() {
-        return msgList.size();
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        final ViewHolder holder;
+        if (view == null) {
+            holder = new ViewHolder();
+            holder.Productimage = (ImageView) view.findViewById(R.id.photo);
+            holder.senderName = (TextView) view.findViewById(R.id.senderName);
+            holder.message=(TextView)view.findViewById(R.id.message);
+            view.setTag(holder);
+        } else {
+            holder = (ViewHolder) view.getTag();
+        }
+
+        message mMsg = msgList.get(i);
+        holder.message.setText(mMsg.getMessage());
+        holder.senderName.setText(mMsg.getSenderName());
+        Glide.with(context).load(mMsg.getThumbnailUrl()).into(holder.Productimage);
+
+        return view;
+
     }
 
+    class ViewHolder {
+        ImageView Productimage;
+        TextView senderName;
+        TextView message;
 
-    public void onBindViewHolder(final listAdapter.ViewHolder holder, int position) {
-
-        message Message = msgList.get(position);
-        holder.senderName.setText(Message.getSenderName());
-        holder.message.setText(Message.getMessage());
-        Glide.with(context).load(Message.getThumbnailUrl()).into(holder.Productimage);            //Glide是加载图片的方式
     }
 }
-
-
-class ViewItem
-{
-    ImageView imageView;
-    TextView senderView;
-    TextView msgView;
-}
-

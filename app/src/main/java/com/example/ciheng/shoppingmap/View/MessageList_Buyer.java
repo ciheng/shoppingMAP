@@ -42,7 +42,7 @@ public class MessageList_Buyer extends AppCompatActivity {
     private String download;
     private String thumbnail;
     private String senderName;
-    private List<message> msgList = new ArrayList<>();
+    private List<message> msgList = new ArrayList<message>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +52,10 @@ public class MessageList_Buyer extends AppCompatActivity {
         mUserId=intent.getIntExtra("user_id",-1);
 
         listView = (ListView) findViewById(R.id.listView1);
+
+        initViews();
+
+
         swipeRefresh=(SwipeRefreshLayout)findViewById(R.id.swipe_refresh);                  //下拉刷新
         swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -80,11 +84,13 @@ public class MessageList_Buyer extends AppCompatActivity {
             }
         });
 
-        adapter = new listAdapter(msgList,MessageList_Buyer.this);
-        ListView listView = (ListView) findViewById(R.id.listView1);
-        listView.setAdapter((ListAdapter) adapter);
-
 }
+
+    private void initViews() {
+        listView = (ListView) findViewById(R.id.listView1);
+        adapter = new listAdapter(msgList, this);
+        listView.setAdapter((ListAdapter) adapter);
+    }
 
     private void getMsg() {
         RequestQueue data = Volley.newRequestQueue(this);
@@ -110,7 +116,7 @@ public class MessageList_Buyer extends AppCompatActivity {
                                 message.setProductID(productId);
                                 message.setProductUrl(download);
                                 message.setThumbnailUrl(thumbnail);
-
+                                msgList.add(message);
 
 
                             }
