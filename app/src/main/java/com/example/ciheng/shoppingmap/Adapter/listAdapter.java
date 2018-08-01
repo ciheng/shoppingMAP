@@ -40,7 +40,7 @@ public class listAdapter extends BaseAdapter {
         if (context == null) {
             context = parent.getContext();
         }
-        View view = LayoutInflater.from(context).inflate(R.layout.card_view, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
         return new productAdapter.ViewHolder(view);
     }
 

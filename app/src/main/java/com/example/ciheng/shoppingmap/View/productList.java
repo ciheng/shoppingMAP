@@ -44,6 +44,7 @@ public class productList extends AppCompatActivity {
     private int product_id;
     private String name;
     private boolean flag=false;
+    private RecyclerView recyclerView;
 
     private productAdapter adapter;
     private List<product> mProductList = new ArrayList<>();
@@ -61,8 +62,9 @@ public class productList extends AppCompatActivity {
         setContentView(R.layout.activity_product_list);
         getItem();
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
+
         recyclerView.setLayoutManager(layoutManager);
         adapter = new productAdapter(mProductList);
         recyclerView.setAdapter(adapter);
@@ -132,13 +134,15 @@ public class productList extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        recyclerView.removeAllViews();            //刷新前需要把view和数据清空，还不知道怎么清....
+
                         getItem();
                         adapter.notifyDataSetChanged();
                         swipeRefresh.setRefreshing(false);
@@ -179,6 +183,7 @@ public class productList extends AppCompatActivity {
                                 Product = new product(name,mUserId,price,description,product_id);
                                 Product.setDownloadUrl(download);
                                 Product.setThumbnailUrl(thumbnail);
+
                                 mProductList.add(Product);
 
 

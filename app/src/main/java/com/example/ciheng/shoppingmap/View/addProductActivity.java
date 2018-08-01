@@ -312,8 +312,7 @@ public class addProductActivity extends AppCompatActivity {
         });
         requestQueue.add(request);
         Toast.makeText(addProductActivity.this, "successfully posted an item", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(addProductActivity.this, SellerActivity.class);
-        startActivity(intent);
+        addProductActivity.this.finish();
 
     }
     private void goBack(){
