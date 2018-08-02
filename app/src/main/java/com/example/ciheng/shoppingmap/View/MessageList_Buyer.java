@@ -73,8 +73,9 @@ public class MessageList_Buyer extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                getMsg();
+
                                 Collections.reverse(msgList);        //倒叙显示
+                                getMsg();
                                 adapter.notifyDataSetChanged();
                                 swipeRefresh.setRefreshing(false);
                             }
