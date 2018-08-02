@@ -25,67 +25,55 @@ import java.util.List;
  * Created by 39112 on 2018/7/28.
  */
 
-public class listAdapter extends BaseAdapter {
-    private Context context;
+public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>  {
+    private Context mContext;
     private List<message> msgList;
 
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
-    public listAdapter(List<message> listValue, Context context) {
-        super();
-        this.context = context;
-        this.msgList = listValue;
-    }
-
-    public productAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (context == null) {
-            context = parent.getContext();
-        }
-        View view = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
-        return new productAdapter.ViewHolder(view);
-    }
-
-
-    @Override
-    public int getCount() {
-        return msgList.size();
-    }
-
-    @Override
-    public Object getItem(int i) {
-        return msgList.get(i);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        final ViewHolder holder;
-        if (view == null) {
-            holder = new ViewHolder();
-            holder.Productimage = (ImageView) view.findViewById(R.id.photo);
-            holder.senderName = (TextView) view.findViewById(R.id.senderName);
-            holder.message=(TextView)view.findViewById(R.id.message);
-            view.setTag(holder);
-        } else {
-            holder = (ViewHolder) view.getTag();
-        }
-
-        message mMsg = msgList.get(i);
-        holder.message.setText(mMsg.getMessage());
-        holder.senderName.setText(mMsg.getSenderName());
-        Glide.with(context).load(mMsg.getThumbnailUrl()).into(holder.Productimage);
-
-        return view;
-
-    }
-
-    class ViewHolder {
         ImageView Productimage;
         TextView senderName;
         TextView message;
 
+
+        public ViewHolder(View view) {
+            super(view);
+            Productimage = (ImageView) view.findViewById(R.id.photo);
+            senderName = (TextView) view.findViewById(R.id.senderName);
+            message= (TextView) view.findViewById(R.id.messages);
+
+
+
+        }
+
+
     }
+
+    public listAdapter(List<message> msgList) {
+        this.msgList = msgList;
+    }
+
+    @Override
+    public listAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (mContext == null) {
+            mContext = parent.getContext();
+        }
+        View view = LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false);
+        return new listAdapter.ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+
+        message message = msgList.get(position);
+        holder.senderName.setText(message.getSenderName());
+        holder.message.setText(message.getMessage());
+        Glide.with(mContext).load(message.getThumbnailUrl()).into(holder.Productimage);            //Glide是加载图片的方式
+    }
+
+    @Override
+    public int getItemCount() {
+        return msgList.size();
+    }
+
 }

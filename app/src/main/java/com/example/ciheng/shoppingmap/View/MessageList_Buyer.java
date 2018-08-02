@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -30,11 +31,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MessageList_Buyer extends AppCompatActivity {
 
-    ListView listView;
+    RecyclerView recyclerview;
     private listAdapter adapter;
     private int mUserId;
     private message message;
@@ -51,10 +53,8 @@ public class MessageList_Buyer extends AppCompatActivity {
         Intent intent = getIntent();
         mUserId=intent.getIntExtra("user_id",-1);
 
-        listView = (ListView) findViewById(R.id.listView1);
-
         initViews();
-
+        getMsg();
 
         swipeRefresh=(SwipeRefreshLayout)findViewById(R.id.swipe_refresh);                  //下拉刷新
         swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
@@ -66,7 +66,7 @@ public class MessageList_Buyer extends AppCompatActivity {
                     @Override
                     public void run() {
                         try{
-                            Thread.sleep(2000);
+                            Thread.sleep(1000);
                         }catch (InterruptedException e){
                             e.printStackTrace();
                         }
@@ -74,6 +74,7 @@ public class MessageList_Buyer extends AppCompatActivity {
                             @Override
                             public void run() {
                                 getMsg();
+                                Collections.reverse(msgList);        //倒叙显示
                                 adapter.notifyDataSetChanged();
                                 swipeRefresh.setRefreshing(false);
                             }
@@ -87,9 +88,10 @@ public class MessageList_Buyer extends AppCompatActivity {
 }
 
     private void initViews() {
-        listView = (ListView) findViewById(R.id.listView1);
-        adapter = new listAdapter(msgList, this);
-        listView.setAdapter((ListAdapter) adapter);
+        recyclerview =(RecyclerView)findViewById(R.id.recyclerview);
+        recyclerview.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new listAdapter(msgList);
+        recyclerview.setAdapter(adapter);
     }
 
     private void getMsg() {

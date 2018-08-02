@@ -60,6 +60,7 @@ public class productList extends AppCompatActivity {
         mUserId = intent.getIntExtra("user_id", -1);
 
         setContentView(R.layout.activity_product_list);
+
         getItem();
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -74,14 +75,16 @@ public class productList extends AppCompatActivity {
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+
                 refreshProducts();
+
             }
         });
 
 
         adapter.setOnItemClickLitener(new productAdapter.OnItemClickListerner() {
             @Override
-            public void onItemClick(View view, int position) {                        //总觉得还是不要跳转到详情页比较好...和地图点击公用物品详情页不大好又不想再做一个...
+            public void onItemClick(View view, int position) {                        //点击card跳转
                 /*
                 Intent intent = new Intent(productList.this, ProductDetail.class);
                 intent.putExtra("prouct_id",mProductList.get(position).getProductId());
@@ -116,7 +119,7 @@ public class productList extends AppCompatActivity {
         });
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);          //通过这里添加的product显示不出？？？
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
