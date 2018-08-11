@@ -206,7 +206,6 @@ public class productList extends AppCompatActivity {
                                        flag=0;
                                     }
                                 }
-
                                 if(flag==0) {
                                     newList.add(Product);
                                     updateProductList(newList);
