@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout style="@style/CardView.Content"
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/CardView.Content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -11,7 +12,8 @@
         android:layout_width="121dp"
         android:layout_height="135dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launcher"
+        app:srcCompat="@drawable/common_google_signin_btn_icon_light" />
 
 
     <LinearLayout

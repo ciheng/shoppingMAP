@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.ciheng.shoppingmap.Data.product;
@@ -53,8 +54,10 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
 
 
     public productAdapter(List<product> mProductList) {
+
         this.mProductList = mProductList;
     }
+
 
     @Override
     public productAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -99,10 +102,13 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
 
 
         product Product = mProductList.get(position);
-        holder.ProductName.setText(Product.getName());
-        holder.ProductPrice.setText(Product.getPrice());
-        holder.ProductDescription.setText(Product.getDescription());
-        Glide.with(mContext).load(Product.getThumbnailUrl()).into(holder.Productimage);            //Glide是加载图片的方式
+
+            holder.ProductName.setText(Product.getName());
+            holder.ProductPrice.setText(Product.getPrice());
+            holder.ProductDescription.setText(Product.getDescription());
+            Glide.with(mContext).load(Product.getThumbnailUrl()).centerCrop().into(holder.Productimage);            //Glide是加载图片的方式
+
+
     }
 
     @Override

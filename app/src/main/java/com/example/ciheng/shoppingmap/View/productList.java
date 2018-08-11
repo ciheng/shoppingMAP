@@ -32,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -48,6 +49,8 @@ public class productList extends AppCompatActivity {
 
     private productAdapter adapter;
     private List<product> mProductList = new ArrayList<>();
+    private List<product> newList = new ArrayList<>();
+
 
     private SwipeRefreshLayout swipeRefresh;
 
@@ -144,10 +147,10 @@ public class productList extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        recyclerView.removeAllViews();            //刷新前需要把view和数据清空，还不知道怎么清....
-
+                        recyclerView.removeAllViews();            //刷新前需要把view和数据清空，加这里没用
                         getItem();
-                        adapter.notifyDataSetChanged();
+
+
                         swipeRefresh.setRefreshing(false);
                     }
                 });
@@ -156,8 +159,12 @@ public class productList extends AppCompatActivity {
         }).start();
     }
 
-
-
+    public void updateProductList(List<product> newlist) {
+        mProductList.clear();
+        mProductList.addAll(newlist);
+        Collections.reverse(mProductList);        //倒叙显示
+        adapter.notifyDataSetChanged();
+    }
 
     private void getItem()
 
@@ -186,9 +193,24 @@ public class productList extends AppCompatActivity {
                                 Product = new product(name,mUserId,price,description,product_id);
                                 Product.setDownloadUrl(download);
                                 Product.setThumbnailUrl(thumbnail);
+                                int flag=0;
+                                for(int count=0;count<newList.size();count++)
+                                {
+                                    if(newList.get(count).getProductId()==product_id)
+                                    {
+                                        flag=1;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                       flag=0;
+                                    }
+                                }
 
-                                mProductList.add(Product);
-
+                                if(flag==0) {
+                                    newList.add(Product);
+                                    updateProductList(newList);
+                                }
 
                             }
                         } catch (JSONException e) {
