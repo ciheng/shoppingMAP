@@ -8,10 +8,18 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
+import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.ciheng.shoppingmap.Adapter.urlAdapter;
 import com.example.ciheng.shoppingmap.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,6 +28,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -27,19 +39,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final String TAG = "MapsActivity";
     private GoogleMap mMap;
     private int mUserId;
-    LocationManager mLocationManager;
+    public LocationManager mLocationManager;
+    private urlAdapter mUrlAdapter = new urlAdapter();
+    private static final float DEFAULT_ZOOM = 17;
 
+    //private Boolean mLocationPermissionsGranted = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        mUserId=intent.getIntExtra("user_id",-1);
+        mUserId = intent.getIntExtra("user_id", -1);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        showProducts();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -62,10 +79,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Geocoder geocoder = new Geocoder(getApplicationContext());
                     try {
                         List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
-                        String str = addressList.get(0).getLocality() + ',';
-                        str += addressList.get(0).getCountryName();
-                        mMap.addMarker(new MarkerOptions().position(latLng).title(str));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+                        //String str = addressList.get(0).getLocality() + ',';
+                        //str += addressList.get(0).getCountryName();
+                        //mMap.addMarker(new MarkerOptions().position(latLng).title(str));
+                        //String message = "default marker: longitude "+longitude+" latitude "+latitude;
+                        //Log.v(TAG,message);
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -99,10 +118,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Geocoder geocoder = new Geocoder(getApplicationContext());
                     try {
                         List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
-                        String str = addressList.get(0).getLocality() + ',';
-                        str += addressList.get(0).getCountryName();
-                        mMap.addMarker(new MarkerOptions().position(latLng).title(str));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+//                        String str = addressList.get(0).getLocality() + ',';
+//                        str += addressList.get(0).getCountryName();
+                        //mMap.addMarker(new MarkerOptions().position(latLng).title(str));
+                        //String message = "default marker: longitude "+longitude+" latitude "+latitude;
+                        //Log.v(TAG,message);
+                       // showProducts();
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -147,4 +169,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
+
+    public void showProducts() {
+        RequestQueue data = Volley.newRequestQueue(this);
+        String url = mUrlAdapter.getMapLocation();
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                String message = "response length " + response.length();
+                Log.v(TAG, message);
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        JSONObject Event = response.getJSONObject(i);
+                        double latitude = Event.getDouble("latitude");
+                        double longitude = Event.getDouble("longitude");
+                        LatLng latLng = new LatLng(latitude, longitude);
+                        String title = "product" + i;
+                        message = "marker " + i + ": longitude " + longitude + " latitude " + latitude;
+                        Log.v(TAG, message);
+                        mMap.addMarker(new MarkerOptions().position(latLng).title(title));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        data.add(request);
+    }
+
 }

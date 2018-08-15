@@ -6,6 +6,7 @@ public class urlAdapter {
     private static final String upload_picture="http://a17-sd207.studev.groept.be/peng/uploadurl.php?&url=";
     private static final String upload_thumbnail="http://a17-sd207.studev.groept.be/peng/thumbnail.php?&url=";
     private static final String image_test="http://api.a17-sd207.studev.groept.be/image_test";
+    private static final String mapLocation ="http://api.a17-sd207.studev.groept.be/productLocation";
     public urlAdapter() {
     }
 
@@ -42,5 +43,9 @@ public class urlAdapter {
 
     public String getImage_test() {
         return image_test;
+    }
+
+    public String getMapLocation() {
+        return mapLocation;
     }
 }
