@@ -1,23 +1,16 @@
 package com.example.ciheng.shoppingmap.Adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.ciheng.shoppingmap.Data.message;
-import com.example.ciheng.shoppingmap.Data.product;
 import com.example.ciheng.shoppingmap.R;
-import com.example.ciheng.shoppingmap.View.MessageList_Buyer;
 
 import java.util.List;
 
@@ -41,9 +34,6 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>  {
             Productimage = (ImageView) view.findViewById(R.id.photo);
             senderName = (TextView) view.findViewById(R.id.senderName);
             message= (TextView) view.findViewById(R.id.messages);
-
-
-
         }
 
 

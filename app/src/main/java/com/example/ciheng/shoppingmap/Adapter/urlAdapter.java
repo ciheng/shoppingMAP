@@ -16,7 +16,9 @@ public class urlAdapter {
     private static final String image_test = "http://api.a17-sd207.studev.groept.be/image_test";
     private static final String mapLocation = "http://api.a17-sd207.studev.groept.be/productLocation";
     //private static final String addressUrl = "http://api.a17-sd207.studev.groept.be/addresscoder/";
-
+    private static final String wishlist_like ="http://api.a17-sd207.studev.groept.be/wishlist_like/";
+    private static final String check_like="http://api.a17-sd207.studev.groept.be/check_like/";
+    private static final String wishlist_unlike ="http://api.a17-sd207.studev.groept.be/wishlist_unlike/";
     public urlAdapter() {
     }
 
@@ -76,6 +78,20 @@ public class urlAdapter {
 
     public String getMapLocation() {
         return mapLocation;
+    }
+
+    public String wishlist_likeURL(int userID, int productID){
+        String url=wishlist_like+userID+"/"+productID;
+        return url;
+    }
+
+    public String wishlist_unlikeURL(int userID,int productID){
+        String url=wishlist_unlike+userID+"/"+productID;
+        return url;
+    }
+    public String wishlist_checklikeURL(int userID, int productID){
+        String url=check_like+userID+"/"+productID;
+        return url;
     }
 
 }

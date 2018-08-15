@@ -33,7 +33,8 @@
         android:clickable="true"
         app:fabSize="normal"
         app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="right|center"
+        app:layout_anchorGravity="bottom|start"
+        android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/btn_star" />
 
 </android.support.design.widget.CoordinatorLayout>
