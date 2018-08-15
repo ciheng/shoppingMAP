@@ -41,6 +41,14 @@
             tools:layout_editor_absoluteY="45dp">
 
             <EditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="address,city"/>
+
+            <EditText
                 android:id="@+id/price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,7 +75,7 @@
             <ImageView
                 android:id="@+id/picture"
                 android:layout_width="match_parent"
-                android:layout_height="233dp"
+                android:layout_height="200dp"
                 app:srcCompat="@drawable/ic_menu_camera"/>
 
             <ProgressBar

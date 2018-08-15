@@ -54,6 +54,7 @@ public class addProductActivity extends AppCompatActivity {
     private EditText item_name;
     private EditText price;
     private EditText introduction;
+    private EditText address;
     private ImageView mImageView;
     private Uri mImageUri;
     private ProgressBar mProgressBar;
@@ -85,6 +86,7 @@ public class addProductActivity extends AppCompatActivity {
         item_name = findViewById(R.id.item_name);
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         price = findViewById(R.id.price);
+        address=findViewById(R.id.address);
         introduction = findViewById(R.id.introduction);
         mStorageRef = FirebaseStorage.getInstance(mUrlAdapter.getFirebaseURL()).getReference("uploads");//zip it into a folder called uploads
         mStorageRef_thumbnails = FirebaseStorage.getInstance(mUrlAdapter.getFirebaseURL()).getReference("thumbnails");
@@ -290,11 +292,15 @@ public class addProductActivity extends AppCompatActivity {
         return Uri.parse(path);
     }
     private void uploadToDatabase(){
+        //uploadAddress();
+
+        String productAddress = address.getText().toString();
         String productName = item_name.getText().toString();
         String productPrice = price.getText().toString();
         String description = introduction.getText().toString();
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = mUrlAdapter.genAddProductUrl(productName, productPrice, description, mUserId,mUploadPic.getName());
+        String geoAddr= mUrlAdapter.addressCoder(this,productAddress);
+        String url = mUrlAdapter.genAddProductUrl(productName, productPrice, description, mUserId,mUploadPic.getName(),geoAddr);
         String message = "mUploadPic url to database: " + url;
         Log.v(TAG, message);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -315,6 +321,8 @@ public class addProductActivity extends AppCompatActivity {
         addProductActivity.this.finish();
 
     }
+
+
     private void goBack(){
         Intent intent = new Intent(addProductActivity.this, navigationActivity.class);
         intent.putExtra("user_id", mUserId);

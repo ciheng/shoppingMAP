@@ -1,17 +1,27 @@
 package com.example.ciheng.shoppingmap.Adapter;
 
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
+import android.util.Log;
+
+import java.io.IOException;
+import java.util.List;
+
 public class urlAdapter {
     private final String firebaseURL = "gs://shoppingmap-209612";
     private static final String serverURL = "http://api.a17-sd207.studev.groept.be";
-    private static final String upload_picture="http://a17-sd207.studev.groept.be/peng/uploadurl.php?&url=";
-    private static final String upload_thumbnail="http://a17-sd207.studev.groept.be/peng/thumbnail.php?&url=";
-    private static final String image_test="http://api.a17-sd207.studev.groept.be/image_test";
-    private static final String mapLocation ="http://api.a17-sd207.studev.groept.be/productLocation";
+    private static final String upload_picture = "http://a17-sd207.studev.groept.be/peng/uploadurl.php?&url=";
+    private static final String upload_thumbnail = "http://a17-sd207.studev.groept.be/peng/thumbnail.php?&url=";
+    private static final String image_test = "http://api.a17-sd207.studev.groept.be/image_test";
+    private static final String mapLocation = "http://api.a17-sd207.studev.groept.be/productLocation";
+    //private static final String addressUrl = "http://api.a17-sd207.studev.groept.be/addresscoder/";
+
     public urlAdapter() {
     }
 
-    public String genAddProductUrl(String productName, String productPrice, String description, int pOwner,String pictureName) {
-        String url = serverURL + "/add_product/" + productName + "/" + productPrice + "/" + description + "/" + pOwner+"/"+pictureName;
+    public String genAddProductUrl(String productName, String productPrice, String description, int pOwner, String pictureName, String addr) {
+        String url = serverURL + "/add_product/" + productName + "/" + productPrice + "/" + description + "/" + pOwner + "/" + pictureName+addr;
         return url;
     }
 
@@ -24,13 +34,32 @@ public class urlAdapter {
         String url = serverURL + "/signIn/" + email_tba + "/" + pwd_tba + "/" + username_tba + "/" + addr_tba;
         return url;
     }
-    public String genAddPicture(String url_tba, String name){
-        String url=upload_picture+url_tba+"&name="+name;
+
+    public String genAddPicture(String url_tba, String name) {
+        String url = upload_picture + url_tba + "&name=" + name;
         return url;
     }
-    public String genAddThumbnail(String url_tba, String name){
-        String url=upload_thumbnail+url_tba+"&name="+name;
+
+    public String genAddThumbnail(String url_tba, String name) {
+        String url = upload_thumbnail + url_tba + "&name=" + name;
         return url;
+    }
+
+    public String addressCoder(Context context, String addr) {
+        Geocoder coder = new Geocoder(context);
+        List<Address> address = null;
+        try {
+            address = coder.getFromLocationName(addr, 5);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Address location = address.get(0);
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        String message = "address="+addr+" latitude= "+latitude+" longitude= "+longitude;
+        Log.v("urlAdapter",message);
+        String uploadURL="/"+addr+"/"+latitude+"/"+longitude;
+        return uploadURL;
     }
 
     public String getServerURL() {
@@ -48,4 +77,5 @@ public class urlAdapter {
     public String getMapLocation() {
         return mapLocation;
     }
+
 }

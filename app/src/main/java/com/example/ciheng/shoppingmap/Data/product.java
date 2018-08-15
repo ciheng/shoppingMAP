@@ -5,6 +5,7 @@ package com.example.ciheng.shoppingmap.Data;
  */
 
 public class product {
+    private String mAddress;
     private String name;
     private int owner;
     private String price;
@@ -12,6 +13,8 @@ public class product {
     private int productId;
     private String downloadUrl;
     private String thumbnailUrl;
+    private double mLongitude;
+    private double mLatitude;
 
     public product(String name, int owner,String price,String description,int productId) {
         this.name = name;
@@ -77,4 +80,29 @@ public class product {
     public String getThumbnailUrl() {
         return thumbnailUrl;
     }
+
+    public String getAddress() {
+        return mAddress;
+    }
+
+    public void setAddress(String address) {
+        this.mAddress = address;
+    }
+
+    public double getLongitude() {
+        return mLongitude;
+    }
+
+    public void setLongitude(double longitude) {
+        mLongitude = longitude;
+    }
+
+    public double getLatitude() {
+        return mLatitude;
+    }
+
+    public void setLatitude(double latitude) {
+        mLatitude = latitude;
+    }
+
 }
