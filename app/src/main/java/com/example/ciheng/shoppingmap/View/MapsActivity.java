@@ -3,6 +3,8 @@ package com.example.ciheng.shoppingmap.View;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -25,15 +27,21 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private static final String TAG = "MapsActivity";
@@ -41,6 +49,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private int mUserId;
     public LocationManager mLocationManager;
     private urlAdapter mUrlAdapter = new urlAdapter();
+    private Set<PoiTarget> poiTargets = new HashSet<PoiTarget>();
     private static final float DEFAULT_ZOOM = 17;
 
     //private Boolean mLocationPermissionsGranted = false;
@@ -55,7 +64,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
         showProducts();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -123,7 +131,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         //mMap.addMarker(new MarkerOptions().position(latLng).title(str));
                         //String message = "default marker: longitude "+longitude+" latitude "+latitude;
                         //Log.v(TAG,message);
-                       // showProducts();
+                        // showProducts();
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -183,11 +191,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         JSONObject Event = response.getJSONObject(i);
                         double latitude = Event.getDouble("latitude");
                         double longitude = Event.getDouble("longitude");
+                        String thumbnail = Event.getString("thumbnail").replaceAll("\\/", "/");
+                        String productName = Event.getString("name");
+                        message = "thumbnail of " + productName + " is: " + thumbnail;
+                        Log.v(TAG, message);
                         LatLng latLng = new LatLng(latitude, longitude);
-                        String title = "product" + i;
                         message = "marker " + i + ": longitude " + longitude + " latitude " + latitude;
                         Log.v(TAG, message);
-                        mMap.addMarker(new MarkerOptions().position(latLng).title(title));
+                        Marker m = mMap.addMarker(new MarkerOptions().position(latLng).title(productName));
+                        PoiTarget pt;
+                        pt = new PoiTarget(m);
+                        poiTargets.add(pt);
+                        Picasso.get()
+                                .load(thumbnail)
+                                .into(pt);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -201,6 +218,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
         data.add(request);
+    }
+
+
+    class PoiTarget implements Target { //for loading marker icon
+        private Marker m;
+
+        public PoiTarget(Marker m) { this.m = m; }
+
+        @Override public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            m.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
+            poiTargets.remove(this);
+            Log.v(TAG," @+ Set bitmap for "+m.getTitle()+" PT size: #"+poiTargets.size());
+        }
+
+        @Override
+        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+            Log.v(TAG," @+ [ERROR] Don't set bitmap for "+m.getTitle());
+            poiTargets.remove(this);
+        }
+
+
+        @Override public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+        }
     }
 
 }

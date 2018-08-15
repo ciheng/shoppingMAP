@@ -1,8 +1,6 @@
 package com.example.ciheng.shoppingmap.View;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +12,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -181,7 +178,6 @@ public class productList extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject Event = response.getJSONObject(i);
                                 product_id=Event.getInt("id_product");
-
                                 name = Event.getString("name");
                                 name=name.replaceAll("%20"," ");
                                 String description = Event.getString("description");
