@@ -171,11 +171,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                String title = marker.getTitle();
 
-        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                int productId = Integer.parseInt(title.substring(title.lastIndexOf("@") + 1));
+                String message = "marker id " + productId;
+                Log.v(TAG, message);
+                gotoDetail(productId);
+                return false;
+            }
+        });
     }
 
     public void showProducts() {
@@ -193,12 +200,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         double longitude = Event.getDouble("longitude");
                         String thumbnail = Event.getString("thumbnail").replaceAll("\\/", "/");
                         String productName = Event.getString("name");
+                        int productId = Event.getInt("id_product");
                         message = "thumbnail of " + productName + " is: " + thumbnail;
                         Log.v(TAG, message);
                         LatLng latLng = new LatLng(latitude, longitude);
                         message = "marker " + i + ": longitude " + longitude + " latitude " + latitude;
+                        String title = productName + "@" + productId;
                         Log.v(TAG, message);
-                        Marker m = mMap.addMarker(new MarkerOptions().position(latLng).title(productName));
+                        Marker m = mMap.addMarker(new MarkerOptions().position(latLng).title(title));
                         PoiTarget pt;
                         pt = new PoiTarget(m);
                         poiTargets.add(pt);
@@ -220,26 +229,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         data.add(request);
     }
 
+    private void gotoDetail(int productId) {
+        Intent intent = new Intent(this, ProductDetail.class);
+        Bundle extras = new Bundle();
+        extras.putInt("user_id",mUserId);
+        extras.putInt("product_id",productId);
+        intent.putExtras(extras);
+        startActivity(intent);
+    }
 
     class PoiTarget implements Target { //for loading marker icon
         private Marker m;
 
-        public PoiTarget(Marker m) { this.m = m; }
+        public PoiTarget(Marker m) {
+            this.m = m;
+        }
 
-        @Override public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
             m.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
             poiTargets.remove(this);
-            Log.v(TAG," @+ Set bitmap for "+m.getTitle()+" PT size: #"+poiTargets.size());
+            Log.v(TAG, " @+ Set bitmap for " + m.getTitle() + " PT size: #" + poiTargets.size());
         }
 
         @Override
         public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-            Log.v(TAG," @+ [ERROR] Don't set bitmap for "+m.getTitle());
+            Log.v(TAG, " @+ [ERROR] Don't set bitmap for " + m.getTitle());
             poiTargets.remove(this);
         }
 
 
-        @Override public void onPrepareLoad(Drawable placeHolderDrawable) {
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
 
         }
     }

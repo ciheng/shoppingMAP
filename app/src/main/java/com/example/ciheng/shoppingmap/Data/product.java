@@ -8,6 +8,7 @@ public class product {
     private String mAddress;
     private String name;
     private int owner;
+    private String ownerName;
     private String price;
     private String description;
     private int productId;
@@ -23,7 +24,13 @@ public class product {
         this.description =description;
         this.productId = productId;
     }
-
+    public product(String name, String owner,String price,String description,int productId) {
+        this.name = name;
+        this.ownerName = owner;
+        this.price=price;
+        this.description =description;
+        this.productId = productId;
+    }
     public String getName() {
         return name;
     }
