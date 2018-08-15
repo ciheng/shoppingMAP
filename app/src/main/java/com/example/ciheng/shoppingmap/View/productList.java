@@ -94,7 +94,7 @@ public class productList extends AppCompatActivity {
             }
 
             @Override
-            public void onItemLongClick(View view, final int position) {//长按删除
+            public void onItemLongClick(View view, final int position) {//长按删除  ,, ,,,  删不掉！！
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(productList.this);
                 builder.setMessage("Do you want to delete this item？");
@@ -235,10 +235,6 @@ public class productList extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
 
-                        for (int i = 0; i < response.length(); i++) {
-
-
-                        }
                     }
                 }, new Response.ErrorListener() {
             @Override

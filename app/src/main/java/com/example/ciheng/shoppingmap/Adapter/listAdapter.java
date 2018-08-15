@@ -58,7 +58,7 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>  {
         message message = msgList.get(position);
         holder.senderName.setText(message.getSenderName());
         holder.message.setText(message.getMessage());
-        Glide.with(mContext).load(message.getThumbnailUrl()).into(holder.Productimage);            //Glide是加载图片的方式
+        Glide.with(mContext).load(message.getProductUrl()).into(holder.Productimage);            //Glide是加载图片的方式
     }
 
     @Override

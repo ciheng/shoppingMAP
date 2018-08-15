@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,16 +26,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MessageList_Buyer extends AppCompatActivity {
+public class MessageList extends AppCompatActivity {
 
+    private static final String TAG = "MESSAGE_LIST";
     RecyclerView recyclerview;
     private listAdapter adapter;
     private int mUserId;
     private message message;
     private SwipeRefreshLayout swipeRefresh;
-    private String download;
-    private String thumbnail;
     private String senderName;
+    private String download;
     private List<message> msgList = new ArrayList<message>();
 
     @Override
@@ -97,6 +98,7 @@ public class MessageList_Buyer extends AppCompatActivity {
                         try {
 
                             for (int i = 0; i < response.length(); i++) {
+                                Log.v(TAG,"getMsg response length "+ response.length());
                                 JSONObject Event = response.getJSONObject(i);
                                 int senderId=Event.getInt("sender");
                                 getSenderName(senderId);
@@ -105,13 +107,13 @@ public class MessageList_Buyer extends AppCompatActivity {
                                 String msg=Event.getString("message");
                                 getProductPhoto(productId);
                                 int msgID=Event.getInt("msgID");
+                                String download = Event.getString("Download");
 
                                 message = new message();
                                 message.setSenderName(senderName);
                                 message.setMessage(msg);
                                 message.setProductID(productId);
                                 message.setProductUrl(download);
-                                message.setThumbnailUrl(thumbnail);
                                 message.setMsgID(msgID);
 
                                 int flag=0;
@@ -165,7 +167,6 @@ public class MessageList_Buyer extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject Event = response.getJSONObject(i);
                                 download = Event.getString("download");
-                                thumbnail = Event.getString("thumbnail");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

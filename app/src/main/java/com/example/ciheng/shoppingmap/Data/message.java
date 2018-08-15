@@ -12,8 +12,7 @@ public class message {
     public int senderID;
     public int receiverID;
     private String productUrl;
-    private String thumbnailUrl;
-    public  int msgID;
+    public int msgID;
 
     public int getMsgID() {
         return msgID;
@@ -23,20 +22,12 @@ public class message {
         this.msgID = msgID;
     }
 
-    public String getThumbnailUrl() {
-        return thumbnailUrl;
-    }
-
-    public void setThumbnailUrl(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
-    }
-
     public int getProductID() {
         return productID;
     }
 
     public void setProductUrl(String productUrl) {
-        this.productUrl = productUrl;
+        this.productUrl = productUrl.replaceAll("\\/", "/");
     }
 
     public String getProductUrl() {

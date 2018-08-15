@@ -39,7 +39,7 @@ public class BuyerActivity extends AppCompatActivity {
     }
 
     public void startMessageActivity(View view){
-        Intent intent = new Intent(this, MessageList_Buyer.class);
+        Intent intent = new Intent(this, MessageList.class);
         intent.putExtra("user_id",mUserId);
         startActivity(intent);
     }
