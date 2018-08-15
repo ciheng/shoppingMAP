@@ -62,7 +62,6 @@
                 android:resource="@xml/file_paths"/>
         </provider>
 
-        <activity android:name=".View.imagesActivity"/>
         <activity
             android:name=".View.ProductDetail"
             android:label="@string/title_activity_product_detail"

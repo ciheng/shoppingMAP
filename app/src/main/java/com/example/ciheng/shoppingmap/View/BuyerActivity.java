@@ -33,7 +33,7 @@ public class BuyerActivity extends AppCompatActivity {
     }
     public void startListActivity(View view){
 
-        Intent intent = new Intent(this, imagesActivity.class);
+        Intent intent = new Intent(this, wishList.class);
         intent.putExtra("user_id",mUserId);
         startActivity(intent);
     }

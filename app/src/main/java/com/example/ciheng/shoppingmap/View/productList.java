@@ -41,7 +41,6 @@ public class productList extends AppCompatActivity {
     private int mUserId;
     private int product_id;
     private String name;
-    private boolean flag=false;
     private RecyclerView recyclerView;
 
     private productAdapter adapter;
@@ -85,10 +84,13 @@ public class productList extends AppCompatActivity {
         adapter.setOnItemClickLitener(new productAdapter.OnItemClickListerner() {
             @Override
             public void onItemClick(View view, int position) {                        //点击card跳转
-                /*
+
                 Intent intent = new Intent(productList.this, ProductDetail.class);
-                intent.putExtra("prouct_id",mProductList.get(position).getProductId());
-                startActivity(intent);*/
+                Bundle extras = new Bundle();
+                extras.putInt("user_id",mUserId);
+                extras.putInt("product_id",mProductList.get(position).getProductId());
+                intent.putExtras(extras);
+                startActivity(intent);
             }
 
             @Override
@@ -184,11 +186,9 @@ public class productList extends AppCompatActivity {
                                 description=description.replaceAll("%20"," ");
                                 String price = Event.getString("price");
                                 String download = Event.getString("download");
-                                String thumbnail= Event.getString("thumbnail");
 
                                 Product = new product(name,mUserId,price,description,product_id);
                                 Product.setDownloadUrl(download);
-                                Product.setThumbnailUrl(thumbnail);
                                 int flag=0;
                                 for(int count=0;count<newList.size();count++)
                                 {

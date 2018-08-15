@@ -15,8 +15,7 @@ import com.example.ciheng.shoppingmap.R;
 
 import java.util.List;
 
-
-public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHolder>{
+public class wishListAdapter extends RecyclerView.Adapter<wishListAdapter.ViewHolder> {
 
     private Context mContext;
     private List<product> mProductList;
@@ -34,25 +33,28 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
             cardview = (CardView) view;
             Productimage = (ImageView) view.findViewById(R.id.photo);
             ProductName = (TextView) view.findViewById(R.id.item_name);
-            ProductPrice= (TextView) view.findViewById(R.id.price);
-            ProductDescription= (TextView) view.findViewById(R.id.description);
+            ProductPrice = (TextView) view.findViewById(R.id.price);
+            ProductDescription = (TextView) view.findViewById(R.id.description);
 
 
         }
 
 
+        public interface OnItemClickListerner {
+            void onItemClick(View view, int position);
+
+            void onItemLongClick(View view, int position);
+        }
+
     }
 
-
-
-    public productAdapter(List<product> mProductList) {
+    public wishListAdapter(List<product> mProductList) {
 
         this.mProductList = mProductList;
     }
 
-
     @Override
-    public productAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (mContext == null) {
             mContext = parent.getContext();
         }
@@ -71,8 +73,7 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(final productAdapter.ViewHolder holder, int position) {
-
+    public void onBindViewHolder(final ViewHolder holder, int position) {
 
         if (mOnItemClickListerner != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -95,26 +96,25 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
 
         product Product = mProductList.get(position);
 
-            holder.ProductName.setText(Product.getName());
-            holder.ProductPrice.setText(Product.getPrice());
-            holder.ProductDescription.setText(Product.getDescription());
-            Glide.with(mContext).load(Product.getDownloadUrl()).centerCrop().into(holder.Productimage);            //Glide是加载图片的方式
-
-
+        holder.ProductName.setText(Product.getName());
+        holder.ProductPrice.setText(Product.getPrice());
+        holder.ProductDescription.setText(Product.getDescription());
+        Glide.with(mContext).load(Product.getDownloadUrl()).centerCrop().into(holder.Productimage);
     }
 
     @Override
     public int getItemCount() {
+
         return mProductList.size();
     }
 
-    public void removeData(int pos) {
 
+    public void removeData(int pos) {
         mProductList.remove(pos);
         notifyItemRemoved(pos);
 
-
     }
 
-
 }
+
+
