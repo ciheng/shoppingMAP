@@ -13,6 +13,15 @@ public class message {
     public int receiverID;
     private String productUrl;
     private String thumbnailUrl;
+    public  int msgID;
+
+    public int getMsgID() {
+        return msgID;
+    }
+
+    public void setMsgID(int msgID) {
+        this.msgID = msgID;
+    }
 
     public String getThumbnailUrl() {
         return thumbnailUrl;

@@ -112,6 +112,8 @@ public class MessageList_Buyer extends AppCompatActivity {
                                 int productId=Event.getInt("productID");
                                 getProductPhoto(productId);
                                 String msg=Event.getString("message");
+                                getProductPhoto(productId);
+                                int msgID=Event.getInt("msgID");
 
                                 message = new message();
                                 message.setSenderName(senderName);
@@ -119,7 +121,26 @@ public class MessageList_Buyer extends AppCompatActivity {
                                 message.setProductID(productId);
                                 message.setProductUrl(download);
                                 message.setThumbnailUrl(thumbnail);
-                                msgList.add(message);
+                                message.setMsgID(msgID);
+
+                                int flag=0;
+                                for(int count=0;count<msgList.size();count++)
+                                {
+                                    if(msgList.get(count).getMsgID()==msgID)
+                                    {
+                                        flag=1;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        flag=0;
+                                    }
+                                }
+
+                                if(flag==0) {
+                                    msgList.add(message);
+
+                                }
 
 
                             }
