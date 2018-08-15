@@ -69,7 +69,7 @@
             android:theme="@style/myTheme.NoActionBar" />
         <activity android:name=".View.SendMessage" />
         <activity android:name=".View.MessageList_total" />
-        <activity android:name=".View.MessageList_byProduct"></activity>
+        <activity android:name=".View.MessageList_Buyer"></activity>
     </application>
 
 </manifest>

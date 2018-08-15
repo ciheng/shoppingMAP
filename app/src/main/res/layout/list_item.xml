@@ -1,25 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/CardView.Content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="@dimen/activity_horizontal_margin">
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/BuyerName"
-        android:layout_width="fill_parent"
+
+    <ImageView
+        android:id="@+id/photo"
+        android:layout_width="121dp"
+        android:layout_height="135dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_launcher"
+        app:srcCompat="@drawable/common_google_signin_btn_icon_light" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="2dip"
-        android:paddingTop="6dip"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/buyerMsg"
-        android:layout_width="fill_parent"
-        android:layout_height="60dp"
-        android:paddingBottom="2dip"
-        android:textColor="@color/colorAccent" />
+
+        <TextView
+            android:id="@+id/senderName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@android:color/darker_gray" />
+
+
+        <TextView
+            android:id="@+id/messages"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_marginTop="2dp"
+            android:textColor="@android:color/darker_gray" />
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -32,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -44,9 +45,12 @@ public class productList extends AppCompatActivity {
     private int product_id;
     private String name;
     private boolean flag=false;
+    private RecyclerView recyclerView;
 
     private productAdapter adapter;
     private List<product> mProductList = new ArrayList<>();
+    private List<product> newList = new ArrayList<>();
+
 
     private SwipeRefreshLayout swipeRefresh;
 
@@ -59,10 +63,12 @@ public class productList extends AppCompatActivity {
         mUserId = intent.getIntExtra("user_id", -1);
 
         setContentView(R.layout.activity_product_list);
+
         getItem();
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
+
         recyclerView.setLayoutManager(layoutManager);
         adapter = new productAdapter(mProductList);
         recyclerView.setAdapter(adapter);
@@ -72,14 +78,16 @@ public class productList extends AppCompatActivity {
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+
                 refreshProducts();
+
             }
         });
 
 
         adapter.setOnItemClickLitener(new productAdapter.OnItemClickListerner() {
             @Override
-            public void onItemClick(View view, int position) {                        //总觉得还是不要跳转到详情页比较好...和地图点击公用物品详情页不大好又不想再做一个...
+            public void onItemClick(View view, int position) {                        //点击card跳转
                 /*
                 Intent intent = new Intent(productList.this, ProductDetail.class);
                 intent.putExtra("prouct_id",mProductList.get(position).getProductId());
@@ -114,7 +122,7 @@ public class productList extends AppCompatActivity {
         });
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);          //通过这里添加的product显示不出？？？
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,15 +140,17 @@ public class productList extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        recyclerView.removeAllViews();            //刷新前需要把view和数据清空，加这里没用
                         getItem();
-                        adapter.notifyDataSetChanged();
+
+
                         swipeRefresh.setRefreshing(false);
                     }
                 });
@@ -149,8 +159,12 @@ public class productList extends AppCompatActivity {
         }).start();
     }
 
-
-
+    public void updateProductList(List<product> newlist) {
+        mProductList.clear();
+        mProductList.addAll(newlist);
+        Collections.reverse(mProductList);        //倒叙显示
+        adapter.notifyDataSetChanged();
+    }
 
     private void getItem()
 
@@ -179,8 +193,24 @@ public class productList extends AppCompatActivity {
                                 Product = new product(name,mUserId,price,description,product_id);
                                 Product.setDownloadUrl(download);
                                 Product.setThumbnailUrl(thumbnail);
-                                mProductList.add(Product);
+                                int flag=0;
+                                for(int count=0;count<newList.size();count++)
+                                {
+                                    if(newList.get(count).getProductId()==product_id)
+                                    {
+                                        flag=1;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                       flag=0;
+                                    }
+                                }
 
+                                if(flag==0) {
+                                    newList.add(Product);
+                                    updateProductList(newList);
+                                }
 
                             }
                         } catch (JSONException e) {
