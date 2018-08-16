@@ -73,6 +73,7 @@ public class ProductDetail extends AppCompatActivity {
                 intent.putExtra("user_id", mUserId);
                 intent.putExtra("seller_id", sellerID);
                 intent.putExtra("product_name", name);
+                intent.putExtra("product_id", productID);
                 startActivity(intent);
             }
         });

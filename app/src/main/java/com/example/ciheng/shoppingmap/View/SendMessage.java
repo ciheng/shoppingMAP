@@ -37,8 +37,6 @@ public class SendMessage extends AppCompatActivity {
     private Button sell;
     private int mUserId;
     private int productID;
-    Intent intent = getIntent();
-   // mUserId=intent.getIntExtra("user_id",-1);      //还需要intent ProductDetail的seller，productName，productID
 
 
 
@@ -51,6 +49,7 @@ public class SendMessage extends AppCompatActivity {
         productName = extras.getString("product_name",null );
         mUserId = extras.getInt("user_id", -1);
         sellerID=extras.getInt("seller_id",-1);
+        productID=extras.getInt("product_id",-1);
 
         setContentView(R.layout.activity_send_message);
         Seller=(TextView) findViewById(R.id.Seller);
@@ -110,7 +109,6 @@ public class SendMessage extends AppCompatActivity {
             }
         });
         data.add(request);
-        Intent intent = new Intent(SendMessage.this, MapsActivity.class);
-        startActivity(intent);
+        finish();
     }
 }
