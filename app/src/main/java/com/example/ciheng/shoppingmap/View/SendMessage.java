@@ -61,7 +61,7 @@ public class SendMessage extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
 
-                        //test.setText("successfully registed");
+
                     }
                 }, new Response.ErrorListener() {
             @Override
