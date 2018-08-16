@@ -6,4 +6,6 @@
     <color name="colorTitle">#025081</color>
     <color name="foreground_material_light">#066fa3</color>
     <color name="background_material_light">#ffffff</color>
+    <color name="clr_normal">#b7c0c7</color>
+    <color name="clr_pressed">#5bb9e3</color>
 </resources>
