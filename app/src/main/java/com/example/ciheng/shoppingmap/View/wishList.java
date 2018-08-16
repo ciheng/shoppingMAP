@@ -56,7 +56,7 @@ public class wishList  extends AppCompatActivity {
         fab.setVisibility(View.INVISIBLE);
 
         mUserId = intent.getIntExtra("user_id", -1);
-        getWishList();
+        getWishProducts();
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
@@ -95,45 +95,14 @@ public class wishList  extends AppCompatActivity {
         });
     }
 
-    private void getWishList() {
 
 
-        RequestQueue data = Volley.newRequestQueue(this);
-
-        String url = "http://api.a17-sd207.studev.groept.be/getwishlist/" + mUserId;
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try {
-
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject Event = response.getJSONObject(i);
-                                int product_id = Event.getInt("product");
-                                getWishProducts(product_id);
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-
-        });
-        data.add(request);
-
-    }
-
-    public void getWishProducts(final int productID)
+    public void getWishProducts()
     {
 
         RequestQueue data = Volley.newRequestQueue(this);
 
-        String url = "http://api.a17-sd207.studev.groept.be/getwishproduct/" + productID;
+        String url = "http://api.a17-sd207.studev.groept.be/getwishproduct/" + mUserId;
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -142,6 +111,7 @@ public class wishList  extends AppCompatActivity {
 
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject Event = response.getJSONObject(i);
+                                int productID = Event.getInt("id_product");
                                 name = Event.getString("name");
                                 name=name.replaceAll("%20"," ");
                                 description = Event.getString("description");
@@ -199,7 +169,7 @@ public class wishList  extends AppCompatActivity {
                     @Override
                     public void run() {
                         recyclerView.removeAllViews();            //刷新前需要把view和数据清空，加这里没用
-                        getWishList();
+                        getWishProducts();
 
 
                         swipeRefresh.setRefreshing(false);
