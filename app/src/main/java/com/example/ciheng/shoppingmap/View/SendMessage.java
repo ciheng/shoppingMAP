@@ -37,7 +37,7 @@ public class SendMessage extends AppCompatActivity {
     private Button sell;
     private int mUserId;
     private int productID;
-
+    private static final String TAG = "sendMsg";
 
 
     @Override
@@ -57,6 +57,8 @@ public class SendMessage extends AppCompatActivity {
         message=(EditText) findViewById(R.id.message);
         getSeller();
         Seller.setText(sellerName);
+        String msg="seller name is"+sellerName;
+        Log.d(TAG,msg);
         product.setText(productName);
     }
 
@@ -89,7 +91,7 @@ public class SendMessage extends AppCompatActivity {
     }
 
 
-    private void send(View view)
+    public void send(View view)
     {
 
         send_message=message.getText().toString().trim();
