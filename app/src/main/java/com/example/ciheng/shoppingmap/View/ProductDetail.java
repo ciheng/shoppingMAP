@@ -2,6 +2,7 @@ package com.example.ciheng.shoppingmap.View;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -30,6 +31,8 @@ public class ProductDetail extends AppCompatActivity {
     private static final String TAG = "PRODUCT_DETAIL";
     private int mUserId;
     private int productID;
+    private int sellerID;
+    private String name;
     private TextView mItemName;
     private TextView mPrice;
     private TextView mSellerName;
@@ -66,7 +69,11 @@ public class ProductDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ProductDetail.this, SendMessage.class);//还需要intent seller，productName，productID
+
                 intent.putExtra("user_id", mUserId);
+                intent.putExtra("seller_id", sellerID);
+                intent.putExtra("product_name", name);
+                intent.putExtra("product_id", productID);
                 startActivity(intent);
             }
         });
@@ -95,11 +102,12 @@ public class ProductDetail extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         try {
                             JSONObject Event = response.getJSONObject(0);
-                            String name = Event.getString("name");
+                            name = Event.getString("name");
                             name = name.replaceAll("%20", " ");
                             mItemName.setText(name);
                             String seller = Event.getString("username");
                             mSellerName.setText(seller);
+                            sellerID=Event.getInt("owner");
                             String description = Event.getString("description");
                             description = description.replaceAll("%20", " ");
                             mDescription.setText(description);
