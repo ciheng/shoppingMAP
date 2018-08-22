@@ -51,6 +51,10 @@ public class SendMessage extends AppCompatActivity {
         product=(TextView) findViewById(R.id.product);
         message=(EditText) findViewById(R.id.message);
         getSeller();
+        if(productName==null)
+        {
+            getProductName();
+        }
         Seller.setText(sellerName);
         String msg="seller name is"+sellerName;
         Log.d(TAG,msg);
@@ -73,6 +77,35 @@ public class SendMessage extends AppCompatActivity {
                                 String msg="seller name is"+sellerName;
                                 Log.d(TAG,msg);
                                 //sellerName = sellerName.replaceAll("%20", " ");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+
+        });
+        data.add(request);
+
+    }
+
+    public void getProductName()
+    {
+        RequestQueue data = Volley.newRequestQueue(this);
+        String url = "http://api.a17-sd207.studev.groept.be/getProduct/" + productID;
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject Event = response.getJSONObject(i);
+                                productName = Event.getString("name");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

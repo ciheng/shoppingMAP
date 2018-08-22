@@ -21,6 +21,7 @@ import java.util.List;
 public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>  {
     private Context mContext;
     private List<message> msgList;
+    private OnItemClickListerner mOnItemClickListerner;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -31,7 +32,7 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>  {
 
         public ViewHolder(View view) {
             super(view);
-            Productimage = (ImageView) view.findViewById(R.id.photo);
+            Productimage = (ImageView) view.findViewById(R.id.itemphoto);
             senderName = (TextView) view.findViewById(R.id.senderName);
             message= (TextView) view.findViewById(R.id.messages);
         }
@@ -43,6 +44,8 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>  {
         this.msgList = msgList;
     }
 
+
+
     @Override
     public listAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (mContext == null) {
@@ -52,8 +55,31 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>  {
         return new listAdapter.ViewHolder(view);
     }
 
+    public interface OnItemClickListerner {
+        void onItemClick(View view, int position);
+
+    }
+
+    public void setOnItemClickLitener(OnItemClickListerner mOnItemClickListerner) {
+        this.mOnItemClickListerner = mOnItemClickListerner;
+    }
+
+
+
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+
+        if (mOnItemClickListerner != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = holder.getLayoutPosition();
+                    mOnItemClickListerner.onItemClick(holder.itemView, pos);
+                }
+            });
+
+        }
+
 
         message message = msgList.get(position);
         holder.senderName.setText(message.getSenderName());

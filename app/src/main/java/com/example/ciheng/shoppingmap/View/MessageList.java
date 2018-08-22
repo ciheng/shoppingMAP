@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -15,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ciheng.shoppingmap.Adapter.listAdapter;
+import com.example.ciheng.shoppingmap.Adapter.productAdapter;
 import com.example.ciheng.shoppingmap.Data.message;
 import com.example.ciheng.shoppingmap.R;
 
@@ -26,13 +28,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
 public class MessageList extends AppCompatActivity {
 
     private static final String TAG = "MESSAGE_LIST";
     RecyclerView recyclerview;
     private listAdapter adapter;
     private int mUserId;
+    private int senderId;
     private message message;
+    private int productId;
     private SwipeRefreshLayout swipeRefresh;
     private String senderName;
     private String download;
@@ -45,8 +50,12 @@ public class MessageList extends AppCompatActivity {
         Intent intent = getIntent();
         mUserId=intent.getIntExtra("user_id",-1);
 
-        initViews();
         getMsg();
+        recyclerview =(RecyclerView)findViewById(R.id.recyclerview);
+        recyclerview.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new listAdapter(msgList);
+        recyclerview.setAdapter(adapter);
+
 
         swipeRefresh=(SwipeRefreshLayout)findViewById(R.id.swipe_refresh);                  //下拉刷新
         swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
@@ -78,14 +87,24 @@ public class MessageList extends AppCompatActivity {
             }
         });
 
-}
 
-    private void initViews() {
-        recyclerview =(RecyclerView)findViewById(R.id.recyclerview);
-        recyclerview.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new listAdapter(msgList);
-        recyclerview.setAdapter(adapter);
-    }
+        adapter.setOnItemClickLitener(new adapter.OnItemClickListerner() {         //why????????????????
+            @Override
+            public void onItemClick(View view, int position) {
+
+                Intent intent = new Intent(MessageList.this, SendMessage.class);
+                Bundle extras = new Bundle();
+                extras.putInt("seller_id", senderId);
+                extras.putInt("user_id", mUserId);
+                extras.putInt("product_id", productId);
+
+                intent.putExtras(extras);
+                startActivity(intent);
+            }
+
+        });}
+
+
 
     private void getMsg() {
         RequestQueue data = Volley.newRequestQueue(this);
@@ -100,21 +119,22 @@ public class MessageList extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 Log.v(TAG,"getMsg response length "+ response.length());
                                 JSONObject Event = response.getJSONObject(i);
-                                int senderId=Event.getInt("sender");
-                                getSenderName(senderId);
-                                int productId=Event.getInt("productID");
+                                senderId=Event.getInt("sender");
+                                String senderName=Event.getString("username");
+                                productId=Event.getInt("productId");
                                 getProductPhoto(productId);
                                 String msg=Event.getString("message");
-                                getProductPhoto(productId);
-                                int msgID=Event.getInt("msgID");
-                                String download = Event.getString("Download");
+                                int msgID=Event.getInt("id_messages");
+
 
                                 message = new message();
+                                message.setSenderID(senderId);
                                 message.setSenderName(senderName);
                                 message.setMessage(msg);
                                 message.setProductID(productId);
                                 message.setProductUrl(download);
                                 message.setMsgID(msgID);
+                                message.setReceiverID(mUserId);
 
                                 int flag=0;
                                 for(int count=0;count<msgList.size();count++)
@@ -182,34 +202,6 @@ public class MessageList extends AppCompatActivity {
         data.add(request);
     }
 
-    private void getSenderName(int senderID)
-
-    {
-        RequestQueue data = Volley.newRequestQueue(this);
-        String url = "http://api.a17-sd207.studev.groept.be/find_user_byID/" + senderID;
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try {
-
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject Event = response.getJSONObject(i);
-                                senderName = Event.getString("username");
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-
-        });
-        data.add(request);
-    }
 
 
 

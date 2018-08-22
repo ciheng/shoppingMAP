@@ -6,12 +6,12 @@ package com.example.ciheng.shoppingmap.Data;
 
 public class message {
     public String senderName;
-    public String receiverName;
+
     public String message;
     public int productID;
     public int senderID;
     public int receiverID;
-    private String productUrl;
+    public String productUrl;
     public int msgID;
 
     public int getMsgID() {
@@ -27,7 +27,7 @@ public class message {
     }
 
     public void setProductUrl(String productUrl) {
-        this.productUrl = productUrl.replaceAll("\\/", "/");
+       // this.productUrl = productUrl.replaceAll("\\/", "/");
     }
 
     public String getProductUrl() {
@@ -46,9 +46,7 @@ public class message {
         return message;
     }
 
-    public String getReceiverName() {
-        return receiverName;
-    }
+
 
     public String getSenderName() {
         return senderName;
@@ -66,9 +64,7 @@ public class message {
         this.receiverID = receiverID;
     }
 
-    public void setReceiverName(String receiverName) {
-        this.receiverName = receiverName;
-    }
+
 
     public void setSenderID(int senderID) {
         this.senderID = senderID;
