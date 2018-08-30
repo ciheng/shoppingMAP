@@ -35,7 +35,6 @@ import java.util.List;
 
 
 public class productList extends AppCompatActivity {
-
     private DrawerLayout mDrawerlayout;
     private userData user = (userData) getApplication();
     private product Product;
@@ -190,8 +189,10 @@ public class productList extends AppCompatActivity {
                                 description=description.replaceAll("%20"," ");
                                 String price = Event.getString("price");
                                 String download = Event.getString("download");
-
+                                String address=Event.getString("address");
+                                Log.v("productlist ",address);
                                 Product = new product(name,mUserId,price,description,product_id);
+                                Product.setAddress(address);
                                 Product.setDownloadUrl(download);
                                 int flag=0;
                                 for(int count=0;count<newList.size();count++)

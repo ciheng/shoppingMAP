@@ -66,6 +66,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/product_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -74,14 +75,14 @@
                 android:id="@+id/locationIcon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:srcCompat="@drawable/location"/>
+                app:srcCompat="@drawable/location" />
 
             <TextView
                 android:id="@+id/address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="address"/>
+                android:text="address" />
 
         </LinearLayout>
 

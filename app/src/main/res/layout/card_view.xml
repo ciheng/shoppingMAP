@@ -25,7 +25,7 @@
 
         <ImageView
             android:id="@+id/photo"
-            android:layout_width="121dp"
+            android:layout_width="145dp"
             android:layout_height="135dp"
             android:scaleType="centerCrop"
             android:src="@mipmap/ic_launcher"
