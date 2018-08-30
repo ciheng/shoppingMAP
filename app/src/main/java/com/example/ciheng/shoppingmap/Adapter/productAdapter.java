@@ -28,6 +28,7 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
         TextView ProductName;
         TextView ProductPrice;
         TextView ProductDescription;
+        TextView ProductAddress;
 
         public ViewHolder(View view) {
             super(view);
@@ -35,6 +36,7 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
             Productimage = (ImageView) view.findViewById(R.id.photo);
             ProductName = (TextView) view.findViewById(R.id.item_name);
             ProductPrice= (TextView) view.findViewById(R.id.price);
+            ProductAddress=(TextView) view.findViewById(R.id.address);
             ProductDescription= (TextView) view.findViewById(R.id.description);
 
 
@@ -98,6 +100,7 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
             holder.ProductName.setText(Product.getName());
             holder.ProductPrice.setText(Product.getPrice());
             holder.ProductDescription.setText(Product.getDescription());
+            holder.ProductAddress.setText(Product.getAddress());
             Glide.with(mContext).load(Product.getDownloadUrl()).centerCrop().into(holder.Productimage);            //Glide是加载图片的方式
 
 
