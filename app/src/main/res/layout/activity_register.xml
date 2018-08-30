@@ -62,12 +62,20 @@
 
                 <Button
                     android:id="@+id/button"
+                    style="@android:style/Widget.DeviceDefault.Button.Borderless"
+                    android:background="@drawable/button_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
                     android:onClick="register"
                     android:text="ok" />
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/shopping_cart_woman" />
 
             </LinearLayout>
         </android.support.design.widget.TextInputLayout>

@@ -9,39 +9,52 @@
 
     <Button
         android:id="@+id/sellButton"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless"
+        android:background="@drawable/button_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/buyerButton"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="27dp"
+        android:layout_marginTop="20dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="I am a seller"
-        android:textSize="25sp"/>
+        android:textSize="25sp" />
 
     <Button
         android:id="@+id/buyerButton"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless"
+        android:background="@drawable/button_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/sellButton"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="12dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="I am a buyer"
-        android:textSize="25sp"
-        android:layout_alignLeft="@+id/sellButton"
-        android:layout_alignRight="@+id/sellButton"
-        />
+        android:textSize="25sp" />
 
     <Button
         android:id="@+id/MESSAGES"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless"
+        android:background="@drawable/button_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/buyerButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="25dp"
         android:onClick="startMessageActivity"
         android:text="MESSAGES"
         android:textSize="25sp" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/MESSAGES"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="13dp"
+        app:srcCompat="@drawable/net_shopping_smartphone" />
 
 </RelativeLayout>
