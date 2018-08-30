@@ -1,5 +1,7 @@
 package com.example.ciheng.shoppingmap.View;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,6 +11,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -17,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ciheng.shoppingmap.Adapter.productAdapter;
+import com.example.ciheng.shoppingmap.Adapter.urlAdapter;
 import com.example.ciheng.shoppingmap.Data.product;
 import com.example.ciheng.shoppingmap.R;
 
@@ -40,6 +44,7 @@ public class wishList  extends AppCompatActivity {
     private String price;
     private String download;
     private SwipeRefreshLayout swipeRefresh;
+    private urlAdapter mUrlAdapter=new urlAdapter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,13 +91,50 @@ public class wishList  extends AppCompatActivity {
             }
 
             @Override
-            public void onItemLongClick(View view, int position) {
+            public void onItemLongClick(View view, final int position) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(wishList.this);
+                builder.setMessage("Do you want to remove this item from wish list ?");
+                builder.setTitle("Alert");
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int id=mWishList.get(position).getProductId();
+                        unlike(id);
+                        adapter.removeData(position);
+                    }
+
+                });
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
             }
         });
     }
 
+    private void unlike(int id) {
+        String url = mUrlAdapter.wishlist_unlikeURL(mUserId, id);
+        RequestQueue data = Volley.newRequestQueue(this);
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
 
+                        Toast.makeText(wishList.this, "UNLIKED", Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+
+        });
+        data.add(request);
+    }
 
     public void getWishProducts()
     {

@@ -233,7 +233,7 @@ public class productList extends AppCompatActivity {
     {
         RequestQueue data = Volley.newRequestQueue(this);
 
-        String url = "http://api.a17-sd207.studev.groept.be/deleteproduct/" + id;
+        String url = "http://a17-sd207.studev.groept.be/peng/deleteproduct.php/?&id=" + id;
         Log.v("delete item",url);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
