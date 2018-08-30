@@ -95,12 +95,10 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
 
 
         product Product = mProductList.get(position);
-            holder.ProductName.setText(Product.getName());
-            holder.ProductPrice.setText(Product.getPrice());
-            holder.ProductDescription.setText(Product.getDescription());
-            Glide.with(mContext).load(Product.getDownloadUrl()).centerCrop().into(holder.Productimage);            //Glide是加载图片的方式
-
-
+        holder.ProductName.setText(Product.getName());
+        holder.ProductPrice.setText(Product.getPrice());
+        holder.ProductDescription.setText(Product.getDescription());
+        Glide.with(mContext).load(Product.getDownloadUrl()).centerCrop().into(holder.Productimage);            //Glide是加载图片的方式
 
     }
 
