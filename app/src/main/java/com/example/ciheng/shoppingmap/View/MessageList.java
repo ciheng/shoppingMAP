@@ -91,11 +91,14 @@ public class MessageList extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int position) {
 
+                int sender = msgList.get(position).getSenderID();
+                int product = msgList.get(position).getProductID();
+
                 Intent intent = new Intent(MessageList.this, SendMessage.class);
                 Bundle extras = new Bundle();
-                extras.putInt("seller_id", senderId);
+                extras.putInt("seller_id", sender);
                 extras.putInt("user_id", mUserId);
-                extras.putInt("product_id", productId);
+                extras.putInt("product_id", product);
 
                 intent.putExtras(extras);
                 startActivity(intent);
