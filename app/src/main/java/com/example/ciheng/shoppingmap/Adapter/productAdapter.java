@@ -3,6 +3,7 @@ package com.example.ciheng.shoppingmap.Adapter;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,9 +36,9 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
             cardview = (CardView) view;
             Productimage = (ImageView) view.findViewById(R.id.photo);
             ProductName = (TextView) view.findViewById(R.id.item_name);
-            ProductPrice= (TextView) view.findViewById(R.id.price);
+            ProductPrice = (TextView) view.findViewById(R.id.price);
+            ProductDescription = (TextView) view.findViewById(R.id.description);
 
-            ProductDescription= (TextView) view.findViewById(R.id.description);
 
 
         }
@@ -46,11 +47,11 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
     }
 
 
+
     public productAdapter(List<product> mProductList) {
 
         this.mProductList = mProductList;
     }
-
 
     @Override
     public productAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
