@@ -61,7 +61,7 @@ public class ProductDetail extends AppCompatActivity {
         mItemName = (TextView) findViewById(R.id.itemName);
         mPrice = (TextView) findViewById(R.id.price);
         mSellerName = (TextView) findViewById(R.id.sellerName);
-        mAddress = (TextView) findViewById(R.id.address);
+        mAddress = (TextView) findViewById(R.id.product_address);
         mDescription = (TextView) findViewById(R.id.description);
         mProductPic = (ImageView) findViewById(R.id.productPic);
         fabMail = (FloatingActionButton) findViewById(R.id.mail);
@@ -119,6 +119,10 @@ public class ProductDetail extends AppCompatActivity {
                             String message = "download url = " + download;
                             Log.v(TAG, message);
                             mProduct.setDownloadUrl(download);
+                            String address=Event.getString("address");
+                            address=address.replaceAll("%20"," ");
+                            Log.v("productlist ",address);
+                            mAddress.setText(address);
 
                             Glide.with(ProductDetail.this).load(mProduct.getDownloadUrl()).centerCrop().into(mProductPic);            //Glide是加载图片的方式
 
