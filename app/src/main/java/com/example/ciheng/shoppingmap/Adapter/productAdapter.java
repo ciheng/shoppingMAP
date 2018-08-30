@@ -47,6 +47,7 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
     }
 
 
+
     public productAdapter(List<product> mProductList) {
 
         this.mProductList = mProductList;
