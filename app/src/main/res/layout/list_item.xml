@@ -8,9 +8,10 @@
 
 
     <ImageView
-        android:id="@+id/photo"
-        android:layout_width="121dp"
-        android:layout_height="135dp"
+        android:id="@+id/itemphoto"
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        android:cropToPadding="false"
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_launcher"
         app:srcCompat="@drawable/common_google_signin_btn_icon_light" />
@@ -34,7 +35,7 @@
         <TextView
             android:id="@+id/messages"
             android:layout_width="match_parent"
-            android:layout_height="32dp"
+            android:layout_height="35dp"
             android:layout_marginTop="2dp"
             android:textColor="@android:color/darker_gray" />
 
