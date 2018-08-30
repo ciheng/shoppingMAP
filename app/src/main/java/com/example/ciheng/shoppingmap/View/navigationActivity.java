@@ -43,7 +43,7 @@ public class navigationActivity extends AppCompatActivity {
         mButtonMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startSellerActivity();
+                startMessageActivity();
             }
         });
     }
