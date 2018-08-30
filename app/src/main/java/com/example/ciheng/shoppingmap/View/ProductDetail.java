@@ -123,7 +123,6 @@ public class ProductDetail extends AppCompatActivity {
                             address=address.replaceAll("%20"," ");
                             Log.v("productlist ",address);
                             mAddress.setText(address);
-
                             Glide.with(ProductDetail.this).load(mProduct.getDownloadUrl()).centerCrop().into(mProductPic);            //Glide是加载图片的方式
 
 
