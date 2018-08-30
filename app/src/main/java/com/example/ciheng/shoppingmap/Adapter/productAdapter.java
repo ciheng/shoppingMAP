@@ -36,19 +36,16 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
             cardview = (CardView) view;
             Productimage = (ImageView) view.findViewById(R.id.photo);
             ProductName = (TextView) view.findViewById(R.id.item_name);
-<<<<<<< HEAD
             ProductPrice = (TextView) view.findViewById(R.id.price);
-            ProductAddress = (TextView) view.findViewById(R.id.address);
             ProductDescription = (TextView) view.findViewById(R.id.description);
-||||||| merged common ancestors
+
             ProductPrice= (TextView) view.findViewById(R.id.price);
-            ProductAddress=(TextView) view.findViewById(R.id.address);
             ProductDescription= (TextView) view.findViewById(R.id.description);
-=======
+
             ProductPrice= (TextView) view.findViewById(R.id.price);
 
             ProductDescription= (TextView) view.findViewById(R.id.description);
->>>>>>> cefb687329313a84b9e72700fc1fe764f42f1094
+
 
 
         }
@@ -106,27 +103,21 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
 
 
         product Product = mProductList.get(position);
-<<<<<<< HEAD
         holder.ProductName.setText(Product.getName());
         holder.ProductPrice.setText(Product.getPrice());
         holder.ProductDescription.setText(Product.getDescription());
         Log.v("product adapter", Product.getAddress());
-        holder.ProductAddress.setText(Product.getAddress());
         Glide.with(mContext).load(Product.getDownloadUrl()).centerCrop().into(holder.Productimage);            //Glide是加载图片的方式
-||||||| merged common ancestors
 
             holder.ProductName.setText(Product.getName());
             holder.ProductPrice.setText(Product.getPrice());
             holder.ProductDescription.setText(Product.getDescription());
-            holder.ProductAddress.setText(Product.getAddress());
-            Glide.with(mContext).load(Product.getDownloadUrl()).centerCrop().into(holder.Productimage);            //Glide是加载图片的方式
-=======
+
 
             holder.ProductName.setText(Product.getName());
             holder.ProductPrice.setText(Product.getPrice());
             holder.ProductDescription.setText(Product.getDescription());
             Glide.with(mContext).load(Product.getDownloadUrl()).centerCrop().into(holder.Productimage);            //Glide是加载图片的方式
->>>>>>> cefb687329313a84b9e72700fc1fe764f42f1094
 
 
     }
