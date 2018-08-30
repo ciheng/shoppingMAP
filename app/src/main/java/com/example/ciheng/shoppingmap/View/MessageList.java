@@ -47,16 +47,16 @@ public class MessageList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_list_buyer);
         Intent intent = getIntent();
-        mUserId=intent.getIntExtra("user_id",-1);
+        mUserId = intent.getIntExtra("user_id", -1);
 
         getMsg();
-        recyclerview =(RecyclerView)findViewById(R.id.recyclerview);
+        recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
         adapter = new listAdapter(msgList);
         recyclerview.setAdapter(adapter);
 
 
-        swipeRefresh=(SwipeRefreshLayout)findViewById(R.id.swipe_refresh);                  //下拉刷新
+        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);                  //下拉刷新
         swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
@@ -65,9 +65,9 @@ public class MessageList extends AppCompatActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        try{
+                        try {
                             Thread.sleep(1000);
-                        }catch (InterruptedException e){
+                        } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                         runOnUiThread(new Runnable() {
@@ -104,8 +104,8 @@ public class MessageList extends AppCompatActivity {
                 startActivity(intent);
             }
 
-        });}
-
+        });
+    }
 
 
     private void getMsg() {
@@ -119,15 +119,16 @@ public class MessageList extends AppCompatActivity {
                         try {
 
                             for (int i = 0; i < response.length(); i++) {
-                                Log.v(TAG,"getMsg response length "+ response.length());
+                                Log.v(TAG, "getMsg response length " + response.length());
                                 JSONObject Event = response.getJSONObject(i);
-                                senderId=Event.getInt("sender");
-                                String senderName=Event.getString("username");
-                                productId=Event.getInt("productId");
-                                String msg=Event.getString("message");
-                                int msgID=Event.getInt("id_messages");
+                                senderId = Event.getInt("sender");
+                                String senderName = Event.getString("sender");
+                                String receiverName = Event.getString("receiver");
+                                productId = Event.getInt("productId");
+                                String msg = Event.getString("message");
+                                int msgID = Event.getInt("id_messages");
                                 download = Event.getString("download");
-
+                                int ownerId = Event.getInt("owner");
 
                                 message = new message();
                                 message.setSenderID(senderId);
@@ -137,22 +138,23 @@ public class MessageList extends AppCompatActivity {
                                 message.setProductUrl(download);
                                 message.setMsgID(msgID);
                                 message.setReceiverID(mUserId);
+                                message.setReceiverName(receiverName);
+                                message.setOwnerId(ownerId);
+                                if (message.getOwnerId() == mUserId) {
+                                    message.setOwnerReceiver(true);
+                                }
 
-                                int flag=0;
-                                for(int count=0;count<msgList.size();count++)
-                                {
-                                    if(msgList.get(count).getMsgID()==msgID)
-                                    {
-                                        flag=1;
+                                int flag = 0;
+                                for (int count = 0; count < msgList.size(); count++) {
+                                    if (msgList.get(count).getMsgID() == msgID) {
+                                        flag = 1;
                                         break;
-                                    }
-                                    else
-                                    {
-                                        flag=0;
+                                    } else {
+                                        flag = 0;
                                     }
                                 }
 
-                                if(flag==0) {
+                                if (flag == 0) {
                                     msgList.add(message);
 
                                 }
@@ -205,10 +207,7 @@ public class MessageList extends AppCompatActivity {
     }*/
 
 
-
-
-
-    }
+}
 
 
 

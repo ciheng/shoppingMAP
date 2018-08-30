@@ -54,44 +54,12 @@ public class SendMessage extends AppCompatActivity {
         Seller = (TextView) findViewById(R.id.Seller);
         product = (TextView) findViewById(R.id.product);
         message = (EditText) findViewById(R.id.message);
-        getSeller();
-        getProductName();
+        getProduct();
 
     }
 
-    private void getSeller() {
-        RequestQueue data = Volley.newRequestQueue(this);
-        String url = "http://api.a17-sd207.studev.groept.be/findUser_byID/" + sellerID;
-        String msg = "get seller message url " + url;
-        Log.v(TAG, msg);
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try {
-                                JSONObject Event = response.getJSONObject(0);
-                                sellerName = Event.getString("username");
-                                Seller.setText(sellerName);
 
-                                String msg = "seller name is" + sellerName;
-                                Log.d(TAG, msg);
-                                //sellerName = sellerName.replaceAll("%20", " ");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-
-        });
-        data.add(request);
-
-    }
-
-    public void getProductName() {
+    public void getProduct() {
         RequestQueue data = Volley.newRequestQueue(this);
         String url = "http://api.a17-sd207.studev.groept.be/getProduct/" + productID;
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -103,7 +71,8 @@ public class SendMessage extends AppCompatActivity {
                                 JSONObject Event = response.getJSONObject(0);
                                 productName = Event.getString("name");
                                 product.setText(productName.replaceAll("%20"," "));
-
+                                sellerName = Event.getString("username");
+                                Seller.setText(sellerName);
                                 String msg = "product name is" + productName;
                                 Log.v(TAG, msg);
 

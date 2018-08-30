@@ -18,7 +18,7 @@ import java.util.List;
  * Created by 39112 on 2018/7/28.
  */
 
-public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>  {
+public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder> {
     private Context mContext;
     private List<message> msgList;
     private OnItemClickListerner mOnItemClickListerner;
@@ -34,7 +34,7 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>  {
             super(view);
             Productimage = (ImageView) view.findViewById(R.id.itemphoto);
             senderName = (TextView) view.findViewById(R.id.senderName);
-            message= (TextView) view.findViewById(R.id.messages);
+            message = (TextView) view.findViewById(R.id.messages);
         }
 
 
@@ -43,7 +43,6 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>  {
     public listAdapter(List<message> msgList) {
         this.msgList = msgList;
     }
-
 
 
     @Override
@@ -65,7 +64,6 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>  {
     }
 
 
-
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
@@ -82,7 +80,11 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder>  {
 
 
         message message = msgList.get(position);
-        holder.senderName.setText(message.getSenderName());
+        if (message.getIsOwnerReceiver()) {
+            holder.senderName.setText(message.getSenderName());
+        } else {
+            holder.senderName.setText(message.receiverName);
+        }
         holder.message.setText(message.getMessage());
         Glide.with(mContext).load(message.getProductUrl()).into(holder.Productimage);            //Glide是加载图片的方式
     }

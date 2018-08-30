@@ -248,7 +248,7 @@ public class addProductActivity extends AppCompatActivity {
     private void uploadThumbnail(String pictureName) {
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-        mBitmapThunmbnail = ThumbnailUtils.extractThumbnail(mBitmap, 100, 100);
+        mBitmapThunmbnail = ThumbnailUtils.extractThumbnail(mBitmap, 150, 150);
         Uri thumbnail = getCompressedImageUri(mBitmapThunmbnail);
         final StorageReference thumbnailReference = mStorageRef_thumbnails.child(pictureName + "." + getFileExtension(thumbnail));
         StorageTask task = thumbnailReference.putFile(thumbnail).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

@@ -6,13 +6,15 @@ package com.example.ciheng.shoppingmap.Data;
 
 public class message {
     public String senderName;
-
+    public String receiverName;
     public String message;
     public int productID;
     public int senderID;
     public int receiverID;
+    public int ownerId;
     public String productUrl;
     public int msgID;
+    public boolean isOwnerReceiver;
 
     public int getMsgID() {
         return msgID;
@@ -74,4 +76,27 @@ public class message {
         this.senderName = senderName;
     }
 
+    public String getReceiverName() {
+        return receiverName;
+    }
+
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
+    }
+
+    public int getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public boolean getIsOwnerReceiver() {
+        return isOwnerReceiver;
+    }
+
+    public void setOwnerReceiver(boolean ownerReceiver) {
+        isOwnerReceiver = ownerReceiver;
+    }
 }
