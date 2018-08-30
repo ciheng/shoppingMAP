@@ -64,14 +64,20 @@ public class message {
         this.productID = productID;
     }
 
-    public void setReceiverID(int receiverID) {
+    public void setReceiverID(int receiverID,int id) {
         this.receiverID = receiverID;
+        if(receiverID==id){
+            isReceiver=true;
+        }
     }
 
 
 
-    public void setSenderID(int senderID) {
+    public void setSenderID(int senderID,int id) {
         this.senderID = senderID;
+        if(senderID==id){
+            isSender=true;
+        }
     }
 
     public void setSenderName(String senderName) {

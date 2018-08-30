@@ -34,7 +34,8 @@ public class MessageList extends AppCompatActivity {
     RecyclerView recyclerview;
     private listAdapter adapter;
     private int mUserId;
-    //private int senderId;
+    private int senderId;
+    private int receiverId;
     //private message message;
     private int productId;
     private SwipeRefreshLayout swipeRefresh;
@@ -49,14 +50,18 @@ public class MessageList extends AppCompatActivity {
         setContentView(R.layout.activity_message_list_buyer);
         Intent intent = getIntent();
         mUserId = intent.getIntExtra("user_id", -1);
-
-        getMsg();
         recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
         adapter = new listAdapter(msgList);
         recyclerview.setAdapter(adapter);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Collections.reverse(msgList);
+                getMsg();
 
-
+            }
+        });
         swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);                  //下拉刷新
         swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -91,16 +96,25 @@ public class MessageList extends AppCompatActivity {
         adapter.setOnItemClickLitener(new listAdapter.OnItemClickListerner() {         //why????????????????
             @Override
             public void onItemClick(View view, int position) {
+                message temp = msgList.get(position);
 
-                int sender = msgList.get(position).getSenderID();
+                int sender;
+                String senderName;
+                if (temp.isSender()) {
+                    sender = temp.getReceiverID();
+                    senderName=temp.getReceiverName();
+                } else {
+                    sender = temp.getSenderID();
+                    senderName=temp.getSenderName();
+                }
                 Log.v("sender id is ", sender + "");
-                int product = msgList.get(position).getProductID();
+                int product = temp.getProductID();
                 Intent intent = new Intent(MessageList.this, SendMessage.class);
                 Bundle extras = new Bundle();
                 extras.putInt("sender_id", sender);
                 extras.putInt("user_id", mUserId);
                 extras.putInt("product_id", product);
-                extras.putString("sender", msgList.get(position).getSenderName());
+                extras.putString("sender", senderName);
                 intent.putExtras(extras);
                 startActivity(intent);
             }
@@ -122,19 +136,21 @@ public class MessageList extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 Log.v(TAG, "getMsg response length " + response.length());
                                 JSONObject Event = response.getJSONObject(i);
-                                String senderName = Event.getString("sender");
-                                String receiverName = Event.getString("receiver");
+                                //String senderName = Event.getString("sender");
+                                //String receiverName = Event.getString("receiver");
+                                senderId = Event.getInt("sender");
+                                receiverId = Event.getInt("receiver");
                                 productId = Event.getInt("productId");
                                 String content = Event.getString("message");
                                 int msgID = Event.getInt("id_messages");
                                 download = Event.getString("download");
                                 int ownerId = Event.getInt("owner");
                                 msg = new message();
-                                msg.setSenderName(senderName);
-                                msg.setSenderID(Sender(senderName));
-                                msg.setReceiverName(receiverName);
-                                msg.setReceiverID(Receiver(receiverName));
-                                Log.v("msg info: rcv",msg.getReceiverID()+" sender"+msg.getSenderID());
+                                //msg.setSenderName(senderName);
+                                msg.setSenderID(senderId, mUserId);
+                                //msg.setReceiverName(receiverName);
+                                msg.setReceiverID(receiverId, mUserId);
+                                Log.v("msg info: rcv", msg.getReceiverID() + " sender" + msg.getSenderID());
                                 msg.setMessage(content);
                                 msg.setProductID(productId);
                                 msg.setProductUrl(download);
@@ -145,7 +161,6 @@ public class MessageList extends AppCompatActivity {
                                 } else {
                                     msg.setIsUserOwner(false);
                                 }
-                                //wait(50);
                                 int flag = 0;
                                 for (int count = 0; count < msgList.size(); count++) {
                                     if (msgList.get(count).getMsgID() == msgID) {
@@ -161,6 +176,8 @@ public class MessageList extends AppCompatActivity {
 
                                 }
 
+                                Sender(i);
+                                Receiver(i);
 
                             }
                         } catch (JSONException e) {
@@ -178,24 +195,26 @@ public class MessageList extends AppCompatActivity {
 
     }
 
-    private int Sender(String senderName) {
-        final int[] sender = new int[1];
+    private void Sender(final int i) {
         RequestQueue data = Volley.newRequestQueue(this);
-
-        String url = "http://api.a17-sd207.studev.groept.be/findUser/" + senderName;
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+        String url = "http://api.a17-sd207.studev.groept.be/find_user_byID/";
+        //for (int i = 0; i < msgList.size(); i++) {
+        //msg = msgList.get(i);
+        String query = url + msgList.get(i).getSenderID();
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, query, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
                             JSONObject Event = response.getJSONObject(0);
-                            int id = Event.getInt("id_user");
-                            sender[0] = id;
-                            if (id == mUserId) {
-                                msg.setSender(true);
-                            } else {
-                                msg.setSender(false);
-                            }
+                            String username = Event.getString("username");
+                            msgList.get(i).setSenderName(username);
+                            Log.v("sender fuction", msg.getSenderID() + "");
+                                /*if (id == mUserId) {
+                                    msg.setSender(true);
+                                } else {
+                                    msg.setSender(false);
+                                }*/
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -211,31 +230,32 @@ public class MessageList extends AppCompatActivity {
 
         });
         data.add(request);
-        return sender[0];
+        // }
     }
 
-    private int Receiver(String receiverName) {
+    private void Receiver(final int i) {
 
-        final int[] receiver = new int[1];
         RequestQueue data = Volley.newRequestQueue(this);
 
-        String url = "http://api.a17-sd207.studev.groept.be/findUser/" + receiverName;
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+        String url = "http://api.a17-sd207.studev.groept.be/find_user_byID/";
+        //for (int i = 0; i < msgList.size(); i++) {
+        //msg = msgList.get(i);
+        String query = url + msgList.get(i).getReceiverID();
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, query, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        JSONObject Event = null;
                         try {
-                            Event = response.getJSONObject(0);
-                            int id = Event.getInt("id_user");
-                            Log.v(TAG+"userid",id+"");
-                            receiver[0] = id;
-                            if (id == mUserId) {
-                                msg.setReceiver(true);
-                            } else {
-                                msg.setReceiver(false);
-                            }
-
+                            JSONObject Event = response.getJSONObject(0);
+                            String username = Event.getString("username");
+                            msgList.get(i).setReceiverName(username);
+                            Log.v(TAG + "username", username);
+                                /*msg.setReceiverID(id);
+                                if (id == mUserId) {
+                                    msg.setReceiver(true);
+                                } else {
+                                    msg.setReceiver(false);
+*/
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -250,7 +270,7 @@ public class MessageList extends AppCompatActivity {
 
         });
         data.add(request);
-        return receiver[0];
+        //}
     }
 /*
     private void getProductPhoto(int productID)
