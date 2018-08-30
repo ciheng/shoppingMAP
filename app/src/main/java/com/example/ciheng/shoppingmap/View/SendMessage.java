@@ -25,7 +25,7 @@ public class SendMessage extends AppCompatActivity {
     private TextView Seller;
     private TextView product;
     private EditText message;
-    private int sellerID;
+    public int sellerID;
     private String sellerName;
     private String productName;
     private String send_message;
@@ -73,6 +73,7 @@ public class SendMessage extends AppCompatActivity {
                                 product.setText(productName.replaceAll("%20"," "));
                                 sellerName = Event.getString("username");
                                 Seller.setText(sellerName);
+                                sellerID =Event.getInt("owner");
                                 String msg = "product name is" + productName;
                                 Log.v(TAG, msg);
 
@@ -93,7 +94,9 @@ public class SendMessage extends AppCompatActivity {
 
 
     public void send(View view) {
-
+        if(mUserId==sellerID){
+            send_message="From the owner:"+send_message;
+        }
         send_message = message.getText().toString().replaceAll(" ", "%20").trim();
         RequestQueue data = Volley.newRequestQueue(this);
         String url = "http://api.a17-sd207.studev.groept.be/message/" + mUserId + "/" + sellerID + "/" + send_message + "/" + productID;
