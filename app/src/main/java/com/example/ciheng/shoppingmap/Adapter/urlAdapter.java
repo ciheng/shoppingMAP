@@ -23,7 +23,7 @@ public class urlAdapter {
     }
 
     public String genAddProductUrl(String productName, String productPrice, String description, int pOwner, String pictureName, String addr) {
-        String url = serverURL + "/add_product/" + productName + "/" + productPrice + "/" + description + "/" + pOwner + "/" + pictureName+addr;
+        String url = serverURL + "/add_product/" + productName.replaceAll(" ","%20") + "/" + productPrice + "/" + description.replaceAll(" ","%20") + "/" + pOwner + "/" + pictureName+addr;
         return url;
     }
 

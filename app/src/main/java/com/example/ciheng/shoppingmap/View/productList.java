@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.android.volley.Request;
@@ -104,7 +105,9 @@ public class productList extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         adapter.removeData(position);
-                        deleteItem();
+                        int id=mProductList.get(position).getProductId();
+                        Log.v("delet product id=",id+"");
+                        deleteItem(id);
                     }
 
                 });
@@ -224,12 +227,13 @@ public class productList extends AppCompatActivity {
 
     }
 
-    private void deleteItem()
+    private void deleteItem(int id)
 
     {
         RequestQueue data = Volley.newRequestQueue(this);
 
-        String url = "http://api.a17-sd207.studev.groept.be/deleteProduct/" + name;
+        String url = "http://api.a17-sd207.studev.groept.be/deleteProduct/" + id;
+        Log.v("delete item",url);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
