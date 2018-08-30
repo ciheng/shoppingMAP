@@ -26,6 +26,7 @@ public class navigationActivity extends AppCompatActivity {
         mUserId=intent.getIntExtra("user_id",-1);
         mButtonSeller=(Button) findViewById(R.id.sellButton);
         mButtonBuyer=(Button) findViewById(R.id.buyerButton);
+        mButtonMessage=(Button)findViewById(R.id.MESSAGES);
 
         mButtonSeller.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +40,12 @@ public class navigationActivity extends AppCompatActivity {
                 startBuyerActivity();
             }
         });
+        mButtonMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startMessageActivity();
+            }
+        });
     }
 
     private void startSellerActivity() {
@@ -48,6 +55,12 @@ public class navigationActivity extends AppCompatActivity {
     }
     private void startBuyerActivity() {
         Intent intent = new Intent(this, BuyerActivity.class);
+        intent.putExtra("user_id",mUserId);
+        startActivity(intent);
+    }
+
+    public void startMessageActivity(){
+        Intent intent = new Intent(this, MessageList.class);
         intent.putExtra("user_id",mUserId);
         startActivity(intent);
     }
