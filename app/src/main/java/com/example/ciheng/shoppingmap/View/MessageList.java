@@ -121,7 +121,7 @@ public class MessageList extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 Log.v(TAG, "getMsg response length " + response.length());
                                 JSONObject Event = response.getJSONObject(i);
-                                senderId = Event.getInt("sender");
+                                //senderId = Event.getInt("sender");
                                 String senderName = Event.getString("sender");
                                 String receiverName = Event.getString("receiver");
                                 productId = Event.getInt("productId");
@@ -131,7 +131,7 @@ public class MessageList extends AppCompatActivity {
                                 int ownerId = Event.getInt("owner");
 
                                 message = new message();
-                                message.setSenderID(senderId);
+                               // message.setSenderID(senderId);
                                 message.setSenderName(senderName);
                                 message.setMessage(msg);
                                 message.setProductID(productId);
