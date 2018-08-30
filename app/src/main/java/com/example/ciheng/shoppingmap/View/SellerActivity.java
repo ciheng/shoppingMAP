@@ -22,7 +22,7 @@ public class SellerActivity extends AppCompatActivity {
         mUserId=intent.getIntExtra("user_id",-1);
         mButtonAdd=(Button) findViewById(R.id.sellButton);
         mButtonProductList=(Button) findViewById(R.id.selling_listButton);
-        mButtonMessage=(Button) findViewById(R.id.seller_messageButton);
+
         mButtonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -35,12 +35,7 @@ public class SellerActivity extends AppCompatActivity {
                 startProductList();
             }
         });
-        mButtonMessage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
     }
     private void startAddProductActivity(){
         Intent intent = new Intent(this, addProductActivity.class);

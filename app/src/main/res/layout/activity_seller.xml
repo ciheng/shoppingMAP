@@ -34,20 +34,4 @@
         android:text="my product list"
         android:textSize="25sp"/>
 
-    <Button
-        android:id="@+id/seller_messageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="78dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:text="my messages"
-        android:textSize="25sp"
-        android:layout_alignLeft="@+id/selling_listButton"
-        android:layout_alignRight="@+id/selling_listButton"
-        android:layout_alignStart="@+id/selling_listButton"
-        android:layout_alignEnd="@+id/selling_listButton"/>
-
-    </RelativeLayout>
+</RelativeLayout>
