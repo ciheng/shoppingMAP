@@ -104,10 +104,10 @@ public class productList extends AppCompatActivity {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        adapter.removeData(position);
                         int id=mProductList.get(position).getProductId();
                         Log.v("delet product id=",id+"");
                         deleteItem(id);
+                        adapter.removeData(position);
                     }
 
                 });
@@ -129,6 +129,7 @@ public class productList extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(productList.this, addProductActivity.class);
+                intent.putExtra("user_id",mUserId);
                 startActivity(intent);
             }
         });
@@ -232,7 +233,7 @@ public class productList extends AppCompatActivity {
     {
         RequestQueue data = Volley.newRequestQueue(this);
 
-        String url = "http://api.a17-sd207.studev.groept.be/deleteProduct/" + id;
+        String url = "http://api.a17-sd207.studev.groept.be/deleteproduct/" + id;
         Log.v("delete item",url);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {

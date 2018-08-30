@@ -102,7 +102,7 @@ public class SendMessage extends AppCompatActivity {
 
                                 JSONObject Event = response.getJSONObject(0);
                                 productName = Event.getString("name");
-                                product.setText(productName);
+                                product.setText(productName.replaceAll("%20"," "));
 
                                 String msg = "product name is" + productName;
                                 Log.v(TAG, msg);
