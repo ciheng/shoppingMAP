@@ -26,6 +26,7 @@ public class SendMessage extends AppCompatActivity {
     private TextView product;
     private EditText message;
     public int sellerID;
+    public int senderID;
     private String sellerName;
     private String productName;
     private String send_message;
@@ -43,13 +44,13 @@ public class SendMessage extends AppCompatActivity {
         Bundle extras = intent.getExtras();
         productName = extras.getString("product_name", "null");
         mUserId = extras.getInt("user_id", -1);
-        Log.v("TAG","muserId"+mUserId);
+        Log.v("TAG", "muserId" + mUserId);
         sellerID = extras.getInt("seller_id", -1);
-
-        Log.v("TAG","sellerId"+sellerID);
+        senderID = extras.getInt("sender_id", -1);
+        Log.v("TAG", "sellerId" + sellerID);
         productID = extras.getInt("product_id", -1);
 
-        Log.v("TAG","productIDd"+productID);
+        Log.v("TAG", "productIDd" + productID);
         setContentView(R.layout.activity_send_message);
         Seller = (TextView) findViewById(R.id.Seller);
         product = (TextView) findViewById(R.id.product);
@@ -68,14 +69,14 @@ public class SendMessage extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         try {
 
-                                JSONObject Event = response.getJSONObject(0);
-                                productName = Event.getString("name");
-                                product.setText(productName.replaceAll("%20"," "));
-                                sellerName = Event.getString("username");
-                                Seller.setText(sellerName);
-                                sellerID =Event.getInt("owner");
-                                String msg = "product name is" + productName;
-                                Log.v(TAG, msg);
+                            JSONObject Event = response.getJSONObject(0);
+                            productName = Event.getString("name");
+                            product.setText(productName.replaceAll("%20", " "));
+                            sellerName = Event.getString("username");
+                            Seller.setText(sellerName);
+                            sellerID = Event.getInt("owner");
+                            String msg = "product name is" + productName;
+                            Log.v(TAG, msg);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -94,12 +95,19 @@ public class SendMessage extends AppCompatActivity {
 
 
     public void send(View view) {
-        if(mUserId==sellerID){
-            send_message="From the owner:"+send_message;
-        }
         send_message = message.getText().toString().replaceAll(" ", "%20").trim();
+
+        if (mUserId == sellerID) {
+            send_message = "Owner message:" + send_message;
+        }
         RequestQueue data = Volley.newRequestQueue(this);
-        String url = "http://api.a17-sd207.studev.groept.be/message/" + mUserId + "/" + sellerID + "/" + send_message + "/" + productID;
+        int id;
+        if (senderID!=-1) {
+            id = senderID;
+        } else {
+            id = sellerID;
+        }
+        String url = "http://api.a17-sd207.studev.groept.be/message/" + mUserId + "/" + id + "/" + send_message + "/" + productID;
         String msg = "upload message url " + url;
         Log.v(TAG, msg);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,

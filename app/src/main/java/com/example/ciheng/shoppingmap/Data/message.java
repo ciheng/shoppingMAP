@@ -14,7 +14,9 @@ public class message {
     public int ownerId;
     public String productUrl;
     public int msgID;
-    public boolean isOwnerReceiver;
+    private boolean isUserOwner=false;
+    private boolean isReceiver=false;
+    private boolean isSender=false;
 
     public int getMsgID() {
         return msgID;
@@ -92,11 +94,27 @@ public class message {
         this.ownerId = ownerId;
     }
 
-    public boolean getIsOwnerReceiver() {
-        return isOwnerReceiver;
+    public boolean getIsUserOwner() {
+        return isUserOwner;
     }
 
-    public void setOwnerReceiver(boolean ownerReceiver) {
-        isOwnerReceiver = ownerReceiver;
+    public void setIsUserOwner(boolean in ) {
+        isUserOwner=in;
+    }
+
+    public boolean isReceiver() {
+        return isReceiver;
+    }
+
+    public void setReceiver(boolean receiver) {
+        isReceiver = receiver;
+    }
+
+    public boolean isSender() {
+        return isSender;
+    }
+
+    public void setSender(boolean sender) {
+        isSender = sender;
     }
 }

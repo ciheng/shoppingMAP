@@ -34,13 +34,14 @@ public class MessageList extends AppCompatActivity {
     RecyclerView recyclerview;
     private listAdapter adapter;
     private int mUserId;
-    private int senderId;
-    private message message;
+    //private int senderId;
+    //private message message;
     private int productId;
     private SwipeRefreshLayout swipeRefresh;
-    private String senderName;
+    //private String senderName;
     private String download;
     private List<message> msgList = new ArrayList<message>();
+    private message msg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,11 +93,11 @@ public class MessageList extends AppCompatActivity {
             public void onItemClick(View view, int position) {
 
                 int sender = msgList.get(position).getSenderID();
+                Log.v("sender id is ",sender+"");
                 int product = msgList.get(position).getProductID();
-
                 Intent intent = new Intent(MessageList.this, SendMessage.class);
                 Bundle extras = new Bundle();
-                extras.putInt("seller_id", sender);
+                extras.putInt("sender_id", sender);
                 extras.putInt("user_id", mUserId);
                 extras.putInt("product_id", product);
 
@@ -121,29 +122,27 @@ public class MessageList extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 Log.v(TAG, "getMsg response length " + response.length());
                                 JSONObject Event = response.getJSONObject(i);
-                                //senderId = Event.getInt("sender");
                                 String senderName = Event.getString("sender");
                                 String receiverName = Event.getString("receiver");
                                 productId = Event.getInt("productId");
-                                String msg = Event.getString("message");
+                                String content = Event.getString("message");
                                 int msgID = Event.getInt("id_messages");
                                 download = Event.getString("download");
                                 int ownerId = Event.getInt("owner");
-
-                                message = new message();
-                               // message.setSenderID(senderId);
-                                message.setSenderName(senderName);
-                                message.setMessage(msg);
-                                message.setProductID(productId);
-                                message.setProductUrl(download);
-                                message.setMsgID(msgID);
-                                message.setReceiverID(mUserId);
-                                message.setReceiverName(receiverName);
-                                message.setOwnerId(ownerId);
-                                if (message.getOwnerId() == mUserId) {
-                                    message.setOwnerReceiver(true);
+                                msg = new message();
+                                msg.setSenderName(senderName);
+                                msg.setMessage(content);
+                                msg.setProductID(productId);
+                                msg.setProductUrl(download);
+                                msg.setMsgID(msgID);
+                                msg.setReceiverName(receiverName);
+                                msg.setOwnerId(ownerId);
+                                if (msg.getOwnerId() == mUserId) {
+                                    msg.setIsUserOwner(true);
                                 }
-
+                                //wait(50);
+                                Sender(senderName);
+                                Receiver(receiverName);
                                 int flag = 0;
                                 for (int count = 0; count < msgList.size(); count++) {
                                     if (msgList.get(count).getMsgID() == msgID) {
@@ -155,7 +154,7 @@ public class MessageList extends AppCompatActivity {
                                 }
 
                                 if (flag == 0) {
-                                    msgList.add(message);
+                                    msgList.add(msg);
 
                                 }
 
@@ -176,6 +175,72 @@ public class MessageList extends AppCompatActivity {
 
     }
 
+    private void Sender(String senderName){
+        RequestQueue data = Volley.newRequestQueue(this);
+
+        String url = "http://api.a17-sd207.studev.groept.be/findUser/" + senderName;
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            JSONObject Event = response.getJSONObject(0);
+                            int id=Event.getInt("id_user");
+                            msg.setSenderID(id);
+                            if (id == mUserId) {
+                                msg.setSender(true);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+
+        });
+        data.add(request);
+
+    }
+
+    private void Receiver(String receiverName){
+        RequestQueue data = Volley.newRequestQueue(this);
+
+        String url = "http://api.a17-sd207.studev.groept.be/findUser/" + receiverName;
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        JSONObject Event = null;
+                        try {
+                            Event = response.getJSONObject(0);
+                            int id=Event.getInt("id_user");
+                            msg.setReceiverID(id);
+                            if (id == mUserId) {
+                                msg.setReceiver(true);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+
+        });
+        data.add(request);
+
+    }
 /*
     private void getProductPhoto(int productID)
 
