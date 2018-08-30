@@ -1,7 +1,5 @@
 package com.example.ciheng.shoppingmap.View;
 
-import android.app.ListActivity;
-import android.app.usage.UsageEvents;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -19,7 +17,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ciheng.shoppingmap.Adapter.productAdapter;
-import com.example.ciheng.shoppingmap.Adapter.wishListAdapter;
 import com.example.ciheng.shoppingmap.Data.product;
 import com.example.ciheng.shoppingmap.R;
 
