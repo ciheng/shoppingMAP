@@ -12,9 +12,9 @@ tools:context=".View.BuyerActivity">
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_above="@+id/wish_listButton"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="60dp"
+        android:layout_marginTop="49dp"
         android:onClick="startMapsActivity"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -25,13 +25,23 @@ tools:context=".View.BuyerActivity">
         android:id="@+id/wish_listButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/discoverButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="190dp"
+        android:layout_marginTop="60dp"
         android:onClick="startListActivity"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="my wish list"
         android:textSize="25sp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/wish_listButton"
+        android:layout_marginTop="77dp"
+        app:srcCompat="@drawable/kankou_shopping" />
 
 </RelativeLayout>

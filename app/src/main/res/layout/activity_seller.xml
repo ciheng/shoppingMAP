@@ -8,30 +8,37 @@
         tools:context=".View.SellerActivity">
 
         <Button
+            android:id="@+id/sellButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/buyerButton"
-            android:layout_alignLeft="@+id/selling_listButton"
-            android:layout_alignRight="@+id/selling_listButton"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="27dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="57dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="add product"
             android:textSize="25sp"
-            android:id="@+id/sellButton"/>
+            android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/selling_listButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/sellButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="155dp"
+        android:layout_marginTop="38dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="my product list"
-        android:textSize="25sp"/>
+        android:textSize="25sp" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/selling_listButton"
+        android:layout_marginTop="61dp"
+        app:srcCompat="@drawable/auction_shopping" />
 
 </RelativeLayout>
