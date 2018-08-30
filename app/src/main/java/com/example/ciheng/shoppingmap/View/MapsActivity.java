@@ -205,7 +205,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Log.v(TAG, message);
                         LatLng latLng = new LatLng(latitude, longitude);
                         message = "marker " + i + ": longitude " + longitude + " latitude " + latitude;
-                        String title = productName + "@" + productId;
+                        String title = productName.replaceAll("%20"," ") + "@" + productId;
                         Log.v(TAG, message);
                         Marker m = mMap.addMarker(new MarkerOptions().position(latLng).title(title));
                         PoiTarget pt;
