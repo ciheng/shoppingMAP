@@ -9,11 +9,13 @@
 
     <Button
         android:id="@+id/sellButton"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless"
+        android:background="@drawable/button_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="62dp"
+        android:layout_marginTop="20dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="I am a seller"
@@ -21,6 +23,8 @@
 
     <Button
         android:id="@+id/buyerButton"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless"
+        android:background="@drawable/button_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/sellButton"
@@ -33,6 +37,8 @@
 
     <Button
         android:id="@+id/MESSAGES"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless"
+        android:background="@drawable/button_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/buyerButton"

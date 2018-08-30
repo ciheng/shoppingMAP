@@ -9,6 +9,8 @@
 
         <Button
             android:id="@+id/sellButton"
+            style="@android:style/Widget.DeviceDefault.Button.Borderless"
+            android:background="@drawable/button_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -21,6 +23,8 @@
 
     <Button
         android:id="@+id/selling_listButton"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless"
+        android:background="@drawable/button_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/sellButton"
