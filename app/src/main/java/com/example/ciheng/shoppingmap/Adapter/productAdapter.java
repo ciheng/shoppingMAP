@@ -106,7 +106,6 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
         holder.ProductName.setText(Product.getName());
         holder.ProductPrice.setText(Product.getPrice());
         holder.ProductDescription.setText(Product.getDescription());
-        Log.v("product adapter", Product.getAddress());
         Glide.with(mContext).load(Product.getDownloadUrl()).centerCrop().into(holder.Productimage);            //Glide是加载图片的方式
 
             holder.ProductName.setText(Product.getName());
