@@ -89,7 +89,7 @@ public class product {
     }
 
     public String getAddress() {
-        return mAddress;
+        return mAddress.replaceAll("%20"," ");
     }
 
     public void setAddress(String address) {
