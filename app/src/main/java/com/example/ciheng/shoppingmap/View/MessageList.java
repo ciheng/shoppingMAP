@@ -16,7 +16,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ciheng.shoppingmap.Adapter.listAdapter;
-import com.example.ciheng.shoppingmap.Adapter.productAdapter;
 import com.example.ciheng.shoppingmap.Data.message;
 import com.example.ciheng.shoppingmap.R;
 
@@ -88,7 +87,7 @@ public class MessageList extends AppCompatActivity {
         });
 
 
-        adapter.setOnItemClickLitener(new adapter.OnItemClickListerner() {         //why????????????????
+        adapter.setOnItemClickLitener(new listAdapter.OnItemClickListerner() {         //why????????????????
             @Override
             public void onItemClick(View view, int position) {
 
@@ -122,9 +121,9 @@ public class MessageList extends AppCompatActivity {
                                 senderId=Event.getInt("sender");
                                 String senderName=Event.getString("username");
                                 productId=Event.getInt("productId");
-                                getProductPhoto(productId);
                                 String msg=Event.getString("message");
                                 int msgID=Event.getInt("id_messages");
+                                download = Event.getString("download");
 
 
                                 message = new message();
@@ -172,7 +171,7 @@ public class MessageList extends AppCompatActivity {
 
     }
 
-
+/*
     private void getProductPhoto(int productID)
 
     {
@@ -186,7 +185,7 @@ public class MessageList extends AppCompatActivity {
 
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject Event = response.getJSONObject(i);
-                                download = Event.getString("download");
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -200,7 +199,7 @@ public class MessageList extends AppCompatActivity {
 
         });
         data.add(request);
-    }
+    }*/
 
 
 

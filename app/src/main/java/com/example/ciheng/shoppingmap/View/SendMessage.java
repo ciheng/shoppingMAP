@@ -41,43 +41,41 @@ public class SendMessage extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        productName = extras.getString("product_name",null );
+        productName = extras.getString("product_name", "null");
         mUserId = extras.getInt("user_id", -1);
-        sellerID=extras.getInt("seller_id",-1);
-        productID=extras.getInt("product_id",-1);
+        Log.v("TAG","muserId"+mUserId);
+        sellerID = extras.getInt("seller_id", -1);
 
+        Log.v("TAG","sellerId"+sellerID);
+        productID = extras.getInt("product_id", -1);
+
+        Log.v("TAG","productIDd"+productID);
         setContentView(R.layout.activity_send_message);
-        Seller=(TextView) findViewById(R.id.Seller);
-        product=(TextView) findViewById(R.id.product);
-        message=(EditText) findViewById(R.id.message);
+        Seller = (TextView) findViewById(R.id.Seller);
+        product = (TextView) findViewById(R.id.product);
+        message = (EditText) findViewById(R.id.message);
         getSeller();
-        if(productName==null)
-        {
-            getProductName();
-        }
-        Seller.setText(sellerName);
-        String msg="seller name is"+sellerName;
-        Log.d(TAG,msg);
-        product.setText(productName);
+        getProductName();
+
     }
 
     private void getSeller() {
         RequestQueue data = Volley.newRequestQueue(this);
         String url = "http://api.a17-sd207.studev.groept.be/findUser_byID/" + sellerID;
-        String msg="get seller message url "+url;
-        Log.v(TAG,msg);
+        String msg = "get seller message url " + url;
+        Log.v(TAG, msg);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject Event = response.getJSONObject(i);
+                                JSONObject Event = response.getJSONObject(0);
                                 sellerName = Event.getString("username");
-                                String msg="seller name is"+sellerName;
-                                Log.d(TAG,msg);
+                                Seller.setText(sellerName);
+
+                                String msg = "seller name is" + sellerName;
+                                Log.d(TAG, msg);
                                 //sellerName = sellerName.replaceAll("%20", " ");
-                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -93,8 +91,7 @@ public class SendMessage extends AppCompatActivity {
 
     }
 
-    public void getProductName()
-    {
+    public void getProductName() {
         RequestQueue data = Volley.newRequestQueue(this);
         String url = "http://api.a17-sd207.studev.groept.be/getProduct/" + productID;
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -103,10 +100,13 @@ public class SendMessage extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         try {
 
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject Event = response.getJSONObject(i);
+                                JSONObject Event = response.getJSONObject(0);
                                 productName = Event.getString("name");
-                            }
+                                product.setText(productName);
+
+                                String msg = "product name is" + productName;
+                                Log.v(TAG, msg);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -123,14 +123,13 @@ public class SendMessage extends AppCompatActivity {
     }
 
 
-    public void send(View view)
-    {
+    public void send(View view) {
 
-        send_message=message.getText().toString().replaceAll(" ", "%20").trim();
+        send_message = message.getText().toString().replaceAll(" ", "%20").trim();
         RequestQueue data = Volley.newRequestQueue(this);
-        String url="http://api.a17-sd207.studev.groept.be/message/"+mUserId+"/"+sellerID+"/"+send_message+"/"+productID;
-        String msg="upload message url "+url;
-        Log.v(TAG,msg);
+        String url = "http://api.a17-sd207.studev.groept.be/message/" + mUserId + "/" + sellerID + "/" + send_message + "/" + productID;
+        String msg = "upload message url " + url;
+        Log.v(TAG, msg);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override

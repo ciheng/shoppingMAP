@@ -27,7 +27,7 @@ public class message {
     }
 
     public void setProductUrl(String productUrl) {
-       // this.productUrl = productUrl.replaceAll("\\/", "/");
+        this.productUrl = productUrl.replaceAll("\\/", "/");
     }
 
     public String getProductUrl() {
@@ -53,7 +53,7 @@ public class message {
     }
 
     public void setMessage(String message) {
-        this.message = message;
+        this.message = message.replaceAll("%20", " ");
     }
 
     public void setProductID(int productID) {
