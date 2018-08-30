@@ -3,6 +3,7 @@ package com.example.ciheng.shoppingmap.Adapter;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ import com.example.ciheng.shoppingmap.R;
 import java.util.List;
 
 
-public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHolder>{
+public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHolder> {
 
     private Context mContext;
     private List<product> mProductList;
@@ -35,16 +36,15 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
             cardview = (CardView) view;
             Productimage = (ImageView) view.findViewById(R.id.photo);
             ProductName = (TextView) view.findViewById(R.id.item_name);
-            ProductPrice= (TextView) view.findViewById(R.id.price);
-            ProductAddress=(TextView) view.findViewById(R.id.address);
-            ProductDescription= (TextView) view.findViewById(R.id.description);
+            ProductPrice = (TextView) view.findViewById(R.id.price);
+            ProductAddress = (TextView) view.findViewById(R.id.address);
+            ProductDescription = (TextView) view.findViewById(R.id.description);
 
 
         }
 
 
     }
-
 
 
     public productAdapter(List<product> mProductList) {
@@ -96,12 +96,12 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
 
 
         product Product = mProductList.get(position);
-
-            holder.ProductName.setText(Product.getName());
-            holder.ProductPrice.setText(Product.getPrice());
-            holder.ProductDescription.setText(Product.getDescription());
-            holder.ProductAddress.setText(Product.getAddress());
-            Glide.with(mContext).load(Product.getDownloadUrl()).centerCrop().into(holder.Productimage);            //Glide是加载图片的方式
+        holder.ProductName.setText(Product.getName());
+        holder.ProductPrice.setText(Product.getPrice());
+        holder.ProductDescription.setText(Product.getDescription());
+        Log.v("product adapter", Product.getAddress());
+        holder.ProductAddress.setText(Product.getAddress());
+        Glide.with(mContext).load(Product.getDownloadUrl()).centerCrop().into(holder.Productimage);            //Glide是加载图片的方式
 
 
     }
