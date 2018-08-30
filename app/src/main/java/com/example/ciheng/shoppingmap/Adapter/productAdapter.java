@@ -52,7 +52,6 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
         this.mProductList = mProductList;
     }
 
-
     @Override
     public productAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (mContext == null) {
