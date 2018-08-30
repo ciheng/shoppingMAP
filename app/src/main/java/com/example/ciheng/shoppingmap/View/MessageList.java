@@ -24,7 +24,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -57,7 +56,6 @@ public class MessageList extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Collections.reverse(msgList);
                 getMsg();
 
             }
@@ -79,8 +77,6 @@ public class MessageList extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-
-                                Collections.reverse(msgList);        //倒叙显示
                                 getMsg();
                                 adapter.notifyDataSetChanged();
                                 swipeRefresh.setRefreshing(false);
