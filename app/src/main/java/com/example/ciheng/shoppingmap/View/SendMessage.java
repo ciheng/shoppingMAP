@@ -31,6 +31,7 @@ public class SendMessage extends AppCompatActivity {
     private String productName;
     private String send_message;
     private Button sell;
+    private String sender;
     private int mUserId;
     private int productID;
     private static final String TAG = "sendMsg";
@@ -49,7 +50,7 @@ public class SendMessage extends AppCompatActivity {
         senderID = extras.getInt("sender_id", -1);
         Log.v("TAG", "sellerId" + sellerID);
         productID = extras.getInt("product_id", -1);
-
+        sender = extras.getString("sender", "senderdnexist");
         Log.v("TAG", "productIDd" + productID);
         setContentView(R.layout.activity_send_message);
         Seller = (TextView) findViewById(R.id.Seller);
@@ -72,9 +73,13 @@ public class SendMessage extends AppCompatActivity {
                             JSONObject Event = response.getJSONObject(0);
                             productName = Event.getString("name");
                             product.setText(productName.replaceAll("%20", " "));
-                            sellerName = Event.getString("username");
-                            Seller.setText(sellerName);
-                            sellerID = Event.getInt("owner");
+                            if (sender != "senderdnexist") {
+                                Seller.setText(sender);
+                            } else {
+                                sellerName = Event.getString("username");
+                                Seller.setText(sellerName);
+                                sellerID = Event.getInt("owner");
+                            }
                             String msg = "product name is" + productName;
                             Log.v(TAG, msg);
 
@@ -98,11 +103,11 @@ public class SendMessage extends AppCompatActivity {
         send_message = message.getText().toString().replaceAll(" ", "%20").trim();
 
         if (mUserId == sellerID) {
-            send_message = "Owner message:" + send_message;
+            send_message = "Owner%20message:" + send_message;
         }
         RequestQueue data = Volley.newRequestQueue(this);
         int id;
-        if (senderID!=-1) {
+        if (senderID != -1) {
             id = senderID;
         } else {
             id = sellerID;

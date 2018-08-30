@@ -81,9 +81,9 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder> {
 
         message message = msgList.get(position);
         if (message.isSender()) {
-            holder.senderName.setText("To: "+message.getReceiverName());
+            holder.senderName.setText("To: " + message.getReceiverName());
         } else {
-            holder.senderName.setText("From: "+message.getSenderName());
+            holder.senderName.setText("From: " + message.getSenderName());
         }
         holder.message.setText(message.getMessage());
         Glide.with(mContext).load(message.getProductUrl()).into(holder.Productimage);            //Glide是加载图片的方式

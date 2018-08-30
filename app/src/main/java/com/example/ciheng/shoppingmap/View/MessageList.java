@@ -93,14 +93,14 @@ public class MessageList extends AppCompatActivity {
             public void onItemClick(View view, int position) {
 
                 int sender = msgList.get(position).getSenderID();
-                Log.v("sender id is ",sender+"");
+                Log.v("sender id is ", sender + "");
                 int product = msgList.get(position).getProductID();
                 Intent intent = new Intent(MessageList.this, SendMessage.class);
                 Bundle extras = new Bundle();
                 extras.putInt("sender_id", sender);
                 extras.putInt("user_id", mUserId);
                 extras.putInt("product_id", product);
-
+                extras.putString("sender", msgList.get(position).getSenderName());
                 intent.putExtras(extras);
                 startActivity(intent);
             }
@@ -131,18 +131,21 @@ public class MessageList extends AppCompatActivity {
                                 int ownerId = Event.getInt("owner");
                                 msg = new message();
                                 msg.setSenderName(senderName);
+                                msg.setSenderID(Sender(senderName));
+                                msg.setReceiverName(receiverName);
+                                msg.setReceiverID(Receiver(receiverName));
+                                Log.v("msg info: rcv",msg.getReceiverID()+" sender"+msg.getSenderID());
                                 msg.setMessage(content);
                                 msg.setProductID(productId);
                                 msg.setProductUrl(download);
                                 msg.setMsgID(msgID);
-                                msg.setReceiverName(receiverName);
                                 msg.setOwnerId(ownerId);
                                 if (msg.getOwnerId() == mUserId) {
                                     msg.setIsUserOwner(true);
+                                } else {
+                                    msg.setIsUserOwner(false);
                                 }
                                 //wait(50);
-                                Sender(senderName);
-                                Receiver(receiverName);
                                 int flag = 0;
                                 for (int count = 0; count < msgList.size(); count++) {
                                     if (msgList.get(count).getMsgID() == msgID) {
@@ -175,7 +178,8 @@ public class MessageList extends AppCompatActivity {
 
     }
 
-    private void Sender(String senderName){
+    private int Sender(String senderName) {
+        final int[] sender = new int[1];
         RequestQueue data = Volley.newRequestQueue(this);
 
         String url = "http://api.a17-sd207.studev.groept.be/findUser/" + senderName;
@@ -185,10 +189,12 @@ public class MessageList extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         try {
                             JSONObject Event = response.getJSONObject(0);
-                            int id=Event.getInt("id_user");
-                            msg.setSenderID(id);
+                            int id = Event.getInt("id_user");
+                            sender[0] = id;
                             if (id == mUserId) {
                                 msg.setSender(true);
+                            } else {
+                                msg.setSender(false);
                             }
 
                         } catch (JSONException e) {
@@ -205,10 +211,12 @@ public class MessageList extends AppCompatActivity {
 
         });
         data.add(request);
-
+        return sender[0];
     }
 
-    private void Receiver(String receiverName){
+    private int Receiver(String receiverName) {
+
+        final int[] receiver = new int[1];
         RequestQueue data = Volley.newRequestQueue(this);
 
         String url = "http://api.a17-sd207.studev.groept.be/findUser/" + receiverName;
@@ -219,10 +227,13 @@ public class MessageList extends AppCompatActivity {
                         JSONObject Event = null;
                         try {
                             Event = response.getJSONObject(0);
-                            int id=Event.getInt("id_user");
-                            msg.setReceiverID(id);
+                            int id = Event.getInt("id_user");
+                            Log.v(TAG+"userid",id+"");
+                            receiver[0] = id;
                             if (id == mUserId) {
                                 msg.setReceiver(true);
+                            } else {
+                                msg.setReceiver(false);
                             }
 
                         } catch (JSONException e) {
@@ -239,7 +250,7 @@ public class MessageList extends AppCompatActivity {
 
         });
         data.add(request);
-
+        return receiver[0];
     }
 /*
     private void getProductPhoto(int productID)
