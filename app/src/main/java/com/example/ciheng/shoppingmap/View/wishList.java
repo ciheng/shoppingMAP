@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class wishList  extends AppCompatActivity {
+public class wishList  extends AppCompatActivity {      //Almost the same as product list, with little differences
     private int mUserId;
     private product Product;
     private productAdapter adapter;
@@ -195,7 +195,7 @@ public class wishList  extends AppCompatActivity {
 }
 
 
-    private void refreshProducts() {                         //下拉刷新
+    private void refreshProducts() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -207,7 +207,7 @@ public class wishList  extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        recyclerView.removeAllViews();            //刷新前需要把view和数据清空，加这里没用
+                        recyclerView.removeAllViews();
                         getWishProducts();
 
 
@@ -223,7 +223,7 @@ public class wishList  extends AppCompatActivity {
     public void updateWishList(List<product> newlist) {
         mWishList.clear();
         mWishList.addAll(newlist);
-        Collections.reverse(mWishList);        //倒叙显示
+        Collections.reverse(mWishList);
         adapter.notifyDataSetChanged();
     }
 

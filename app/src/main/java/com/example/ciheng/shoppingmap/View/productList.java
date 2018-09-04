@@ -1,3 +1,8 @@
+
+/*******************References:
+ * https://developer.android.com/guide/topics/ui/layout/recyclerview
+ * https://developer.android.com/reference/android/support/v7/widget/CardView
+ **************/
 package com.example.ciheng.shoppingmap.View;
 
 import android.app.AlertDialog;
@@ -69,7 +74,7 @@ public class productList extends AppCompatActivity {
         adapter = new productAdapter(mProductList);
         recyclerView.setAdapter(adapter);
 
-        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);                  //下拉刷新
+        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);                  //refresh data when swipe the screen
         swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -83,28 +88,28 @@ public class productList extends AppCompatActivity {
 
         adapter.setOnItemClickLitener(new productAdapter.OnItemClickListerner() {
             @Override
-            public void onItemClick(View view, int position) {                        //点击card跳转
+            public void onItemClick(View view, int position) {                        //go to the corresponding product detail when click card
 
                 Intent intent = new Intent(productList.this, ProductDetail.class);
                 Bundle extras = new Bundle();
-                extras.putInt("user_id",mUserId);
-                extras.putInt("product_id",mProductList.get(position).getProductId());
+                extras.putInt("user_id", mUserId);
+                extras.putInt("product_id", mProductList.get(position).getProductId());
                 intent.putExtras(extras);
                 startActivity(intent);
             }
 
             @Override
-            public void onItemLongClick(View view, final int position) {//长按删除
+            public void onItemLongClick(View view, final int position) {            //delete the item when long clicking the card
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(productList.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(productList.this);   // an alert to check if one really want to delete this item
                 builder.setMessage("Do you want to delete this item？");
                 builder.setTitle("Alert");
                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        int id=mProductList.get(position).getProductId();
-                        Log.v("delet product id=",id+"");
+                        int id = mProductList.get(position).getProductId();
+                        Log.v("delet product id=", id + "");
                         deleteItem(id);
                         adapter.removeData(position);
                     }
@@ -123,21 +128,19 @@ public class productList extends AppCompatActivity {
         });
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);          //通过这里添加的product显示不出？？？
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(productList.this, addProductActivity.class);
-                intent.putExtra("user_id",mUserId);
+                intent.putExtra("user_id", mUserId);
                 startActivity(intent);
             }
         });
     }
 
 
-
-
-    private void refreshProducts() {                         //下拉刷新
+    private void refreshProducts() {                         //updating the data
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -149,7 +152,7 @@ public class productList extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        recyclerView.removeAllViews();            //刷新前需要把view和数据清空，加这里没用
+                        recyclerView.removeAllViews();            //clear the view before updating
                         getItem();
 
 
@@ -164,7 +167,7 @@ public class productList extends AppCompatActivity {
     public void updateProductList(List<product> newlist) {
         mProductList.clear();
         mProductList.addAll(newlist);
-        Collections.reverse(mProductList);        //倒叙显示
+        Collections.reverse(mProductList);
         adapter.notifyDataSetChanged();
     }
 
@@ -182,32 +185,29 @@ public class productList extends AppCompatActivity {
 
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject Event = response.getJSONObject(i);
-                                product_id=Event.getInt("id_product");
+                                product_id = Event.getInt("id_product");
                                 name = Event.getString("name");
-                                name=name.replaceAll("%20"," ");
+                                name = name.replaceAll("%20", " ");
                                 String description = Event.getString("description");
-                                description=description.replaceAll("%20"," ");
+                                description = description.replaceAll("%20", " ");
                                 String price = Event.getString("price");
                                 String download = Event.getString("download");
 
-                                Product = new product(name,mUserId,price,description,product_id);
+                                Product = new product(name, mUserId, price, description, product_id);
 
                                 Product.setDownloadUrl(download);
-                                int flag=0;
-                                for(int count=0;count<newList.size();count++)
-                                {
-                                    if(newList.get(count).getProductId()==product_id)
+                                int flag = 0;
+                                for (int count = 0; count < newList.size(); count++) {
+                                    if (newList.get(count).getProductId() == product_id)   //avoid duplicate item
                                     {
-                                        flag=1;
+                                        flag = 1;
                                         break;
-                                    }
-                                    else
-                                    {
-                                       flag=0;
+                                    } else {
+                                        flag = 0;
                                     }
                                 }
 
-                                if(flag==0) {
+                                if (flag == 0) {
                                     newList.add(Product);
                                     updateProductList(newList);
                                 }
@@ -234,7 +234,7 @@ public class productList extends AppCompatActivity {
         RequestQueue data = Volley.newRequestQueue(this);
 
         String url = "http://a17-sd207.studev.groept.be/peng/deleteproduct.php/?&id=" + id;
-        Log.v("delete item",url);
+        Log.v("delete item", url);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override

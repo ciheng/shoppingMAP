@@ -62,7 +62,10 @@ public class registerActivity extends AppCompatActivity {
         } else if (TextUtils.isEmpty(getPassword)) {
             Toast.makeText(registerActivity.this, "please input password", Toast.LENGTH_SHORT).show();
             return;
-        } else if (TextUtils.isEmpty(getUsername)) {
+        } else if (getPassword.length()<5) {
+            Toast.makeText(registerActivity.this, "password should be at least 6 characters", Toast.LENGTH_LONG).show();
+            return;
+        }else if (TextUtils.isEmpty(getUsername)) {
             Toast.makeText(registerActivity.this, "please input username", Toast.LENGTH_SHORT).show();
             return;
         } else if (TextUtils.isEmpty(getAddress)) {
@@ -114,26 +117,15 @@ public class registerActivity extends AppCompatActivity {
         RequestQueue data = Volley.newRequestQueue(this);
 
         String url = mUrlAdapter.genFindUser(getEmail);
-                //serverURL + "/findUser/" + getEmail;
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        // try {
-
-                        //for (int i=0;i< response.length();i++)
-                        //{
-//                                JSONObject Event =response.getJSONObject();
-//                                String EM=Event.getString("email");
-//                                String PS=Event.getString("password");
 
                         if (response.length() != 0) {
                             flag = true;
                         }
-                        // }
-                        //    } catch (JSONException e) {
-                        //    e.printStackTrace();
-                        //  }
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -143,26 +135,5 @@ public class registerActivity extends AppCompatActivity {
         });
         data.add(request);
     }
-/*
-    public static String md5(String text) {                   //security type md5
-        MessageDigest digest = null;
-        try {
-            digest = MessageDigest.getInstance("md5");
-            byte[] result = digest.digest(text.getBytes());
-            StringBuffer sb = new StringBuffer();
-            for (byte b : result){
-                int number = b & 0xff;
-                String hex = Integer.toHexString(number);
-                if (hex.length() == 1){
-                    sb.append("0"+hex);
-                }else {
-                    sb.append(hex);
-                }
-            }
-            return sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return "";
-        }
-    }*/
+
 }

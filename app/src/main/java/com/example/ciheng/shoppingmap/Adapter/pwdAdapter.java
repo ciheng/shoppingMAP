@@ -5,9 +5,9 @@ import android.util.Log;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class pwdAdapter {
+public class pwdAdapter {                              //This adapter is used to convert normal password to md5 security type
     private static final String TAG = "pwdAdapter";
-    public String md5(String text) {                   //security type md5
+    public String md5(String text) {
         MessageDigest digest = null;
         Log.v(TAG,text);
         try {

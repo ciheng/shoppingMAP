@@ -16,7 +16,7 @@ import com.example.ciheng.shoppingmap.R;
 import java.util.List;
 
 
-public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHolder> {
+public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHolder> {     //The adapter to make the product list card view
 
     private Context mContext;
     private List<product> mProductList;
@@ -57,7 +57,7 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
         if (mContext == null) {
             mContext = parent.getContext();
         }
-        View view = LayoutInflater.from(mContext).inflate(R.layout.card_view, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.card_view, parent, false);         //add cardviwe into this recyclerView
         return new ViewHolder(view);
     }
 
@@ -75,7 +75,7 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
     public void onBindViewHolder(final productAdapter.ViewHolder holder, int position) {
 
 
-        if (mOnItemClickListerner != null) {
+        if (mOnItemClickListerner != null) {                                                   // set the click and long click
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -94,11 +94,11 @@ public class productAdapter extends RecyclerView.Adapter<productAdapter.ViewHold
         }
 
 
-        product Product = mProductList.get(position);
+        product Product = mProductList.get(position);                                           //set everything to the view holder of the product on that position
         holder.ProductName.setText(Product.getName());
         holder.ProductPrice.setText(Product.getPrice());
         holder.ProductDescription.setText(Product.getDescription());
-        Glide.with(mContext).load(Product.getDownloadUrl()).centerCrop().into(holder.Productimage);            //Glide是加载图片的方式
+        Glide.with(mContext).load(Product.getDownloadUrl()).centerCrop().into(holder.Productimage);
 
     }
 

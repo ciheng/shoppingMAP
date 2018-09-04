@@ -114,7 +114,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     public void onResponse(JSONArray response) {
                         try {
 
-                            //for (int i = 0; i < response.length(); i++) {
                             if (response.length()==0) {
 
                                 Log.v(TAG,"user doesn't exist");

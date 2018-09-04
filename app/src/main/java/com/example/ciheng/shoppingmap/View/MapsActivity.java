@@ -1,3 +1,7 @@
+/*******************References:
+ * https://developers.google.com/maps/documentation/android-sdk/utility/marker-clustering
+ * https://developers.google.com/maps/documentation/android-sdk/marker
+ **************/
 package com.example.ciheng.shoppingmap.View;
 
 import android.Manifest;
@@ -51,8 +55,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private urlAdapter mUrlAdapter = new urlAdapter();
     private Set<PoiTarget> poiTargets = new HashSet<PoiTarget>();
     private static final float DEFAULT_ZOOM = 17;
-
-    //private Boolean mLocationPermissionsGranted = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +65,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         showProducts();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -87,11 +90,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Geocoder geocoder = new Geocoder(getApplicationContext());
                     try {
                         List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
-                        //String str = addressList.get(0).getLocality() + ',';
-                        //str += addressList.get(0).getCountryName();
-                        //mMap.addMarker(new MarkerOptions().position(latLng).title(str));
-                        //String message = "default marker: longitude "+longitude+" latitude "+latitude;
-                        //Log.v(TAG,message);
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -126,12 +124,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Geocoder geocoder = new Geocoder(getApplicationContext());
                     try {
                         List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
-//                        String str = addressList.get(0).getLocality() + ',';
-//                        str += addressList.get(0).getCountryName();
-                        //mMap.addMarker(new MarkerOptions().position(latLng).title(str));
-                        //String message = "default marker: longitude "+longitude+" latitude "+latitude;
-                        //Log.v(TAG,message);
-                        // showProducts();
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -205,7 +197,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Log.v(TAG, message);
                         LatLng latLng = new LatLng(latitude, longitude);
                         message = "marker " + i + ": longitude " + longitude + " latitude " + latitude;
-                        String title = productName.replaceAll("%20"," ") + "@" + productId;
+                        String title = productName.replaceAll("%20", " ") + "@" + productId;
                         Log.v(TAG, message);
                         Marker m = mMap.addMarker(new MarkerOptions().position(latLng).title(title));
                         PoiTarget pt;
@@ -232,8 +224,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void gotoDetail(int productId) {
         Intent intent = new Intent(this, ProductDetail.class);
         Bundle extras = new Bundle();
-        extras.putInt("user_id",mUserId);
-        extras.putInt("product_id",productId);
+        extras.putInt("user_id", mUserId);
+        extras.putInt("product_id", productId);
         intent.putExtras(extras);
         startActivity(intent);
     }

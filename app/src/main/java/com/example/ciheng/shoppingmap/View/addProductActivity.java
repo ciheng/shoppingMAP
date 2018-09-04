@@ -1,3 +1,9 @@
+/*******************References:
+ * hhttps://developer.android.com/training/camera/photobasics#TaskPath
+ * https://developer.android.com/reference/android/widget/Gallery
+ * https://firebase.google.com/docs/android/setup
+ * https://www.youtube.com/playlist?list=PLGCjwl1RrtcTXrWuRTa59RyRmQ4OedWrt
+ **************/
 package com.example.ciheng.shoppingmap.View;
 
 import android.content.ContentResolver;
@@ -50,7 +56,6 @@ import java.io.IOException;
 
 public class addProductActivity extends AppCompatActivity {
     private static final String TAG = "addProductActivity";
-    //userData mUserData = (userData)getApplication();
     private EditText item_name;
     private EditText price;
     private EditText introduction;
@@ -58,8 +63,6 @@ public class addProductActivity extends AppCompatActivity {
     private ImageView mImageView;
     private Uri mImageUri;
     private ProgressBar mProgressBar;
-    //private String mFilePath;
-    //private String mFile;
     public static final int CAMERA_RESULT = 1;
     public static final int SELECT_PIC = 2;
     private int mUserId;
@@ -71,7 +74,6 @@ public class addProductActivity extends AppCompatActivity {
     private StorageTask mUploadTask;
     private uploadPic mUploadPic;
     private urlAdapter mUrlAdapter = new urlAdapter();
-    //private ThumbnailUtils mThumbnailUtils = new ThumbnailUtils();
 
     @Override
 
@@ -94,9 +96,9 @@ public class addProductActivity extends AppCompatActivity {
     }
 
 
-    public void takePhoto(View view) {
+    public void takePhoto(View view) {                                                   //This is the function to use the camera to take a photo
 
-        File outputImage = new File(getExternalCacheDir(), "output_image.jpg");
+        File outputImage = new File(getExternalCacheDir(), "output_image.jpg");   //create a file to  store the photo
         try {
             if (outputImage.exists()) {
                 outputImage.delete();
@@ -105,20 +107,20 @@ public class addProductActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (Build.VERSION.SDK_INT >= 24) {
+        if (Build.VERSION.SDK_INT >= 24) {                    //get the uri path to the file
 
             mImageUri = FileProvider.getUriForFile(addProductActivity.this, "com.example.ciheng.shoppingmap.fileprovider", outputImage);
         } else {
-            mImageUri = Uri.fromFile(outputImage); //7.0以下
+            mImageUri = Uri.fromFile(outputImage); //when under android 7.0
         }
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
         intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
-        startActivityForResult(intent, CAMERA_RESULT);
+        startActivityForResult(intent, CAMERA_RESULT);         //picture taking is finished
 
     }
 
 
-    public void fromGallery(View view) {
+    public void fromGallery(View view) {                                  //select one picture from the gallery
         Intent intent = new Intent(Intent.ACTION_PICK, null);
         intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 "image/*");
@@ -134,16 +136,12 @@ public class addProductActivity extends AppCompatActivity {
         switch (requestCode) {
             case CAMERA_RESULT:
                 try {
-                    //Bitmap photo
                     mBitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(mImageUri));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-                //Log.v(TAG, "CAMERA_RESULT执行完毕!");
                 break;
             case SELECT_PIC:
-                //Log.v(TAG, "select picture开始跑了!!");
-                //Bitmap mBitmap = null;
                 try {
                     mImageUri = data.getData();
                     mBitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(mImageUri));
@@ -152,7 +150,7 @@ public class addProductActivity extends AppCompatActivity {
                 }
                 break;
         }
-        mImageView.setImageBitmap(mBitmap);
+        mImageView.setImageBitmap(mBitmap);                      //use bitmap to set the picture to the imageView
     }
 
 
@@ -163,11 +161,10 @@ public class addProductActivity extends AppCompatActivity {
             Toast.makeText(addProductActivity.this, "Upload in progress...", Toast.LENGTH_SHORT);
         } else {
             uploadPicture();
-            //String url = mUrlAdapter.genAddProductUrl(productName, productPrice, description, mUserId);
         }
     }
 
-    private String getFileExtension(Uri uri) { //get the file extention from the image
+    private String getFileExtension(Uri uri) {                     //get the file extention from the image
         ContentResolver cR = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
@@ -184,7 +181,6 @@ public class addProductActivity extends AppCompatActivity {
 
             uploadToDatabase();
             final StorageReference fileReference = mStorageRef.child(pictureName + "." + getFileExtension(mImageUri));
-            //Log.v(TAG,"url test1: "+ getPicRefUrl(fileReference));
             mUploadTask = fileReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -199,7 +195,6 @@ public class addProductActivity extends AppCompatActivity {
                     fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                           // mUploadPic = new uploadPic(pictureName, uri.toString());
                             mUploadPic.setImageUrl(uri.toString());
                             Log.v(TAG, "mUploadPic pic reference url:" + mUploadPic.getImageUrl());
                             String url = mUrlAdapter.genAddPicture(mUploadPic.getImageUrl(), mUploadPic.getName());
@@ -223,10 +218,6 @@ public class addProductActivity extends AppCompatActivity {
                             uploadThumbnail(pictureName);
                         }
                     });
-                    //mUploadPic = new uploadPic(pictureName, fileReference.toString());
-
-                    //String uploadId = mDatabaseRef.push().getKey();
-                    //mDatabaseRef.child(uploadId).setValue(mUploadPic);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -280,8 +271,6 @@ public class addProductActivity extends AppCompatActivity {
                 });
             }
         });
-        //mBitmapThunmbnail= ThumbnailUtils.extractThumbnail(mBitmap,64,64);
-        //mBitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(mImageUri));
     }
 
     public Uri getCompressedImageUri(Bitmap inImage) {
@@ -292,8 +281,6 @@ public class addProductActivity extends AppCompatActivity {
         return Uri.parse(path);
     }
     private void uploadToDatabase(){
-        //uploadAddress();
-
         String productAddress = address.getText().toString();
         String productName = item_name.getText().toString();
         String productPrice = price.getText().toString();

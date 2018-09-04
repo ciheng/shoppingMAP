@@ -35,10 +35,8 @@ public class MessageList extends AppCompatActivity {
     private int mUserId;
     private int senderId;
     private int receiverId;
-    //private message message;
     private int productId;
     private SwipeRefreshLayout swipeRefresh;
-    //private String senderName;
     private String download;
     private List<message> msgList = new ArrayList<message>();
     private message msg;
@@ -50,7 +48,7 @@ public class MessageList extends AppCompatActivity {
         Intent intent = getIntent();
         mUserId = intent.getIntExtra("user_id", -1);
         recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
-        recyclerview.setLayoutManager(new LinearLayoutManager(this));
+        recyclerview.setLayoutManager(new LinearLayoutManager(this));    //bind the recycler view and the adapter,the data got here would be transfered to the adapter to be build in a format which fits the view
         adapter = new listAdapter(msgList);
         recyclerview.setAdapter(adapter);
         runOnUiThread(new Runnable() {
@@ -60,7 +58,7 @@ public class MessageList extends AppCompatActivity {
 
             }
         });
-        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);                  //下拉刷新
+        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);                  //refresh the data when swipe the screen
         swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
@@ -91,7 +89,7 @@ public class MessageList extends AppCompatActivity {
 
         adapter.setOnItemClickLitener(new listAdapter.OnItemClickListerner() {         //why????????????????
             @Override
-            public void onItemClick(View view, int position) {
+            public void onItemClick(View view, int position) {     //if the item is clicked, will go to writing back to the message sender
                 message temp = msgList.get(position);
 
                 int sender;
@@ -132,8 +130,6 @@ public class MessageList extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 Log.v(TAG, "getMsg response length " + response.length());
                                 JSONObject Event = response.getJSONObject(i);
-                                //String senderName = Event.getString("sender");
-                                //String receiverName = Event.getString("receiver");
                                 senderId = Event.getInt("sender");
                                 receiverId = Event.getInt("receiver");
                                 productId = Event.getInt("productId");
@@ -142,9 +138,7 @@ public class MessageList extends AppCompatActivity {
                                 download = Event.getString("download");
                                 int ownerId = Event.getInt("owner");
                                 msg = new message();
-                                //msg.setSenderName(senderName);
                                 msg.setSenderID(senderId, mUserId);
-                                //msg.setReceiverName(receiverName);
                                 msg.setReceiverID(receiverId, mUserId);
                                 Log.v("msg info: rcv", msg.getReceiverID() + " sender" + msg.getSenderID());
                                 msg.setMessage(content);
@@ -158,7 +152,7 @@ public class MessageList extends AppCompatActivity {
                                     msg.setIsUserOwner(false);
                                 }
                                 int flag = 0;
-                                for (int count = 0; count < msgList.size(); count++) {
+                                for (int count = 0; count < msgList.size(); count++) {       //make sure one message can only have once in the list
                                     if (msgList.get(count).getMsgID() == msgID) {
                                         flag = 1;
                                         break;
@@ -206,11 +200,6 @@ public class MessageList extends AppCompatActivity {
                             String username = Event.getString("username");
                             msgList.get(i).setSenderName(username);
                             Log.v("sender fuction", msg.getSenderID() + "");
-                                /*if (id == mUserId) {
-                                    msg.setSender(true);
-                                } else {
-                                    msg.setSender(false);
-                                }*/
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -226,7 +215,6 @@ public class MessageList extends AppCompatActivity {
 
         });
         data.add(request);
-        // }
     }
 
     private void Receiver(final int i) {
@@ -234,8 +222,6 @@ public class MessageList extends AppCompatActivity {
         RequestQueue data = Volley.newRequestQueue(this);
 
         String url = "http://api.a17-sd207.studev.groept.be/find_user_byID/";
-        //for (int i = 0; i < msgList.size(); i++) {
-        //msg = msgList.get(i);
         String query = url + msgList.get(i).getReceiverID();
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, query, null,
                 new Response.Listener<JSONArray>() {
@@ -246,12 +232,6 @@ public class MessageList extends AppCompatActivity {
                             String username = Event.getString("username");
                             msgList.get(i).setReceiverName(username);
                             Log.v(TAG + "username", username);
-                                /*msg.setReceiverID(id);
-                                if (id == mUserId) {
-                                    msg.setReceiver(true);
-                                } else {
-                                    msg.setReceiver(false);
-*/
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -266,37 +246,7 @@ public class MessageList extends AppCompatActivity {
 
         });
         data.add(request);
-        //}
     }
-/*
-    private void getProductPhoto(int productID)
-
-    {
-        RequestQueue data = Volley.newRequestQueue(this);
-        String url = "http://api.a17-sd207.studev.groept.be/getProduct/" + productID;
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try {
-
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject Event = response.getJSONObject(i);
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-
-        });
-        data.add(request);
-    }*/
 
 
 }

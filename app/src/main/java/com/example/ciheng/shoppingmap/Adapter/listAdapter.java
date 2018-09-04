@@ -18,7 +18,7 @@ import java.util.List;
  * Created by 39112 on 2018/7/28.
  */
 
-public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder> {
+public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder> {           //This is the adapter used for the message list
     private Context mContext;
     private List<message> msgList;
     private OnItemClickListerner mOnItemClickListerner;
@@ -30,7 +30,7 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder> {
         TextView message;
 
 
-        public ViewHolder(View view) {
+        public ViewHolder(View view) {                                                     //To connect the adapter to the item shows message by ViewHolder
             super(view);
             Productimage = (ImageView) view.findViewById(R.id.itemphoto);
             senderName = (TextView) view.findViewById(R.id.senderName);
@@ -50,7 +50,7 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder> {
         if (mContext == null) {
             mContext = parent.getContext();
         }
-        View view = LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false);    //add list item into this recyclerview
         return new listAdapter.ViewHolder(view);
     }
 
@@ -65,7 +65,7 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder> {
 
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {             //Set what's on one item of the list
 
         if (mOnItemClickListerner != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -82,11 +82,11 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder> {
         message message = msgList.get(position);
         if (message.isSender()) {
             holder.senderName.setText("To: " + message.getReceiverName());
-        } else {
+        } else{
             holder.senderName.setText("From: " + message.getSenderName());
         }
         holder.message.setText(message.getMessage());
-        Glide.with(mContext).load(message.getProductUrl()).into(holder.Productimage);            //Glide是加载图片的方式
+        Glide.with(mContext).load(message.getProductUrl()).into(holder.Productimage);            //Glide is the way to download images
     }
 
     @Override

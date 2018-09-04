@@ -114,6 +114,7 @@ public class message {
 
     public void setReceiver(boolean receiver) {
         isReceiver = receiver;
+        isSender=false;
     }
 
     public boolean isSender() {
@@ -122,5 +123,6 @@ public class message {
 
     public void setSender(boolean sender) {
         isSender = sender;
+        isReceiver=false;
     }
 }

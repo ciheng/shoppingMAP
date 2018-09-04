@@ -68,7 +68,6 @@
             android:label="@string/title_activity_product_detail"
             android:theme="@style/myTheme.NoActionBar"/>
         <activity android:name=".View.SendMessage"/>
-        <activity android:name=".View.MessageList_total"/>
         <activity android:name=".View.MessageList"/>
         <activity android:name=".View.wishList">
         </activity>

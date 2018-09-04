@@ -8,7 +8,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.util.List;
 
-public class urlAdapter {
+public class urlAdapter {                                                 //This adapter is used to store the urls used in json
     private final String firebaseURL = "gs://shoppingmap-209612";
     private static final String serverURL = "http://api.a17-sd207.studev.groept.be";
     private static final String upload_picture = "http://a17-sd207.studev.groept.be/peng/uploadurl.php?&url=";
