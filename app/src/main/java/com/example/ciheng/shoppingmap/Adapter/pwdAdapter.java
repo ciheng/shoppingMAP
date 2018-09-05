@@ -1,4 +1,9 @@
+/*******************References:
+ * https://developer.android.com/reference/java/security/MessageDigest
+ **************/
+
 package com.example.ciheng.shoppingmap.Adapter;
+
 
 import android.util.Log;
 

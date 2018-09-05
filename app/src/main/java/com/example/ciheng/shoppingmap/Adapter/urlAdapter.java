@@ -11,6 +11,7 @@ import java.util.List;
 public class urlAdapter {                                                 //This adapter is used to store the urls used in json
     private final String firebaseURL = "gs://shoppingmap-209612";
     private static final String serverURL = "http://api.a17-sd207.studev.groept.be";
+    //uploading an url is kind of complicated, so we wrote another php file for storing it into database
     private static final String upload_picture = "http://a17-sd207.studev.groept.be/peng/uploadurl.php?&url=";
     private static final String upload_thumbnail = "http://a17-sd207.studev.groept.be/peng/thumbnail.php?&url=";
     private static final String image_test = "http://api.a17-sd207.studev.groept.be/image_test";

@@ -95,7 +95,6 @@ public class registerActivity extends AppCompatActivity {
         String username_tba = getUsername;
         String addr_tba = getAddress;
         String url = mUrlAdapter.genRegister(email_tba,pwd_tba,username_tba,addr_tba);
-                //serverURL + "/signIn/" + email_tba + "/" + pwd_tba + "/" + username_tba + "/" + addr_tba;
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override

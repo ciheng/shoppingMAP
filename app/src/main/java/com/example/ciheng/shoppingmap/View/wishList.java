@@ -63,7 +63,7 @@ public class wishList  extends AppCompatActivity {      //Almost the same as pro
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
 
-        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);                  //下拉刷新
+        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);                  //swipe to update
         swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -80,7 +80,7 @@ public class wishList  extends AppCompatActivity {      //Almost the same as pro
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickLitener(new productAdapter.OnItemClickListerner() {
             @Override
-            public void onItemClick(View view, int position) {                        //点击card跳转
+            public void onItemClick(View view, int position) {                        //click the item  to go to productDetail
 
                 Intent intent = new Intent(wishList.this, ProductDetail.class);
                 Bundle extras = new Bundle();
@@ -99,7 +99,7 @@ public class wishList  extends AppCompatActivity {      //Almost the same as pro
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        int id=mWishList.get(position).getProductId();
+                        int id=mWishList.get(position).getProductId();   // long click to remove from wishlist
                         unlike(id);
                         adapter.removeData(position);
                     }

@@ -110,7 +110,7 @@ public class productList extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         int id = mProductList.get(position).getProductId();
                         Log.v("delet product id=", id + "");
-                        deleteItem(id);
+                        deleteItem(id);                             // delete from database
                         adapter.removeData(position);
                     }
 
@@ -233,7 +233,7 @@ public class productList extends AppCompatActivity {
     {
         RequestQueue data = Volley.newRequestQueue(this);
 
-        String url = "http://a17-sd207.studev.groept.be/peng/deleteproduct.php/?&id=" + id;
+        String url = "http://a17-sd207.studev.groept.be/peng/deleteproduct.php/?&id=" + id;   //we wrote another php file to delete all information related to this product
         Log.v("delete item", url);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {

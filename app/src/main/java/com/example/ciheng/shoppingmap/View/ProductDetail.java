@@ -44,7 +44,6 @@ public class ProductDetail extends AppCompatActivity {
     private FloatingActionButton fabLike;
     private urlAdapter mUrlAdapter = new urlAdapter();
     private boolean like;
-    //private userData mUserData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +67,7 @@ public class ProductDetail extends AppCompatActivity {
         fabMail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ProductDetail.this, SendMessage.class);//还需要intent seller，productName，productID
+                Intent intent = new Intent(ProductDetail.this, SendMessage.class);
 
                 intent.putExtra("user_id", mUserId);
                 intent.putExtra("seller_id", sellerID);
@@ -124,7 +123,7 @@ public class ProductDetail extends AppCompatActivity {
                             Log.v("productlist ",address);
                             mAddress.setText(address);
 
-                            Glide.with(ProductDetail.this).load(mProduct.getDownloadUrl()).centerCrop().into(mProductPic);            //Glide是加载图片的方式
+                            Glide.with(ProductDetail.this).load(mProduct.getDownloadUrl()).centerCrop().into(mProductPic);           //load picture with url from database
 
 
                         } catch (JSONException e) {

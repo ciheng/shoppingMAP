@@ -188,8 +188,6 @@ public class MessageList extends AppCompatActivity {
     private void Sender(final int i) {
         RequestQueue data = Volley.newRequestQueue(this);
         String url = "http://api.a17-sd207.studev.groept.be/find_user_byID/";
-        //for (int i = 0; i < msgList.size(); i++) {
-        //msg = msgList.get(i);
         String query = url + msgList.get(i).getSenderID();
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, query, null,
                 new Response.Listener<JSONArray>() {
