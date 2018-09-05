@@ -1,3 +1,7 @@
+/*******************References:
+ * https://developer.android.com/guide/topics/ui/layout/recyclerview
+ **************/
+
 package com.example.ciheng.shoppingmap.Adapter;
 
 import android.content.Context;
@@ -46,11 +50,11 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder> { 
 
 
     @Override
-    public listAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public listAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {    // Create new views (invoked by the layout manager)
         if (mContext == null) {
             mContext = parent.getContext();
         }
-        View view = LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false);    //add list item into this recyclerview
+        View view = LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false);
         return new listAdapter.ViewHolder(view);
     }
 
@@ -65,7 +69,7 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder> { 
 
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {             //Set what's on one item of the list
+    public void onBindViewHolder(final ViewHolder holder, int position) {           // Replace the contents of a view (invoked by the layout manager)
 
         if (mOnItemClickListerner != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -92,6 +96,6 @@ public class listAdapter extends RecyclerView.Adapter<listAdapter.ViewHolder> { 
     @Override
     public int getItemCount() {
         return msgList.size();
-    }
+    }                                                     // Return the size of dataset
 
 }

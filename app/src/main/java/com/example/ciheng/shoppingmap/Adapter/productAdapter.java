@@ -1,3 +1,7 @@
+/*******************References:
+ * https://developer.android.com/guide/topics/ui/layout/recyclerview
+ * https://developer.android.com/guide/topics/ui/layout/cardview
+ **************/
 package com.example.ciheng.shoppingmap.Adapter;
 
 import android.content.Context;
